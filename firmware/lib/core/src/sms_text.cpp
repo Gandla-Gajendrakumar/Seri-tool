@@ -64,14 +64,14 @@ const char* const kLangName[kLanguageCount] = {"English", "हिंदी", "�
 const char* txt(Language l, int key) { return kText[static_cast<int>(l)][key]; }
 
 std::string fmtDeci(Deci v) {  // 312 -> "31.2", 260 -> "26", -105 -> "-10.5"
-  char b[16];
+  char b[32];
   const Deci a = v < 0 ? -v : v;
   if (a % 10 == 0) std::snprintf(b, sizeof b, "%s%ld", v < 0 ? "-" : "", static_cast<long>(a / 10));
   else std::snprintf(b, sizeof b, "%s%ld.%ld", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
   return b;
 }
 std::string fmtTemp(Deci v) {  // always one decimal for readings
-  char b[16];
+  char b[32];
   const Deci a = v < 0 ? -v : v;
   std::snprintf(b, sizeof b, "%s%ld.%ldC", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
   return b;
@@ -79,7 +79,7 @@ std::string fmtTemp(Deci v) {  // always one decimal for readings
 std::string fmtRh(Deci v) { return std::to_string((v + 5) / 10) + "%"; }
 std::string hhmm(int64_t utc) {
   CivilTime t = toIst(utc);
-  char b[8];
+  char b[32];
   std::snprintf(b, sizeof b, "%02d:%02d", t.hour, t.minute);
   return b;
 }
@@ -117,6 +117,9 @@ const char* stageName(Stage s, Language l) {
   return kStage[static_cast<int>(l)][static_cast<int>(s) % kStageCount];
 }
 const char* languageName(Language l) { return kLangName[static_cast<int>(l) % kLanguageCount]; }
+const char* eventPhrase(EventType t, bool ok, Language l) {
+  return txt(l, (ok ? kTempOk : 0) + static_cast<int>(t));
+}
 
 bool deviceNameValid(const std::string& n) {
   if (n.empty() || n.size() > kMaxDeviceName) return false;
