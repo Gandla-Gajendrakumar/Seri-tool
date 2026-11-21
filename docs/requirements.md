@@ -1,6 +1,6 @@
 # Seri-tool — Requirements (v0.1, Phase 0)
 
-Status: **DRAFT, for product-owner review.** Derived from the project brief of 2026-11-21.
+Status: **v0.2 — Phase 0 approved 2026-11-21; all recommendations in questions.md accepted.** Derived from the project brief of 2026-11-21.
 Items marked **[Q-n]** depend on an open question in `docs/questions.md`.
 Items marked **[ASSUMED]** are my proposed default. I will apply it unless you say otherwise.
 

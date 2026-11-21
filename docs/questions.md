@@ -1,5 +1,9 @@
 # Open questions for the product owner (Phase 0)
 
+> **Answered 2026-11-21:** the product owner accepted every recommendation below (Q-1 to Q-14).
+> They are now requirements. Q-13 (moult humidity) and the stage values still need source checks and
+> your sign-off before any change is applied.
+
 Each question has my recommendation. Answering "go with your recommendation" is fine.
 Questions **Q-1 to Q-7 affect phase 1 code**. The rest can wait until the phase named.
 
