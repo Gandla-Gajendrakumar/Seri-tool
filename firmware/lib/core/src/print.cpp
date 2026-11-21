@@ -1,8 +1,8 @@
 #include "seri/print.h"
 #include <algorithm>
 #include <cstdio>
+#include "fmt.h"
 #include "seri/sms_text.h"
-#include "seri/time_util.h"
 
 namespace seri {
 namespace {
@@ -26,27 +26,10 @@ const char* const kWords[kLanguageCount][kWordCount] = {
 };
 std::string w(Language l, int k) { return kWords[static_cast<int>(l)][k]; }
 
-std::string stamp(int64_t utc, bool withDate = true) {
-  CivilTime t = toIst(utc);
-  char b[32];
-  if (withDate) std::snprintf(b, sizeof b, "%02d/%02d %02d:%02d", t.day, t.month, t.hour, t.minute);
-  else std::snprintf(b, sizeof b, "%02d:%02d", t.hour, t.minute);
-  return b;
-}
-std::string temp(Deci v) {
-  char b[32];
-  const Deci a = v < 0 ? -v : v;
-  std::snprintf(b, sizeof b, "%s%ld.%ldC", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
-  return b;
-}
-std::string rh(Deci v) { return std::to_string((v + 5) / 10) + "%"; }
-std::string bandT(Deci v) {
-  char b[32];
-  const Deci a = v < 0 ? -v : v;
-  if (a % 10) std::snprintf(b, sizeof b, "%s%ld.%ld", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
-  else std::snprintf(b, sizeof b, "%s%ld", v < 0 ? "-" : "", static_cast<long>(a / 10));
-  return b;
-}
+std::string stamp(int64_t utc, bool withDate = true) { return withDate ? fmt::ddmmHhmm(utc) : fmt::hhmm(utc); }
+std::string temp(Deci v) { return fmt::temp(v); }
+std::string rh(Deci v) { return fmt::rh(v); }
+std::string bandT(Deci v) { return fmt::bandTemp(v); }
 std::string hm(int64_t sec) {
   char b[32];
   std::snprintf(b, sizeof b, "%ldh%02ldm", static_cast<long>(sec / 3600), static_cast<long>((sec % 3600) / 60));
@@ -118,7 +101,7 @@ std::vector<std::string> printSummary(const DayReport& r, Stage s, const Band& b
   out.push_back("======= " + w(l, kTitle) + " =======");
   out.push_back(stamp(r.from) + " - " + stamp(r.to));
   out.push_back(std::string(stageName(s, l)) + " " + bandT(b.tLo) + "-" + bandT(b.tHi) + "C " +
-                std::to_string((b.rhLo + 5) / 10) + "-" + rh(b.rhHi));
+                fmt::rhInt(b.rhLo) + "-" + rh(b.rhHi));
   out.push_back(w(l, kTemp) + " " + w(l, kMin) + " " + (have ? temp(r.tMin) + " " + stamp(r.tMinAt, false) : "--"));
   out.push_back(w(l, kTemp) + " " + w(l, kMax) + " " + (have ? temp(r.tMax) + " " + stamp(r.tMaxAt, false) : "--"));
   out.push_back(w(l, kHum) + " " + (have ? rh(r.rhMin) + " - " + rh(r.rhMax) : "--"));

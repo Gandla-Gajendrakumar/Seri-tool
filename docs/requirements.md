@@ -53,7 +53,7 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 | ID | Requirement | Verified by |
 |---|---|---|
 | F-PROF-01 | All stage profiles live in **one config file** (`firmware/lib/core/profiles` + a human-readable source table). Each entry records its source document. | P1 |
-| F-PROF-02 | Initial values from the brief, **to be confirmed against Central Silk Board and Chinese sericulture sources in phase 1. Any change is shown to you before it is applied.** | P1 |
+| F-PROF-02 | Initial values from the brief. **Confirmed against Central Silk Board / CSRTI documents on 2026-11-21** (`docs/stage_profile_sources.md`). The differences found are shown to the product owner and are not applied. | P1 ✅ |
 
 | Stage | Temp target (°C) | RH target (%) |
 |---|---|---|
@@ -77,7 +77,7 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 | F-EVT-02 | A temperature event clears when the reading is back inside the band **by at least 0.5 °C** (hysteresis). RH hysteresis: **2 % RH** [ASSUMED, not in brief]. Clearing needs the reading to stay inside for 2 consecutive samples (60 s) [ASSUMED], so one noisy sample cannot cause a clear-then-re-alarm. | P1 |
 | F-EVT-03 | Event start → buzzer pattern, one printed line, SD log record, SMS. | P1 (decisions), P2 (effects) |
 | F-EVT-04 | While an event is active: repeat SMS **every 30 minutes**, subject to the daily cap (F-SMS-05). | P1, P3 |
-| F-EVT-05 | Event clear → exactly **one recovery SMS**, printed line and log record. Sent even if that day's cap was reached, so the farmer is never left thinking the problem continues. [ASSUMED] | P1, P3 |
+| F-EVT-05 | Event clear → exactly **one recovery SMS** to every number that was told about the event, plus a printed line and a log record. Sent even if that day's cap was reached, so the farmer is never left thinking the problem continues. | P1 ✅, P3 |
 | F-EVT-06 | System events, each with its own start/clear logic: **mains fail** (after 2 min continuous outage [ASSUMED, to stop flicker floods]), **mains return** (after 2 min stable), **low battery** (≤ 3.40 V under load [ASSUMED; checked against the cell datasheet in phase 4]; clears at ≥ 3.70 V), **sensor fault** (F-MEAS-04), **paper out** (printer status; see R-04), **SD fault**, **clock invalid**. | P1, P2 |
 | F-EVT-07 | Changing stage re-evaluates the band at once. Active events whose condition no longer holds clear **silently** (log + print, no recovery SMS), so a stage change cannot itself trigger texts. [ASSUMED] | P1 |
 | F-EVT-08 | The buzzer can be silenced for the current event with one button press. It sounds again only for a new event. | P2 |
@@ -90,18 +90,18 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 | F-SMS-02 | Languages: Telugu, Kannada, Hindi, English. Selectable per registered number [ASSUMED]. Indian scripts need Unicode (UCS-2) SMS, which holds **70 characters per segment** (160 for English). Every alert template must fit in **one segment** in every language, so a message never splits or arrives out of order. A unit test enforces this. | P1 |
 | F-SMS-03 | Alert content: what (e.g. "temperature HIGH"), the reading, the safe band, the stage, time since it started, device name. All numbers use Western digits (0–9), which every phone renders. | P1 |
 | F-SMS-04 | Up to **3 registered numbers** receive alerts. [Q-1] | P1 |
-| F-SMS-05 | **Flood control.** Every **first** alert of an event is always sent. Repeat SMS count against a per-number daily cap (default **6 repeats/day** [Q-2]) that resets at midnight IST. At the cap, the device sends one final "daily limit reached, device keeps monitoring and printing" SMS. Mains flicker is debounced (F-EVT-06). An event that re-occurs within 10 minutes of clearing counts as the same event (no new "first" SMS) [ASSUMED]. | P1, P3 |
+| F-SMS-05 | **Flood control.** Every **first** alert of an event is always sent. Repeat SMS count against a per-number daily cap of **6 repeats/day** (Q-2) that resets at midnight IST. At the cap, the device sends one final "daily limit reached, device keeps monitoring and printing" SMS. Mains flicker is debounced (F-EVT-06). The same kind of event starting again **within 60 minutes** of ending is sent as a *repeat* and counts against the cap (D-013). **Hard ceiling: 20 SMS per number per day, counting everything.** Each first alert reserves room for its own recovery SMS, so recoveries are never blocked (D-012). Repeats only for climate and sensor-fault events. Recovery SMS only for climate, sensor-fault and power-cut events (D-014). | P1 ✅, P3 |
 | F-SMS-06 | If a send fails, retry with back-off (1, 2, 4 min, …) up to 1 hour. Then log it and print "SMS NOT SENT". Never block measurement. | P2 (network loss) |
-| F-SMS-07 | Configuration commands by SMS are accepted **only from registered numbers**, and the device replies to confirm each one. Commands use **digits only** (e.g. `11 3` = set stage to instar III) so no English is needed. [Q-6] | P1, P2 |
+| F-SMS-07 | Configuration commands by SMS are accepted **only from registered numbers**, and the device replies to confirm each one in the sender's language. Commands use **digits only**: `10 PIN` claim owner, `11 n` stage, `12 n` language, `13 t r` tolerance, `20` status, `21 number` add, `22 n` remove, `30 ssid pass` Wi-Fi, `41 0/1` buzzer (full list in `commands.h`). Unknown senders are ignored with no reply. 5 wrong PINs a day lock PIN claims (D-016). | P1 ✅, P2 |
 
 ### 3.5 Printer
 
 | ID | Requirement | Verified by |
 |---|---|---|
 | F-PRN-01 | Every event start, every recovery and every system event prints **one line**: time, event, reading. | P1, P2 |
-| F-PRN-02 | Daily summary at a fixed time (default 06:00 [ASSUMED]): min / max temperature, min / max RH, total time out of band, event count. | P1, P3 |
+| F-PRN-02 | Daily summary at 06:00 IST covering the previous 24 h: min / max temperature with times, min / max RH, time out of band (temp and RH separately), time with no sensor data, alert count. No partial summary is printed just after a reboot. | P1 ✅, P3 |
 | F-PRN-03 | **On battery**, print event lines only. Skip the daily summary and print it after mains returns, marked "late". | P1 |
-| F-PRN-04 | Printed language: [Q-4]. Cheap ESC/POS printers have **no fonts for Indian scripts**, so local-language text must be sent as a pre-rendered bitmap image. | P1 |
+| F-PRN-04 | Printed in the owner's language (Q-4). English uses short labels that fit 32 columns. Indian-language lines are drawn as bitmaps in phase 2, where their width is checked. Cheap ESC/POS printers have **no fonts for Indian scripts**. | P1 ✅ (text), P2 (bitmaps) |
 | F-PRN-05 | Paper out → paper-out event. Lines that could not be printed are queued (up to 200) and printed when paper is loaded. They remain on the SD card regardless. | P2 |
 
 ### 3.6 Data upload
@@ -192,6 +192,8 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 6. **Wi-Fi range** through shed walls.
 7. **Enclosure.** Real print shrinkage and fit, PETG creep near warm parts, IP rating.
 8. **Farmer usability.** Whether a non-English-reading farmer can actually complete setup. Needs a field trial.
+10. **Translation quality.** All Hindi, Telugu and Kannada wording (SMS, printer, replies) was written by the engineering team and **must be reviewed by a native speaker of each language**. Tests prove only that the messages fit and use the right script.
+11. **Real phone rendering.** Whether basic feature phones sold in rural India display Telugu/Kannada/Hindi Unicode SMS correctly. Many do; some older models show boxes.
 9. **Real EMI.** Whether modem bursts disturb the sensor or printer through the PCB layout. SPICE models only the ideal circuit.
 
 ## 9. Out of scope for V1

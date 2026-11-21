@@ -1,6 +1,5 @@
 #include "seri/sms_text.h"
-#include <cstdio>
-#include "seri/time_util.h"
+#include "fmt.h"
 
 namespace seri {
 namespace {
@@ -63,26 +62,10 @@ const char* const kLangName[kLanguageCount] = {"English", "हिंदी", "�
 
 const char* txt(Language l, int key) { return kText[static_cast<int>(l)][key]; }
 
-std::string fmtDeci(Deci v) {  // 312 -> "31.2", 260 -> "26", -105 -> "-10.5"
-  char b[32];
-  const Deci a = v < 0 ? -v : v;
-  if (a % 10 == 0) std::snprintf(b, sizeof b, "%s%ld", v < 0 ? "-" : "", static_cast<long>(a / 10));
-  else std::snprintf(b, sizeof b, "%s%ld.%ld", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
-  return b;
-}
-std::string fmtTemp(Deci v) {  // always one decimal for readings
-  char b[32];
-  const Deci a = v < 0 ? -v : v;
-  std::snprintf(b, sizeof b, "%s%ld.%ldC", v < 0 ? "-" : "", static_cast<long>(a / 10), static_cast<long>(a % 10));
-  return b;
-}
-std::string fmtRh(Deci v) { return std::to_string((v + 5) / 10) + "%"; }
-std::string hhmm(int64_t utc) {
-  CivilTime t = toIst(utc);
-  char b[32];
-  std::snprintf(b, sizeof b, "%02d:%02d", t.hour, t.minute);
-  return b;
-}
+std::string fmtDeci(Deci v) { return fmt::bandTemp(v); }
+std::string fmtTemp(Deci v) { return fmt::temp(v); }
+std::string fmtRh(Deci v) { return fmt::rh(v); }
+std::string hhmm(int64_t utc) { return fmt::hhmm(utc); }
 bool isTemp(EventType t) { return t == EventType::TempHigh || t == EventType::TempLow; }
 
 void appendUtf8CodePoints(const std::string& s, std::vector<uint32_t>& out) {
@@ -170,7 +153,7 @@ std::string formatSms(const SmsJob& j, const SmsContext& c) {
     case SmsKind::Start:
       if (climate) {
         std::string band = isTemp(j.type) ? fmtDeci(c.band.tLo) + "-" + fmtDeci(c.band.tHi) + "C"
-                                          : fmtRh(c.band.rhLo).substr(0, fmtRh(c.band.rhLo).size() - 1) + "-" + fmtRh(c.band.rhHi);
+                                          : fmt::rhInt(c.band.rhLo) + "-" + fmtRh(c.band.rhHi);
         return head + txt(L, ti) + " " + val(j.value) + " (" + txt(L, kSafe) + " " + band + ") " +
                stageName(c.stage, L) + " " + time;
       }
