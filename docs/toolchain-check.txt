@@ -1,0 +1,10 @@
+PASS  platformio version                 PlatformIO Core, version 6.2.0
+PASS  native unit tests (Unity)          ================== 1 test cases: 1 succeeded in 00:00:00.399 ==================
+PASS  ESP32 cross-compile                Flash: [==        ]  20.2% (used 265036 bytes from 1310720 bytes)
+PASS  wokwi-cli version                  0.29.1 (0aa185144b92)
+PASS  kicad-cli >= 8 (has ERC/DRC)       kicad-cli 9.0.9
+PASS  ngspice divider 12V->6V            ngspice-42
+PASS  cadquery box + STEP export         cadquery 2.8.0
+PASS  host C/C++ compiler                g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+INFO  WOKWI_CLI_TOKEN not set (needed from phase 2; simulation runs cannot be checked yet)
+---- 0 check(s) failed
