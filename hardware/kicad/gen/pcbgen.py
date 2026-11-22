@@ -209,7 +209,6 @@ def build():
 def place():
     os.makedirs(OUTDIR, exist_ok=True)
     b = build()
-    pour(b, gnd_only=True)   # GND planes go into the DSN: Freerouting connects GND pins to them with vias
     b.Save(PCB)
     ok = pcbnew.ExportSpecctraDSN(b, DSN)
     print(f"placed {len(b.GetFootprints())} footprints; DSN export: {ok}")
