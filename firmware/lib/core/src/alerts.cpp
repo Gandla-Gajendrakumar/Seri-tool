@@ -48,6 +48,7 @@ void AlertPolicy::onEvent(const Event& e, uint8_t recipients, std::vector<SmsJob
   rollover(e.time);
   auto& ep = st_.ep[static_cast<int>(e.type)];
   if (e.edge == Edge::Start) {
+    if (ep.active) return;  // restored after a reboot: same episode continues (reboot-loop guard)
     const bool recurrent = ep.haveEnded && e.time - ep.lastEnd < cfg_.recurrenceSec;
     ep.active = true;
     ep.start = ep.lastRepeat = e.time;

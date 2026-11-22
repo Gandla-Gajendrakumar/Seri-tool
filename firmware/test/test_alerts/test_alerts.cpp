@@ -182,6 +182,23 @@ static void test_number_added_mid_event_gets_repeats_and_recovery_only_if_told()
   TEST_ASSERT_EQUAL(0, count(out, SmsKind::Recovery, 2));
 }
 
+static void test_start_for_already_active_episode_sends_nothing_reboot_loop_guard() {
+  // After a reboot the event engine re-detects an alarm that the restored state says is still
+  // active. That must continue the episode, not send a new free first alert: otherwise a device
+  // stuck in a reboot loop would text on every boot.
+  AlertPolicy p;
+  std::vector<SmsJob> out;
+  p.onEvent(start(EventType::TempHigh, kDay0), 1, out);
+  AlertPolicy rebooted(AlertConfig{}, p.state());
+  out.clear();
+  for (int i = 0; i < 10; ++i) rebooted.onEvent(start(EventType::TempHigh, kDay0 + 400 + i * 360), 1, out);
+  TEST_ASSERT_EQUAL(0, out.size());
+  rebooted.tick(kDay0 + 1800, 1, out);
+  TEST_ASSERT_EQUAL_MESSAGE(1, count(out, SmsKind::Repeat), "repeat schedule continues from the original start");
+  rebooted.onEvent(clear(EventType::TempHigh, kDay0 + 4000), 1, out);
+  TEST_ASSERT_EQUAL(1, count(out, SmsKind::Recovery));
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_start_texts_every_registered_number_once);
@@ -196,5 +213,6 @@ int main() {
   RUN_TEST(test_flapping_all_day_never_exceeds_hard_cap_and_recoveries_match);
   RUN_TEST(test_state_survives_reboot_so_cap_is_not_reset);
   RUN_TEST(test_number_added_mid_event_gets_repeats_and_recovery_only_if_told);
+  RUN_TEST(test_start_for_already_active_episode_sends_nothing_reboot_loop_guard);
   return UNITY_END();
 }
