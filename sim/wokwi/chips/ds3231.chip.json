@@ -1,0 +1,8 @@
+{
+  "name": "DS3231",
+  "author": "seri-tool",
+  "pins": ["SCL", "SDA", "VCC", "GND"],
+  "controls": [
+    { "id": "osf", "label": "Coin cell removed (time lost)", "type": "range", "min": 0, "max": 1, "step": 1 }
+  ]
+}

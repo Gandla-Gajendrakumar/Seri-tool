@@ -7,3 +7,4 @@ __pycache__/
 fp-info-cache
 build/
 out/
+*.chip.wasm
