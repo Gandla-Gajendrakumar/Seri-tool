@@ -8083,12 +8083,12 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Value" "A7670C BREAKOUT"
+    (property "Value" "A7670C HARNESS"
       (at 51.26 236.68 0)
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical"
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
       (at 48.26 233.68 0)
       (effects
         (font
@@ -10493,12 +10493,12 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Value" "OLED 1.3in (GND VCC SCL SDA)"
+    (property "Value" "OLED cable (GND VCC SCL SDA)"
       (at 140.16 381.46 0)
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
       (at 137.16 378.46 0)
       (effects
         (font

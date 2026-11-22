@@ -148,8 +148,9 @@ R("R14", "1k", "PRN_TXD", "PRN_TXD_EXT")                                        
 conn("J9", "PRINTER TTL", ["PRN_RXD", "PRN_TXD_EXT", "GND"], XH)                 # RX in / TX out / GND
 
 # =============================== 5. Modem (A7670C breakout) ==================================
-# Breakout header; pin order to match the chosen breakout in phase 5. VREF = module's VDD_1V8 (HD p18).
-conn("J10", "A7670C BREAKOUT", ["BAT_P", "BAT_P", "GND", "GND", "MDM_TXD", "MDM_RXD", "MDM_PWRKEY", "MDM_VDD_EXT"], SKT)
+# Harness header (any breakout pin order: wired to suit). VREF = module's VDD_1V8 (HD p18).
+conn("J10", "A7670C HARNESS", ["BAT_P", "BAT_P", "GND", "GND", "MDM_TXD", "MDM_RXD", "MDM_PWRKEY", "MDM_VDD_EXT"], HDR)
+# breakout mounted on the enclosure base, 8-wire harness <= 6 cm, 24 AWG (D-057)
 part("Jumper", "SolderJumper_3_Bridged12", "JP3", "VREF: 1V8 / 3V3", "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
      {1: "MDM_VDD_EXT", 2: "MDM_VREF", 3: "+3V3"}, in_bom="no")                               # 3V3 for breakouts that shift already
 # ESP32 TX (3.3 V) -> module RXD (1.8 V): common-base NPN, as the HD's MMBT3904 circuit (p33-34)
@@ -201,7 +202,7 @@ C("C24", "10uF", "+3V3", "GND", C1206)
 C("C25", "100nF", "+3V3", "GND")
 
 # =============================== 8. User interface ===========================================
-conn("J14", "OLED 1.3in (GND VCC SCL SDA)", ["GND", "+3V3", "I2C_SCL", "I2C_SDA"], SKT)
+conn("J14", "OLED cable (GND VCC SCL SDA)", ["GND", "+3V3", "I2C_SCL", "I2C_SDA"], HDR)    # OLED on the lid, 4-wire cable (D-056)
 for ref, net in (("SW1", "BTN_UP"), ("SW2", "BTN_OK"), ("SW3", "BTN_DOWN")):
     part("Switch", "SW_Push", ref, net.split("_")[1], "Button_Switch_THT:SW_PUSH_6mm_H13mm", {1: net, 2: "GND"})
 part("Device", "LED", "D5", "green", LED3, {2: "LED_G_A", 1: "GND"})

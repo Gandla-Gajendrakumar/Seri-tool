@@ -35,4 +35,5 @@ cd firmware && pio test -e native
 | 2 Firmware on virtual hardware | Approved 2026-11-22 (all 8 Wokwi scenarios) | `docs/evidence/phase2-gate.md` |
 | 3 Whole-cycle replay | Approved 2026-11-22 | `tools/phase3_gate.sh` → `docs/evidence/phase3-gate.md` |
 | 4 Electronics | Approved 2026-11-22 (re-checked after the Keystone 1043 change) | `tools/phase4_gate.sh` → `docs/evidence/phase4-gate.txt`; `docs/hardware/power-architecture.md` |
-| 5 BOM | In progress: priced, 2 lines out of stock | `tools/phase5_gate.sh` → `bom/bom.md`, `docs/evidence/phase5-gate.txt` |
+| 5 BOM | Accepted with open items (2 lines out of stock) | `tools/phase5_gate.sh` → `bom/bom.md`, `docs/evidence/phase5-gate.txt` |
+| 6 Enclosure | Gate passed 2026-11-22, awaiting approval | `tools/phase6_gate.sh` → `docs/evidence/phase6-gate.txt`, renders in `docs/evidence/phase6/` |
