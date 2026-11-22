@@ -10,3 +10,10 @@ out/
 *.chip.wasm
 sim/wokwi/logs/
 sim/replay/out/
+tools/.cache/
+hardware/kicad/carrier/*.dsn
+hardware/kicad/carrier/*.ses
+hardware/kicad/carrier/freerouting.log
+hardware/kicad/carrier/drc_placed.json
+hardware/kicad/carrier/*-backups/
+hardware/kicad/carrier/*.kicad_prl

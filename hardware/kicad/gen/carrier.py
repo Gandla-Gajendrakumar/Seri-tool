@@ -81,13 +81,13 @@ conn("J5", "BUCK OUT 5V", ["+5V_BUS", "GND"], HDR)
 C("C4", "22uF 10V", "+5V_BUS", "GND", C1206)
 
 # =============================== 2. Charger, protection, cells ===============================
-part("seri", "TP4056", "U2", "TP4056", "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm_ThermalVias",
+part("seri", "TP4056", "U2", "TP4056", "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm",
      {4: "+5V_BUS", 8: "+5V_BUS", 1: "CHG_TEMP", 2: "CHG_PROG", 5: "BAT_P", 7: "CHG_LED_K", 6: "NC", 3: "GND", 9: "GND"})
 R("R3", "2.2k", "CHG_PROG", "GND", note="500 mA charge (TP4056 p5: 425-575 mA), D-048")
 C("C5", "10uF", "+5V_BUS", "GND", C1206)
 C("C6", "10uF", "BAT_P", "GND", C1206)
 part("Jumper", "SolderJumper_3_Bridged12", "JP1", "TEMP: GND / NTC", "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-     {1: "GND", 2: "CHG_TEMP", 3: "NTC_DIV"})                                    # default: check off (D-048)
+     {1: "GND", 2: "CHG_TEMP", 3: "NTC_DIV"}, in_bom="no")                                    # default: check off (D-048)
 R("R4", "10k", "+5V_BUS", "NTC_DIV", dnp="yes")
 part("Device", "Thermistor_NTC", "TH1", "10k B3950", XH.format(n=2), {1: "NTC_DIV", 2: "GND"}, dnp="yes")
 part("Device", "LED", "D3", "red: charging", LED3, {2: "CHG_LED_A", 1: "CHG_LED_K"})
@@ -151,7 +151,7 @@ conn("J9", "PRINTER TTL", ["PRN_RXD", "PRN_TXD_EXT", "GND"], XH)                
 # Breakout header; pin order to match the chosen breakout in phase 5. VREF = module's VDD_1V8 (HD p18).
 conn("J10", "A7670C BREAKOUT", ["BAT_P", "BAT_P", "GND", "GND", "MDM_TXD", "MDM_RXD", "MDM_PWRKEY", "MDM_VDD_EXT"], SKT)
 part("Jumper", "SolderJumper_3_Bridged12", "JP3", "VREF: 1V8 / 3V3", "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
-     {1: "MDM_VDD_EXT", 2: "MDM_VREF", 3: "+3V3"})                               # 3V3 for breakouts that shift already
+     {1: "MDM_VDD_EXT", 2: "MDM_VREF", 3: "+3V3"}, in_bom="no")                               # 3V3 for breakouts that shift already
 # ESP32 TX (3.3 V) -> module RXD (1.8 V): common-base NPN, as the HD's MMBT3904 circuit (p33-34)
 NPN("Q6", b="MDM_VREF_B1", c="MDM_RXD", e="MDM_TX_3V3")
 R("R15", "4.7k", "MDM_VREF", "MDM_VREF_B1")
@@ -192,9 +192,9 @@ part("seri", "DS3231SN", "U5", "DS3231SN", "Package_SO:SOIC-16W_7.5x10.3mm_P1.27
 C("C22", "100nF", "+3V3", "GND")
 C("C23", "100nF", "RTC_VBAT", "GND")
 part("Device", "Battery_Cell", "BT5", "CR2032", "Battery:BatteryHolder_Keystone_3002_1x2032", {1: "RTC_VBAT", 2: "GND"})
-part("Connector", "Micro_SD_Card_Det1", "J13", "microSD", "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5",
+part("Connector", "Micro_SD_Card_Det_Hirose_DM3AT", "J13", "microSD", "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5",
      {1: "SD_DAT2", 2: "SD_CS", 3: "SD_MOSI", 4: "+3V3", 5: "SD_SCK", 6: "GND", 7: "SD_MISO", 8: "SD_DAT1",
-      9: "SD_CD", 10: "GND"})
+      9: "SD_CD", 10: "GND", 11: "GND"})                                        # DET switch closes to GND
 for ref, net in (("R27", "SD_CS"), ("R28", "SD_MISO"), ("R29", "SD_DAT1"), ("R30", "SD_DAT2"), ("R31", "SD_CD")):
     R(ref, "10k", "+3V3", net)                                                   # GPIO5 high at boot: default
 C("C24", "10uF", "+3V3", "GND", C1206)
@@ -223,7 +223,7 @@ conn("J15", "RELAY (VSYS, IN, GND)", ["VSYS", "RELAY_DRV", "GND"], XH)
 
 # =============================== 10. Mechanical, power flags =================================
 for i in range(1, 5):
-    part("Mechanical", "MountingHole", f"H{i}", "M3", "MountingHole:MountingHole_3.2mm_M3", {})
+    part("Mechanical", "MountingHole", f"H{i}", "M3", "MountingHole:MountingHole_3.2mm_M3", {}, in_bom="no")
 for i, net in enumerate(("GND", "+5V_BUS", "VSYS", "CELL_N", "PROT_VCC", "RTC_VBAT", "ESP_3V3")):
     part("power", "PWR_FLAG", f"#FLG{i + 1:02d}", "PWR_FLAG", "", {1: net})
 

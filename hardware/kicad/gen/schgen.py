@@ -80,6 +80,7 @@ class Schematic:
     def add(self, lib, name, ref, value, at, nets, footprint="", fields=None):
         fields = dict(fields or {})
         dnp = fields.pop("dnp", "no")
+        in_bom = fields.pop("in_bom", "no" if ref.startswith("#") else "yes")
         key = f"{lib}:{name}"
         if key not in self.libsyms:
             self.libsyms[key] = self.lib.symbol(lib, name)
@@ -90,7 +91,7 @@ class Schematic:
         if missing and not ref.startswith("#"):
             raise ValueError(f"{ref}: pins without a net: {sorted(missing)} (use 'NC' for no-connect)")
         node = ["symbol", ["lib_id", Q(key)], ["at", str(x), str(y), "0"], ["unit", "1"],
-                ["exclude_from_sim", "no"], ["in_bom", "no" if ref.startswith("#") else "yes"], ["on_board", "yes"],
+                ["exclude_from_sim", "no"], ["in_bom", in_bom], ["on_board", "yes"],
                 ["dnp", dnp], ["uuid", uid(self.project + "/" + ref)]]
         props = [("Reference", ref, (x + 3, y - 3)), ("Value", value, (x + 3, y + 3)),
                  ("Footprint", footprint, (x, y)), ("Datasheet", "~", (x, y))]
