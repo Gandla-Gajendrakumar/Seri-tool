@@ -27,6 +27,19 @@ int main(void) {
   CHECK(host_uart_out_len == 1 && host_uart_out[0] == 0x72, "status: paper end = 0x72");
   send("lost line\n", 10);
   CHECK(!logged("lost line"), "nothing printed without paper");
+  // ESC 7 n1 n2 n3 (heating dots/time/interval, D-039) must not leak its arguments into the text
+  host_set_attr("paper", 1);
+  host_clear();
+  send("\x1b" "7\x03\x50\x02" "AFTER ESC7\n", 16);
+  CHECK(logged("PRINTER| AFTER ESC7") && !logged("PAFTER"), "ESC 7 arguments consumed");
+  // ESC v n: CSN-A2 status byte, bit 2 (0x04) = paper out (CSN v4.0 manual p40-41)
+  host_clear();
+  send("\x1bv\x00", 3);
+  CHECK(host_uart_out_len == 1 && host_uart_out[0] == 0x00, "ESC v: paper OK = 0x00");
+  host_set_attr("paper", 0);
+  host_clear();
+  send("\x1bv\x00", 3);
+  CHECK(host_uart_out_len == 1 && (host_uart_out[0] & 0x04), "ESC v: paper out sets bit 2");
   fprintf(stderr, "printer: %d passed, %d failed\n", passes, fails);
   return fails != 0;
 }

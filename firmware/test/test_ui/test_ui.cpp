@@ -261,6 +261,42 @@ static void test_every_ui_text_exists_in_every_language() {
       TEST_ASSERT_TRUE(std::string(uiText(static_cast<UiText>(t), static_cast<Language>(l))).size() > 0);
 }
 
+// D-046: on battery the OLED sleeps 60 s after the last button press, to save about 20 mA.
+static void test_screen_always_on_with_mains() {
+  Rig r;
+  r.run(10 * 60);
+  TEST_ASSERT_TRUE(r.ui.displayOn(r.uiSec));
+}
+
+static void test_on_battery_screen_sleeps_after_60_s_and_first_press_only_wakes_it() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3900;
+  r.run(30);
+  TEST_ASSERT_TRUE(r.ui.displayOn(r.uiSec));
+  r.run(40);
+  TEST_ASSERT_FALSE(r.ui.displayOn(r.uiSec));
+  r.press(Button::Ok);                       // wakes the screen only: the menu must not open
+  TEST_ASSERT_TRUE(r.ui.displayOn(r.uiSec));
+  TEST_ASSERT_TRUE(r.ui.page() == Ui::Page::Home);
+  r.press(Button::Ok);
+  TEST_ASSERT_TRUE(r.ui.page() == Ui::Page::Menu);
+}
+
+static void test_on_battery_screen_comes_on_while_the_alarm_buzzes() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3900;
+  r.run(120);
+  TEST_ASSERT_FALSE(r.ui.displayOn(r.uiSec));
+  r.sensor.t = 31.0f;
+  r.run(6 * 60);
+  TEST_ASSERT_TRUE(r.m.buzzing());
+  TEST_ASSERT_TRUE(r.ui.displayOn(r.uiSec));
+  r.press(Button::Ok);                       // silences straight away: no extra wake press
+  TEST_ASSERT_FALSE(r.m.buzzing());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_home_screen_shows_reading_stage_status_power);
@@ -279,5 +315,8 @@ int main() {
   RUN_TEST(test_indian_language_menu_shows_one_large_item_with_position);
   RUN_TEST(test_english_keeps_four_line_mode);
   RUN_TEST(test_phone_editor_stays_small_in_every_language);
+  RUN_TEST(test_screen_always_on_with_mains);
+  RUN_TEST(test_on_battery_screen_sleeps_after_60_s_and_first_press_only_wakes_it);
+  RUN_TEST(test_on_battery_screen_comes_on_while_the_alarm_buzzes);
   return UNITY_END();
 }

@@ -9,7 +9,9 @@ class Oled {
  public:
   void begin();
   void show(const seri::Screen& s);
+  void setPower(bool on) { if (on != on_) { u8g2_.setPowerSave(on ? 0 : 1); on_ = on; } }
  private:
+  bool on_ = true;
 #ifdef SERI_SIM
   U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2_{U8G2_R0, U8X8_PIN_NONE};
 #else

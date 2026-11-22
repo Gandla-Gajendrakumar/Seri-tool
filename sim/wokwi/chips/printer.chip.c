@@ -3,6 +3,7 @@
 // Raster images (GS v 0, used for Indian scripts) are printed as "PRINTER| [IMG WxH]" followed by
 // a downscaled text-art rendering, so the receipt can be read from the simulation log.
 // Commands understood: ESC @ (init), LF, ESC ! n, ESC E n, ESC a n, ESC d n, GS ! n, GS v 0 m xL xH yL yH d...,
+//                      ESC 7 n1 n2 n3, ESC 8 n1 n2 (consumed), ESC v n (CSN-A2 status: bit 2 = paper out),
 //                      DLE EOT 4 (paper sensor status: 0x12 = paper OK, 0x72 = paper end, Epson semantics).
 // Control: paper (0 = paper finished: printable data is discarded and status reports paper end).
 #include "wokwi-api.h"
@@ -13,7 +14,7 @@
 #define LINE_MAX 256
 #define IMG_MAX (48 * 64)
 
-typedef enum { S_TEXT, S_ESC, S_ESC_ARG, S_GS, S_GS_ARG, S_GSV, S_IMG, S_DLE, S_DLE_EOT } state_t;
+typedef enum { S_TEXT, S_ESC, S_ESC_ARG, S_GS, S_GS_ARG, S_GSV, S_IMG, S_DLE, S_DLE_EOT, S_ESC_SKIP, S_ESCV } state_t;
 
 typedef struct {
   uart_dev_t uart;
@@ -26,6 +27,7 @@ typedef struct {
   uint8_t img[IMG_MAX];
   int img_need, img_len, img_wbytes, img_h;
   int lines_printed;
+  int skip;  // argument bytes still to swallow
 } chip_t;
 
 static bool paper(chip_t* c) { return attr_read(c->a_paper) != 0; }
@@ -74,9 +76,20 @@ static void on_rx(void* ud, uint8_t b) {
     case S_ESC:
       if (b == '@') { c->len = 0; c->st = S_TEXT; }
       else if (b == '!' || b == 'E' || b == 'a' || b == 'd' || b == '-' || b == '3' || b == 'J') c->st = S_ESC_ARG;
+      else if (b == '7') { c->skip = 3; c->st = S_ESC_SKIP; }  // heating dots, time, interval
+      else if (b == '8') { c->skip = 2; c->st = S_ESC_SKIP; }  // sleep time
+      else if (b == 'v') c->st = S_ESCV;
       else c->st = S_TEXT;
       break;
     case S_ESC_ARG: c->st = S_TEXT; break;
+    case S_ESC_SKIP: if (--c->skip == 0) c->st = S_TEXT; break;
+    case S_ESCV: {  // CSN-A2: one status byte, bit 2 = paper out
+      static uint8_t st[1];
+      st[0] = paper(c) ? 0x00 : 0x04;
+      uart_write(c->uart, st, 1);
+      c->st = S_TEXT;
+      break;
+    }
     case S_GS:
       if (b == '!' || b == 'B') c->st = S_GS_ARG;
       else if (b == 'v') { c->st = S_GSV; c->hdr_len = 0; }

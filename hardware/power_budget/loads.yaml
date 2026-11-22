@@ -1,0 +1,114 @@
+# Battery-life budget inputs (phase 4). Every current is drawn from the battery rail (about 3.7 V).
+# 3.3 V loads are counted 1:1 because the AP2112K is linear (battery current = load current + Iq).
+# Sources: docs/datasheets/facts.md (page numbers are PDF pages). "ASSUMED" = no datasheet number exists;
+# the report lists these for bench measurement, with a sensitivity table.
+#
+# Operating profile ON BATTERY (power cut), worst case:
+#   - the router is assumed to be dead too, so every upload goes over 4G (no Wi-Fi);
+#   - upload every 15 min (seri::uploadIntervalSec(true) = 900 s);
+#   - 12 SMS per day (alerts + recoveries + mains-fail/return);
+#   - 12 printed event lines per day, low-power mode (D-039); boost disabled between prints (D-046);
+#   - screen on 10 min per day (button presses), otherwise off on battery (D-046);
+#   - modem kept registered (no sleep mode used: the A7670 sleep current is "TBD" in its datasheet).
+
+target:
+  hours: 24
+  pack_mah: 5000
+  source: "P-02 / Q-8: >= 24 h on the fitted 2-cell pack"
+
+battery:
+  pack_fitted_mah:
+    value: 5000
+    source: "2 x 18650 in parallel (brief). Datasheet cell: 2600 mAh nominal, 2500 min (18650 spec p8)"
+  pack_max_mah:
+    value: 10000
+    source: "4 x 18650 footprint (brief)"
+  usable_fraction:
+    value: 0.50
+    source: >-
+      Charge available above the 3.60 V modem cut-off (D-038). Cell spec p8: >= 75 min above 3.6 V at 0.5C
+      (2 h full discharge) = >= 62 % of capacity, at a load 30x heavier than ours. x 0.8 for end of life
+      (>= 80 % capacity after 300 cycles, p12) = 0.50. Conservative lower bound.
+  usable_fraction_monitor:
+    value: 0.72
+    cutoff: "3.30 V (ESP32 VDD >= 3.0 V with 200 mV LDO dropout, AP2112K p8)"
+    source: "ASSUMED 90 % of capacity above 3.3 V at light load, x 0.8 end of life"
+
+loads:
+  esp32_modem_sleep:
+    ma: 31
+    duty: 1.0
+    source: "ESP32 datasheet v5.3 Table 4-2 p30: modem-sleep 80 MHz dual-core 20-31 mA (max used)"
+  esp32_wifi_upload:
+    ma: 0
+    duty: 0
+    source: "Not used on battery in the worst case (uploads go over 4G). On Wi-Fi: 239 mA avg TX, WROOM p29"
+  devkitc_extras:
+    ma: 6
+    duty: 1.0
+    source: "ASSUMED: DevKitC power LED + CP2102 with USB unplugged; no datasheet value in hand"
+  ap2112k_quiescent:
+    ma: 0.080
+    duty: 1.0
+    source: "AP2112K DS39724 p8: Iq 55 typ / 80 max uA"
+  modem_idle_registered:
+    ma: 25
+    duty: 1.0
+    source: "ASSUMED: A7670 HD V1.03 Table 46 p59 lists idle/sleep current as TBD"
+  modem_upload_4g:
+    ma: 600
+    duty: 0.00667
+    source: "A7670 HD p60: LTE TX 600 mA typ (B1/B3 23 dBm). 6 s of TX per upload every 900 s (attach+TLS+publish, ASSUMED duration)"
+  modem_sms:
+    ma: 630
+    duty: 0.000417
+    source: "A7670 HD p59: GPRS 630 mA typ. 3 s per SMS x 12 SMS/day = 36 s / 86400 s"
+  sht31:
+    ma: 0.6
+    duty: 0.0005
+    source: "SHT3x Ver.7 Table 3 p6: 600 uA measuring, 12.5 ms (p7) every 30 s (idle 0.2 uA ignored)"
+  ds3231:
+    ma: 0.110
+    duty: 1.0
+    source: "DS3231 Rev 7 p2: standby 110 uA max at 3.63 V"
+  oled_on:
+    ma: 20
+    duty: 0.00694
+    source: "ASSUMED 20 mA for a 1.3 inch SH1106 at mid brightness; on 10 min/day on battery"
+  microsd_idle:
+    ma: 1.5
+    duty: 1.0
+    source: "ASSUMED: card standby, card-dependent"
+  microsd_write:
+    ma: 60
+    duty: 0.0017
+    source: "ASSUMED: 50 ms write every 30 s"
+  printer_low_power:
+    ma: 1100
+    duty: 0.000278
+    source: "ASSUMED: peak current not in the printer manual (CSN v4.0 p48). 24 heating dots: ~0.75 A at 5 V, / 0.88 boost efficiency, / 3.7 V = 1.15 A from the cell; 2 s per line x 12 lines/day"
+  boost_shutdown:
+    ma: 0.003
+    duty: 1.0
+    source: "TPS61088 ZHCSDP8A p5: ISD 1 typ / 3 max uA (EN low between prints, D-046)"
+  battery_sense_divider:
+    ma: 0.021
+    duty: 1.0
+    source: "Design: 100k + 100k divider across 4.2 V"
+  pfet_gate_pulldown:
+    ma: 0.042
+    duty: 1.0
+    source: "Design: 100k gate pull-down on the load-sharing P-FET at 4.2 V"
+  leds_and_buzzer:
+    ma: 2
+    duty: 0.1
+    source: "Design: status LED 2 mA (via 680 ohm from 3.3 V) blinking 10 %; buzzer only during alarms (ignored)"
+  tp4056_battery_drain:
+    ma: 0.005
+    duty: 1.0
+    source: "ASSUMED: charger reverse drain with no input; not in the NJ/SZ datasheet tables I read"
+  charger:
+    ma: 1000
+    duty: 1.0
+    on_battery: false
+    source: "TP4056 NJ REV_2.4 p9: RPROG 1.1k -> 1000 mA (mains only)"

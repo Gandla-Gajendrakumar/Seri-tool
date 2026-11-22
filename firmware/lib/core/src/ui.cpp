@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "seri/ui.h"
 #include "fmt.h"
 #include "seri/sms_text.h"
@@ -55,14 +56,23 @@ void Ui::message(UiText t, int64_t now) {
   page_ = Page::Message;
 }
 
+bool Ui::displayOn(int64_t now) const {
+  if (!m_.onBattery() || m_.buzzing()) return true;
+  return now - std::max(lastPress_, lastWake_) <= kIdleSec;
+}
+
 void Ui::tick(int64_t now) {
   uiNow_ = now;
+  if (m_.onBattery() && !sawBattery_) lastWake_ = now;  // show the power cut for a minute
+  sawBattery_ = m_.onBattery();
   if (page_ == Page::Message && now >= msgUntil_) go(Page::Home);
   else if (page_ != Page::Home && page_ != Page::Message && now - lastPress_ > kIdleSec) go(Page::Home);
 }
 
 void Ui::press(Button b, int64_t now) {
+  const bool wasOn = displayOn(now);
   lastPress_ = now;
+  if (!wasOn) return;  // the waking press only wakes
   uiNow_ = now;
   const int step = b == Button::Down ? 1 : (b == Button::Up ? -1 : 0);
   Settings s = m_.settings();

@@ -26,7 +26,7 @@ Sht31Sensor sht(Wire);
 PowerSense power(board::kMainsOk, board::kBattSense, board::kBattDivider);
 A7670Modem modem(Serial2, board::kModemRx, board::kModemTx, board::kModemPwrKey);
 WifiNet wifi;
-EscPosPrinter printer(Serial1, board::kPrinterRx, board::kPrinterTx);
+EscPosPrinter printer(Serial1, board::kPrinterRx, board::kPrinterTx, board::kPrinterPowerEn);
 SdStorage sd(board::kSdCs, board::kSdCardDetect);
 GpioIndicators indicators(board::kBuzzer, board::kLedGreen, board::kLedRed);
 NvsPersist persist;
@@ -103,8 +103,10 @@ void loop() {
   monitor->tick();
   esp_task_wdt_reset();
 
+  printer.poll();
   pollButtons();
   ui->tick(millis() / 1000);
+  oled.setPower(ui->displayOn(millis() / 1000));  // D-046: sleeps on battery after 60 s idle
   if (dirty || millis() - lastDraw > 1000) {  // full frame over 100 kHz I2C takes ~90 ms
     oled.show(ui->render(seri::UiStatus{modem.lastKnownRegistered(), wifi.connected(), rtc.nowUtc()}));
     lastDraw = millis();

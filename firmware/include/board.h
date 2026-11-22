@@ -8,7 +8,10 @@ constexpr int kI2cSda = 21, kI2cScl = 22;          // SHT31 (0x44), DS3231 (0x68
 constexpr uint32_t kI2cHz = 100000;                  // 2 m probe cable: stay at standard mode
 constexpr int kModemTx = 17, kModemRx = 16;          // UART2 -> A7670C RXD / from A7670C TXD
 constexpr int kModemPwrKey = 27;
-constexpr int kPrinterTx = 25, kPrinterRx = 26;      // UART1, 9600 baud
+constexpr int kPrinterTx = 25, kPrinterRx = 39;      // UART1 (9600 or 19200, auto-detected). RX on
+                                                     // input-only VN: the printer may drive it at boot (D-041)
+constexpr int kPrinterPowerEn = 26;                  // TPS61088 EN, 100k pull-down: boost off until firmware
+                                                     // turns it on; off between prints on battery (D-046)
 constexpr int kSdSck = 18, kSdMiso = 19, kSdMosi = 23, kSdCs = 5;
 constexpr int kSdCardDetect = 34;                    // input-only; LOW = card inserted (ext. pull-up)
 constexpr int kBtnUp = 32, kBtnOk = 33, kBtnDown = 14;  // to GND, internal pull-ups
