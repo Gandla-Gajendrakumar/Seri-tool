@@ -5,6 +5,11 @@ on:
     paths: ["firmware/**", "sim/**", "tools/**", ".github/workflows/**"]
 
   workflow_dispatch:
+    inputs:
+      scenarios:
+        description: "Scenario names to run, space-separated (empty = all)"
+        required: false
+        default: ""
 
 env:
   WOKWI_CLI_VERSION: v0.29.1
@@ -70,7 +75,7 @@ jobs:
           for c in sht31 ds3231 a7670c printer carrier; do wokwi-cli chip compile $c.chip.c -o $c.chip.wasm; done
       - name: Run scenarios
         env: { WOKWI_CLI_TOKEN: "${{ secrets.WOKWI_CLI_TOKEN }}" }
-        run: tools/run_scenarios.sh
+        run: tools/run_scenarios.sh ${{ github.event.inputs.scenarios }}
       - name: Summary
         if: always()
         run: |

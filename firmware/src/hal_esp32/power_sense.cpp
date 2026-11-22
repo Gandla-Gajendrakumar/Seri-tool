@@ -11,9 +11,10 @@ bool PowerSense::mainsPresent() { return digitalRead(mains_) == HIGH; }
 int32_t PowerSense::batteryMv() {
   uint32_t sum = 0;
 #ifdef SERI_SIM
-  // Wokwi models the ADC as linear 0-3.3 V over 0-4095 and does not emulate the chip's eFuse
-  // calibration, so analogReadMilliVolts() reads about 24 % low there (seen in CI run 8).
-  for (int i = 0; i < 8; ++i) sum += static_cast<uint32_t>(analogRead(batt_)) * 3300u / 4095u;
+  // Wokwi's ESP32 ADC is linear with 0-4095 spanning 0-5 V (measured in CI runs 8 and 9: a chip
+  // output of 1.95 V read raw ~1597 = 1.95/5*4095, and 1.65 V read ~1351), and it does not emulate
+  // the eFuse calibration used by analogReadMilliVolts(). So the simulation build converts raw counts.
+  for (int i = 0; i < 8; ++i) sum += static_cast<uint32_t>(analogRead(batt_)) * 5000u / 4095u;
 #else
   // Real ESP32: eFuse-calibrated reading. Accuracy is checked and trimmed on the bench (test plan).
   for (int i = 0; i < 8; ++i) sum += analogReadMilliVolts(batt_);
