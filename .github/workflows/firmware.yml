@@ -46,6 +46,9 @@ jobs:
   wokwi:
     name: Wokwi scenarios
     needs: native
+    # Manual only (D-036, product owner 2026-11-22): the Wokwi free plan's monthly CI minutes ran out.
+    # Run from the Actions tab ("Run workflow") at each phase gate, optionally naming scenarios.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

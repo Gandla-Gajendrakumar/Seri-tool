@@ -57,8 +57,8 @@ the 6-repeat cap and sent one limit text. The cap reset at midnight.
 ## Findings for the product owner
 1. **12-hour network outage (22 Dec):** the alerts raised during the outage were retried for 1 hour, then printed as
    "SMS NOT SENT" (10 texts across 2 numbers, requirement F-SMS-06). They were never delivered, even after the network
-   came back. Printing and logging continued throughout. **Suggestion:** when the network returns, send one
-   "while offline" summary SMS (for example: "No signal 07:00-19:00. Temp HIGH 11:07-13:00, now OK").
+   came back. Printing and logging continued throughout. **Resolved (D-037, confirmed):** when the network returns,
+   each number gets one offline summary ("No signal 07:00-19:00. N alerts not sent. Now T RH"). The replay sends 2.
 2. **Humidity above 100 %:** my first generated data contained physically impossible readings (100.4 %RH). The
    firmware correctly treated them as a faulty sensor (F-MEAS-03), and the cross-check exposed the difference.
    The generator now caps humidity at 100 %, like the real SHT31. A probe sitting in condensation at a steady
