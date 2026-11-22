@@ -45,6 +45,7 @@ struct Modem : hal::Modem {
   int sendAttempts = 0;
   std::deque<std::pair<std::string, std::string>> inbox;
   std::vector<std::pair<std::string, std::string>> published;
+  bool registered() override { return network; }
   bool sendSms(const std::string& n, const std::string& t) override {
     ++sendAttempts;
     if (!network) return false;

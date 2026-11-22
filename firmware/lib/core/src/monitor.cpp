@@ -149,6 +149,9 @@ void Monitor::sendStep(int64_t now) {
   ++o.attempts;
   if (now - o.firstTry >= cfg_.smsGiveUpSec) {
     logLine("M," + std::to_string(now) + ",gave-up," + o.number);
+    auto& m = missed_[o.number];  // D-037: remembered for one summary when the network is back
+    if (m.first == 0) m.second = o.firstTry;
+    ++m.first;
     printOrQueue(fmt::ddmmHhmm(now) + " SMS NOT SENT", Language::English);
     outbox_.pop_front();
     return;
@@ -228,6 +231,17 @@ void Monitor::flushQueue() {
 }
 
 void Monitor::commandStep(int64_t now) {
+  if (!missed_.empty() && hw_.modem.registered()) {  // network is back: one summary per number (D-037)
+    for (const auto& kv : missed_) {
+      Language l = Language::English;
+      for (int i = 0; i < kMaxRecipients; ++i) if (settings_.phone[i] == kv.first) l = settings_.lang[i];
+      outbox_.push_front(OutgoingSms{kv.first, formatOfflineSummary(settings_.deviceName, l, kv.second.second, now,
+                                                                    kv.second.first, last_), now, now, 0});
+      ++offlineSummaries_;
+      logLine("O," + std::to_string(now) + ",offline-summary," + kv.first + "," + std::to_string(kv.second.first));
+    }
+    missed_.clear();
+  }
   std::string from, body;
   while (hw_.modem.pollSms(from, body)) {
     const Stage oldStage = settings_.stage;

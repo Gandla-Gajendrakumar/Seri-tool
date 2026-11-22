@@ -33,6 +33,7 @@ struct Power {                       // mains-sense input and battery-voltage di
 
 struct Modem {                       // SIMCom A7670C
   virtual ~Modem() = default;
+  virtual bool registered() = 0;                                  // on the cellular network (cached, cheap)
   virtual bool sendSms(const std::string& number10, const std::string& utf8) = 0;
   virtual bool pollSms(std::string& from, std::string& body) = 0;  // true if one was received
   virtual bool networkTime(int64_t& utc) = 0;                     // from the cellular network

@@ -134,6 +134,7 @@ int main(int argc, char** argv) {
   st << "samples=" << samples << " max_gap_between_samples_s=" << maxGap << "\n";
   st << "printed_lines=" << printer.lines.size() << " daily_summaries=" << summaries << " printed_late=" << late
      << " sms_not_sent_lines=" << notSent << "\n";
+  st << "offline_summaries=" << m.offlineSummariesSent() << "\n";
   st << "sms_sent=" << modem.sent.size() << " uploads=" << modem.published.size() << " queue_left=" << storage.queue.size()
      << " sd_log_lines=" << storage.log.size() << "\n";
   st << "max_outbox=" << maxOutbox << " max_print_backlog=" << maxBacklog << " max_ram_records=" << maxRam << "\n";

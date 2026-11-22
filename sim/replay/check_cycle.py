@@ -59,9 +59,14 @@ def main(actual, stats):
     sent = int(re.search(r"sms_sent=(\d+)", st).group(1))
     not_sent = int(re.search(r"sms_not_sent_lines=(\d+)", st).group(1))
     replies = 9  # owner claim, add helper, helper language, 6 stage changes (gen_cycle.py)
-    if decisions + replies != sent + not_sent:
-        fails.append(f"SMS lost: {decisions} alerts + {replies} replies != {sent} sent + {not_sent} reported not sent")
-    notes.append(f"SMS jobs {decisions + replies} = sent {sent} + reported not sent {not_sent}")
+    offline = int(re.search(r"offline_summaries=(\d+)", st).group(1))
+    if not_sent and not offline:
+        fails.append("alerts were given up during an outage but no offline summary was sent (D-037)")
+    if decisions + replies + offline != sent + not_sent:
+        fails.append(f"SMS lost: {decisions} alerts + {replies} replies + {offline} offline summaries != "
+                     f"{sent} sent + {not_sent} reported not sent")
+    notes.append(f"SMS jobs {decisions + replies + offline} (incl. {offline} offline summaries) = sent {sent} + "
+                 f"reported not sent {not_sent}")
     notes.append(f"monitoring gap max {gap} s; summaries {summaries} (late {late})")
     for n in notes:
         print("  " + n)

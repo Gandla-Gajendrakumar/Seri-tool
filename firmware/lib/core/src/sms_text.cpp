@@ -174,4 +174,19 @@ std::string formatSms(const SmsJob& j, const SmsContext& c) {
   }
 }
 
+std::string formatOfflineSummary(const std::string& device, Language l, int64_t from, int64_t to, int missed,
+                                 const Sample& now) {
+  // WORDING: native-speaker review required (bench test plan).
+  static const char* const kNoSignal[kLanguageCount] = {"No signal", "सिग्नल नहीं", "సిగ్నల్ లేదు", "ಸಿಗ್ನಲ್ ಇಲ್ಲ"};
+  static const char* const kNotSent[kLanguageCount] = {"alerts not sent.", "संदेश नहीं गए।", "SMS వెళ్ళలేదు.",
+                                                       "ಸಂದೇಶ ಹೋಗಿಲ್ಲ."};
+  // Telugu omits "now" (ఇప్పుడు): with it the worst case needs 75 of 70 UCS-2 characters.
+  static const char* const kNow[kLanguageCount] = {"Now", "अब", "", "ಈಗ"};
+  const int li = static_cast<int>(l) % kLanguageCount;
+  std::string s = device + ": " + kNoSignal[li] + " " + fmt::hhmm(from) + "-" + fmt::hhmm(to) + ". " +
+                  std::to_string(missed) + " " + kNotSent[li];
+  if (now.valid) s += std::string(" ") + (*kNow[li] ? std::string(kNow[li]) + " " : "") + fmt::temp(now.t) + " " + fmt::rh(now.rh);
+  return s;
+}
+
 }  // namespace seri

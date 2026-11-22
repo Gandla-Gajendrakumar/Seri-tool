@@ -14,6 +14,7 @@ class A7670Modem : public seri::hal::Modem {
  public:
   A7670Modem(HardwareSerial& s, int rx, int tx, int pwrKey) : s_(s), rx_(rx), tx_(tx), pwr_(pwrKey) {}
   void begin(const std::string& clientId);
+  bool registered() override;
   bool sendSms(const std::string& number10, const std::string& utf8) override;
   bool pollSms(std::string& from, std::string& body) override;
   bool networkTime(int64_t& utc) override;
@@ -29,7 +30,6 @@ class A7670Modem : public seri::hal::Modem {
   bool waitPrompt(uint32_t timeoutMs);
   bool isUrc(const String& line);
   void drain();
-  bool registered();
   bool ensureMqtt();
   bool alive();
 

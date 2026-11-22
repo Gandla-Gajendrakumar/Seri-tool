@@ -140,6 +140,35 @@ static void test_sms_given_up_after_an_hour_is_printed() {
   TEST_ASSERT_TRUE(r.printer.count("SMS NOT SENT") >= 1);
 }
 
+static void test_long_outage_sends_one_offline_summary_when_network_returns() {
+  Rig r;
+  r.modem.network = false;
+  r.sensor.t = 31.0f;
+  r.run(30 * 60);
+  r.sensor.t = 27.0f;  // problem over while still offline
+  r.run(2 * 3600);
+  TEST_ASSERT_EQUAL(0, r.modem.sent.size());
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.count("SMS NOT SENT") >= 1, "given up after 1 h, printed");
+  r.modem.network = true;
+  r.run(10 * 60);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("No signal"), "exactly one offline summary");
+  TEST_ASSERT_EQUAL(1, r.m->offlineSummariesSent());
+  TEST_ASSERT_TRUE(r.smsContaining("alerts not sent. Now 27.0C 85%") == 1);
+  r.run(3600);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("No signal"), "not repeated");
+}
+
+static void test_short_outage_without_give_up_sends_no_offline_summary() {
+  Rig r;
+  r.modem.network = false;
+  r.sensor.t = 31.0f;
+  r.run(20 * 60);
+  r.modem.network = true;
+  r.run(10 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+  TEST_ASSERT_EQUAL(0, r.smsContaining("No signal"));
+}
+
 static void test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram() {
   Rig r;
   r.run(10 * 60);
@@ -266,6 +295,8 @@ int main() {
   RUN_TEST(test_on_battery_uploads_every_15_minutes_instead_of_5);
   RUN_TEST(test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring);
   RUN_TEST(test_sms_given_up_after_an_hour_is_printed);
+  RUN_TEST(test_long_outage_sends_one_offline_summary_when_network_returns);
+  RUN_TEST(test_short_outage_without_give_up_sends_no_offline_summary);
   RUN_TEST(test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram);
   RUN_TEST(test_sensor_unplugged_alerts_and_recovers);
   RUN_TEST(test_paper_out_queues_lines_and_prints_them_later);

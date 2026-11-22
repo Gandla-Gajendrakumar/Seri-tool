@@ -3,6 +3,7 @@
 // The firmware calls tick() every ~100 ms; all timing comes from the Clock, so tests (and the
 // accelerated Wokwi build) can run days of behaviour in seconds.
 #include <deque>
+#include <map>
 #include <string>
 #include <vector>
 #include "seri/alerts.h"
@@ -68,6 +69,7 @@ class Monitor {
   size_t printBacklog() const { return backlog_.size(); }
   size_t ramRecords() const { return ramQueue_.size(); }
   int64_t lastUploadOk() const { return lastUploadOk_; }
+  int offlineSummariesSent() const { return offlineSummaries_; }
 
  private:
   void sampleStep(int64_t now);
@@ -106,6 +108,9 @@ class Monitor {
   int64_t nextRaw_ = 0, nextPower_ = 0, nextPaper_ = 0, nextSd_ = 0, nextPoll_ = 0, nextAlertTick_ = 0;
   int64_t nextUpload_ = 0, nextClockSync_ = 0, lastUploadOk_ = 0, lastDay_ = -1;
   bool begun_ = false;
+  // Alerts given up during an outage, per number: count and when the first one was raised (D-037).
+  std::map<std::string, std::pair<int, int64_t>> missed_;
+  int offlineSummaries_ = 0;
 };
 
 }  // namespace seri
