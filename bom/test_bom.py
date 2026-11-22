@@ -20,6 +20,26 @@ class BomTests(unittest.TestCase):
         s = gen_bom.pick_source(SRC["Widget"])
         self.assertEqual("Robu.in", s["supplier"])
 
+    def test_selected_source_wins_over_cheaper(self):
+        e = {"item": "X", "sources": [
+            {"supplier": "Cheap", "country": "IN", "url": "a", "pack_qty": 1, "pack_price_inr": 5.0},
+            {"supplier": "Genuine", "country": "CN", "url": "b", "pack_qty": 1, "pack_price_inr": 9.0, "selected": True}]}
+        self.assertEqual("Genuine", gen_bom.pick_source(e)["supplier"])
+
+    def test_out_of_stock_skipped_unless_selected(self):
+        e = {"item": "X", "sources": [
+            {"supplier": "Gone", "country": "IN", "url": "a", "pack_qty": 1, "pack_price_inr": 5.0, "in_stock": False},
+            {"supplier": "Here", "country": "IN", "url": "b", "pack_qty": 1, "pack_price_inr": 9.0}]}
+        self.assertEqual("Here", gen_bom.pick_source(e)["supplier"])
+
+    def test_chosen_out_of_stock_source_is_an_availability_problem(self):
+        src = {"X": {"item": "X", "sources": [
+            {"supplier": "S", "country": "IN", "url": "a", "pack_qty": 1, "pack_price_inr": 5.0,
+             "in_stock": False, "selected": True}]}}
+        rows, missing = gen_bom.price_lines([{"item": "X", "qty": 1, "refs": "", "dnp_refs": ""}], src)
+        self.assertEqual([], missing)
+        self.assertEqual(["X"], gen_bom.availability_problems(rows))
+
     def test_unit_and_batch_cost_use_whole_packs(self):
         s = gen_bom.pick_source(SRC["Widget"])
         self.assertAlmostEqual(2.0, gen_bom.unit_inr(s))                 # 200 / 100

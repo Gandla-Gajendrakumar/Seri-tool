@@ -1,0 +1,1715 @@
+# Researched sources for the Seri-tool v1 BOM (phase 5), 2026-11-22.
+# Each source says how its price was obtained: "fetched" = page read directly (LCSC only);
+# "search-index 2026-11-22" = price shown in a web-search result for the product page (Indian stores
+# could not be opened from the build environment). Confirm every price at the supplier before ordering.
+# USD converted at 84 INR/USD. Shipping, import duty and GST differences are not included unless noted.
+- item: ESP32-DevKitC V4 (WROOM-32E)
+  description: Genuine Espressif ESP32-DevKitC-32E (V4, 38-pin, ESP32-WROOM-32E 4 MB, CP2102N USB-UART), header rows 25.4
+    mm apart
+  manufacturer: Espressif
+  mpn: ESP32-DevKitC-32E
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://st.robu.in/product/espressif-esp32-devkitc-esp32-wroom-3-2e-development-board
+    pack_qty: 1
+    pack_price_inr: 799.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Robu SKU 1696727, Rs 799 incl. GST. URL from the indexed st.robu.in mirror; the live robu.in path should be the
+      same /product/ slug. Free delivery only above Rs 499.
+    selected: true
+    why_selected: genuine Espressif DevKitC-32E, in stock; row pitch 25.4 mm guaranteed
+  - supplier: Robodo.in
+    country: IN
+    url: https://robodo.in/products/espressif-esp32-devkitc-32e-development-board
+    pack_qty: 1
+    pack_price_inr: 495.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 495 incl. GST (MRP 549), SKU BE02985. Says Espressif, but this smaller store has not been checked for authenticity.
+  - supplier: IndiaMART (Luster Electronics)
+    country: IN
+    url: https://m.indiamart.com/proddetail/espressif-esp32-devkitc-32e-esp32-wroom-32e-development-board-module-for-arduino-2851448645591.html
+    pack_qty: 1
+    pack_price_inr: 749.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Marketplace seller, rated 3.1 from 8 reviews
+  concerns: Check the board is the official DevKitC-32E (Espressif logo, 'ESP32-DevKitC V4' silkscreen). Robocraze's SmartElex
+    and 7Semi '32E DevKit' boards are clones and their row pitch was not checked, so measure 25.4 mm before using one. The
+    Robu listing says country of origin China, which is normal for Espressif boards.
+- item: A7670C 4G LTE Cat-1 breakout
+  description: SIMCom A7670C (LASS/LANS) Cat-1 breakout with nano/micro SIM slot, LTE antenna, onboard regulator and UART
+    level conversion
+  manufacturer: generic (ADIY 'SIMA7670C 4G LTE GSM Development Board (LM39302) V1.1')
+  mpn: SIMA7670C V1.1 (LM39302)
+  sources:
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/sim-a7670c-4g-lte-development-board-with-4g-antenna
+    pack_qty: 1
+    pack_price_inr: 1794.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: MRP Rs 2,499. Includes 1x foldable 4G antenna with a UFL connector. A related SIM7670C listing says SMA instead,
+      so confirm the connector.
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/microcontroller-development-boards/adiy-sima7670c-4g-board
+    pack_qty: 1
+    pack_price_inr: 1345.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Listed at Rs 1,139.83 + 18% GST (about Rs 1,345 incl.). ADIY LM39302 V1.1 board. Hubtronics says it has 'UART logic
+      level conversion'. The listing price may not include an antenna.
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/sim-a7670c-4g-lte-cat-1-gsm-development-board-with-lm39302-power-ic-v1-1
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Same LM39302 V1.1 board. Quartz's red-PCB variant (sima7670c-4g-gsm-breakout-board-red-pcb) takes
+      3.4-4.2 V input directly and has no 5 V regulator.
+  concerns: Pinout not confirmed from listings. The ADIY V1.1 board has an LM39302 regulator (wide VIN, typically 5 V or more)
+    and UART level conversion per Hubtronics, so the ESP32's 3.3 V UART should work, but check which logic level the TX/RX
+    header uses. Plan for 2 A peaks on the supply. Robocraze's ADIY breakout (a7670c-gsm-4g-breakout-board-adiy) and DNA Tech's
+    are out of stock, and Robocraze's LM39302 V1.1 page showed 0 in stock. Check the module suffix (A7670C-LASS/LANS; LASS
+    adds GNSS on some boards).
+- item: SHT31 probe, 2 m cable
+  description: Sensirion SHT3x in a weatherproof mesh/sintered probe on a shielded I2C cable, about 2 m
+  manufacturer: generic (Taidacent / Probots), or DFRobot SEN0385
+  mpn: SHT31 cable probe (seller model)
+  sources:
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/sht30-temperature-humidity-sensor-module-probe-cable-waterproof-digital-capacitance-sensors-i2c-output.html
+    pack_qty: 1
+    pack_price_inr: 899.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'SHT30, not SHT31: Rs 761.86 + GST = Rs 899. Cable length not given in the snippet.'
+  - supplier: Cart2India (Taidacent)
+    country: IN
+    url: https://cart2india.com/temperature-sensors/taidacent-sht30-sht31-high-precision-waterproof-digital-temperature-sensor-1m-cable-water-resistant-temperature-and-humidity-sensor-air-temperature-and-moisture-measurement-sht31-shielded-cable/00000000004392640879
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. SHT31 option with a 1 m shielded cable. An import reseller whose prices include duties.
+  - supplier: Fruugo India
+    country: IN
+    url: https://www.fruugoindia.com/x-soil-digital-temperature-humidity-sensor-probe-waterproof-stainless-steel-case-sht31/p-444767862
+    pack_qty: 1
+    pack_price_inr: 2449.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Stainless-steel SHT31 'soil' probe, free shipping, cable length not stated
+  concerns: No Indian listing found with a 2 m SHT31 cable. The options are 0.5-1 m, or SHT30 (±2% RH typical versus ±2% RH
+    and ±0.2 °C for SHT31, so a small accuracy loss). Plan to extend to 2 m with shielded twisted pair, lower the I2C clock
+    (10-50 kHz) and use stronger pull-ups, or put a P82B715 or similar I2C extender at the far end. Probots notes 3-5 m works
+    with STP and a low clock. A sealed stainless 'soil' probe responds slowly to RH, so a mesh or sintered vented cap is better
+    for air.
+- item: 58 mm TTL thermal printer with status TX
+  description: Panel-mount 58 mm (48 mm print width) ESC/POS thermal printer, TTL serial, 5-9 V supply, with a TX status line
+  manufacturer: Cashino (CSN-A2/A2L) or generic
+  mpn: CSN-A2L TTL
+  sources:
+  - supplier: DNA Technology (dnatechindia.com)
+    country: IN
+    url: https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html
+    pack_qty: 1
+    pack_price_inr: 3186.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Rs 2,700 + GST = Rs 3,186, out of stock (SKU 2423). Another DNA Tech CSN-A2L listing (thermal-printer-ttl-rs232-uart-interface.html)
+      is Rs 6,726.01 + GST with 2 in stock.
+    selected: true
+    why_selected: 'product-owner decision: CSN-A2 class with TX status line'
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/rp203-58mm-panel-thermal-printer
+    pack_qty: 1
+    pack_price_inr: 1749.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: RP203 58 mm panel printer, Rs 1,749 (MRP 2,290). Serial and parallel. A 12 V RP203 variant is also listed (rp203-12v-58mm-panel-thermal-printer).
+      TX line not confirmed.
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/qr204-58mm-embedded-thermal-receipt-printer-mini-ttl-usb-panel-mount-black.html
+    pack_qty: 1
+    pack_price_inr: 2427.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: QR204 TTL/USB panel printer, Rs 2,056.78 + GST. Needs a stable 5 V supply.
+  concerns: The CSN-A2 manual shows the TTL connector with GND (pins 1 and 4), VH 5-9 V (pin 3), RXD (pin 5) and TXD (pin
+    6), so a TX line exists and ESC/POS status queries (DLE EOT / GS r) can report paper-out. DTR/busy support varies by firmware.
+    The printer needs 5-9 V at 1.5 A or more (peaks around 2 A); at 12 V it would need its own rail from the XL4015. Baud
+    rate varies by unit (9600 or 19200), so check the self-test slip. EM5820 not found in India. RP203 and QR204 status TX
+    were not verified.
+- item: 1.3 inch OLED SH1106 I2C 128x64
+  description: 1.3 in 128x64 OLED, SH1106 driver, 4-pin I2C (GND VCC SCL SDA), 3.3-5 V
+  manufacturer: generic
+  mpn: 1.3in OLED SH1106 I2C 4-pin
+  sources:
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/1-3-inch-128x64-oled-blue-display-sh1106-i2c.html
+    pack_qty: 1
+    pack_price_inr: 329.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Blue, SH1106, Rs 278.81 + GST
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/oled-display-1-3-inch-i2c-interface-4-pin-white-sh1106
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. White, SH1106, 4-pin I2C.
+  - supplier: Electronicscomp
+    country: IN
+    url: https://www.electronicscomp.com/1.3-inch-i2c-iic-128x64-oled-display-module-4-pin-white
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Controllerstech sells a white SH1106 module for Rs 275 incl. GST.
+  concerns: Pin order varies between modules (some are VCC GND SCL SDA), so check the silkscreen before wiring. Some '1.3
+    inch' listings ship an SSD1306 or don't name the driver, so pick listings that say SH1106.
+- item: 18650 Li-ion cell 2500-3000 mAh (genuine brand)
+  description: Samsung INR18650-25R, 2500 mAh, 20 A, unprotected flat-top
+  manufacturer: Samsung SDI
+  mpn: INR18650-25R
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/?p=63398
+    pack_qty: 1
+    pack_price_inr: 418.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Rs 418 incl. GST, taken from the indexed stg.robu.in copy of the same product (p=63398), so confirm on the live
+      site. Robu warns about counterfeit 18650s. Free delivery only above Rs 499.
+  - supplier: Atomlab India
+    country: IN
+    url: https://atomlabindia.com/product/samsung-inr18650-25r-2500mah-8c-li-ion-battery/
+    pack_qty: 1
+    pack_price_inr: 526.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: MRP Rs 699, sale Rs 526
+  - supplier: FlyRobo
+    country: IN
+    url: https://flyrobo.in/samsung-inr18650-25r-2500mah-li-ion-battery-original
+    pack_qty: 1
+    pack_price_inr: 609.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Out of stock
+  concerns: Counterfeits are common, so check weight (about 44-45 g), the laser-etched date code and capacity on a tester.
+    The 25R is flat-top and unprotected, which is fine in a spring holder, but the design must provide protection (BMS or
+    charger with UVLO). IBOTS lists Samsung 26J (ibots.in/?p=23956) at Rs 570 on backorder as an alternative.
+- item: 12 V 3 A DC adapter, BIS registered
+  description: 12 V 3 A (36 W) SMPS wall adapter, 5.5x2.1 mm centre-positive plug, BIS (IS 13252) marked with R-number
+  manufacturer: FEDUS (or other BIS-registered brand)
+  mpn: FEDUS 12V 3A adapter
+  sources:
+  - supplier: Aajjo (FEDUS, New Delhi)
+    country: IN
+    url: https://www.aajjo.com/product/fedus-12v-3a-dc-power-supply-adapter-for-lcd-tv-cctv-dvr-led-light-router-60-hz-in-new-delhi-fedus-india
+    pack_qty: 1
+    pack_price_inr: 299.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Listing claims BIS certification and a 5.5x2.1 mm plug, but gives no R-number
+  - supplier: Think Robotics (Okey-Tech)
+    country: IN
+    url: https://thinkrobotics.com/products/d120-3000
+    pack_qty: 1
+    pack_price_inr: 1218.55
+    gst_included: null
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: BIS certified with a 2-year warranty, but the plug is 5.5x2.5 mm and it is sold out
+  concerns: No reputable electronics store listing found that combines BIS registration, 12 V 3 A and a 5.5x2.1 mm plug. Many
+    adapters have 5.5x2.5 mm plugs, which fit a 2.1 mm jack loosely. Check the R-number on the BIS CRS portal (crsbis.in)
+    before buying in volume. CCTV-grade adapters from known brands (e.g. CP Plus, Hikvision) are often BIS-marked with 2.1
+    mm plugs, but none were priced here.
+- item: XL4015 buck module 5 A
+  description: XL4015 adjustable step-down module (CC/CV, 4-38 V in, 1.25-36 V out, 5 A peak) with heatsink, set to 5 V
+  manufacturer: generic
+  mpn: XL4015 5A buck module with heatsink
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/power-converter-modules/dc-dc-power-converter-modules/xl4015-module
+    pack_qty: 1
+    pack_price_inr: 87.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 73.73 + 18% GST, about Rs 87
+  - supplier: Indian Hobby Center
+    country: IN
+    url: https://indianhobbycenter.com/products/dc-dc-adj-cccv-buck-5a
+    pack_qty: 1
+    pack_price_inr: 99.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: MRP 199, bulk discounts available
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/product/xl4015-5a-dc-dc-step-down-adjustable-power-supply-buck-module-led-with-heatsink
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. The snippet showed a truncated '...69.00 (Incl. GST)', which could be Rs 69 or Rs 169.
+  concerns: 'Treat 5 A as a peak rating: about 3 A continuous without extra cooling. Clone XL4015s vary. The trimpot can drift
+    with vibration, so set it to 5.1 V and lock it with glue.'
+- item: 5 V boost module >= 2 A from 3.0-4.2 V
+  description: Single-cell Li-ion to 5 V synchronous boost, at least 2 A continuous at 3.0-4.2 V in
+  manufacturer: generic
+  mpn: TPS61088A single-cell boost module (Probots) / TPS61023 breakout (7Semi)
+  sources:
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/tps61088a-single-cell-lithium-battery-boost-power-module.html
+    pack_qty: 1
+    pack_price_inr: 181.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: TPS61088A (10 A switch), up to 24 W out, QC3.0, max 4.5 V in. Rs 153.39 + GST. Out of stock.
+    selected: true
+    why_selected: only module found that delivers >= 2 A at 5 V from one cell (TPS61088A); out of stock at research time
+  - supplier: Robocraze (7Semi)
+    country: IN
+    url: https://robocraze.com/products/tps61023-3-7a-5v-output-mini-boost-converter-breakout-board-7semi
+    pack_qty: 1
+    pack_price_inr: 79.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: TPS61023, 5 V fixed output. '3.7 A' is the switch current limit, so expect about 1-1.5 A at 5 V from 3.0-3.6 V in.
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/dc-dc-sx1308-step-up-adjustable-power-module
+    pack_qty: 1
+    pack_price_inr: 35.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: SX1308 adjustable module, '2 A max' with about 1.2 A recommended continuous. Not enough for 2 A at 5 V from one
+      cell.
+  concerns: No Indian listing found that names an FP6277 or FP6298 module. The TPS61088A module is the only one that clearly
+    meets 2 A or more at 5 V from 3.0 V, and it is out of stock. FlyRobo sells a '5V 3A lithium charging boost module' for
+    Rs 114 (flyrobo.in/5v-2.4v-3a-lithium-battery-charging-boosting-module) with the chip unstated, probably an IP5306 or
+    similar power-bank IC, which shuts down at light load and is unsuitable for an always-on logger. For TPS61088 or FP6277,
+    LCSC can supply bare ICs for a custom board.
+- item: microSD card 8-16 GB (industrial or reputable)
+  description: SanDisk Industrial microSDHC 16 GB, MLC, -25 to 85 °C, UHS-I
+  manufacturer: SanDisk (Western Digital)
+  mpn: SDSDQAF3-016G-I
+  sources:
+  - supplier: Mouser India
+    country: IN
+    url: https://www.mouser.in/c/semiconductors/memory-ics/memory-modules-memory-cards/memory-cards/?m=SanDisk
+    pack_qty: 1
+    pack_price_inr: 1990.85
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Mouser P/N 467-SDSDQAF3-016G-I, 4,474 in stock. A second snapshot shows Rs 2,246.90 at qty 1, falling to about Rs
+      1,905 at volume. URL is Mouser's SanDisk memory-card category page (product URL not in results). Excludes GST. SDSDQAF3-016G-XI
+      (-40 °C) is about Rs 2,471.50.
+  - supplier: Flipkart
+    country: IN
+    url: https://www.flipkart.com/sandisk-ultra-16-gb-microsd-card-class-10-98-mbps-memory/p/itm9ab64c0e5da9d
+    pack_qty: 1
+    pack_price_inr: 309.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Consumer SanDisk Ultra 16 GB fallback. Rs 309, sold out at index time.
+  concerns: The industrial card costs about 6x a consumer card, but MLC lasts much longer under constant logging in a humid
+    shed. A cheaper middle option is SanDisk High Endurance or Kingston Industrial (not priced here). No Indian 8 GB industrial
+    price was found.
+- item: CR2032 coin cell
+  description: CR2032 3 V lithium coin cell, Panasonic
+  manufacturer: Panasonic
+  mpn: CR2032
+  sources:
+  - supplier: Zbotic
+    country: IN
+    url: https://zbotic.in/product/panasonic-cr2032-3v-lithium-coin-battery-2pcs/
+    pack_qty: 2
+    pack_price_inr: 94.4
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 80 + GST for 2 pcs (an earlier snapshot showed Rs 98.29). Free shipping.
+  - supplier: Flipkart
+    country: IN
+    url: https://www.flipkart.com/panasonic-cr2032-pack-10-battery/p/itm82db323a41035
+    pack_qty: 10
+    pack_price_inr: 423.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Pack of 10
+  concerns: Fakes are common on marketplaces; buy sealed blister packs.
+- item: 57 mm thermal paper roll
+  description: 57 mm wide thermal paper, short length (about 7-15 m) so the roll stays at 40 mm diameter or less
+  manufacturer: generic
+  mpn: 57mm x 7m thermal roll
+  sources:
+  - supplier: Flipkart (SWL)
+    country: IN
+    url: https://www.flipkart.com/swl-mini-printer-refill-roll57mm-x-7-mtr-thermal-cash-register-paper/p/itm4a17a15b3abb0
+    pack_qty: 9
+    pack_price_inr: 205.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 57 mm x 7 m, about 25 mm diameter, 9 rolls (6 white, 3 coloured), about Rs 23/roll
+  - supplier: IndiaMART (various)
+    country: IN
+    url: https://m.indiamart.com/impcat/thermal-paper-rolls.html
+    pack_qty: 1
+    pack_price_inr: 12.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 57 mm x 15 m roll at Rs 12/roll (bulk, MOQ applies). Category page, not a single product.
+  concerns: Standard 57 mm POS rolls are 25-30 m and about 50 mm in diameter, too big for the CSN-A2's 39-40 mm bay. Buy 'mini
+    printer' 7-15 m rolls. A 15 m roll is about 30-40 mm, so check before bulk ordering. A2 printers take 57.5 ±0.5 mm paper;
+    58 mm labelled rolls are usually 57 mm.
+- item: IoT/M2M SIM (Airtel or Vi)
+  description: Airtel IoT or Vi M2M SIM with SMS and a small data allowance (a few MB/month), 4G/LTE (VoLTE not needed)
+  manufacturer: Bharti Airtel / Vodafone Idea
+  mpn: M2M/IoT SIM
+  sources:
+  - supplier: Airtel Business (official)
+    country: IN
+    url: https://www.airtel.in/business/b2b/m2m-solutions
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. No public tariff; sold via enterprise sales. Zbotic's blog estimates Airtel IoT plans from about
+      Rs 29/month for 1 MB, and about Rs 29-99/month generally (unverified).
+  - supplier: Vi Business (official)
+    country: IN
+    url: https://www.myvi.in/business/internet-of-things-solutions
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. No public tariff; sales enquiries on 9920055666.
+  - supplier: IndiaMART (WAM Electronics, Vi M2M reseller)
+    country: IN
+    url: https://m.indiamart.com/wam-electronics-noida/sim-cards.html
+    pack_qty: 1
+    pack_price_inr: 30.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Vi postpaid M2M SIM at Rs 30/piece with 100 MB per the reseller (term unclear). Other resellers list 12-month GPS
+      M2M bundles at Rs 420-600, and an Airtel M2M SIM at Rs 699/month with 250 MB.
+  concerns: Under DoT rules, M2M SIMs are normally sold only to registered M2M Service Providers (M2MSP) or enterprises with
+    KYC, so a farmer-deployed device may need a reseller or ordinary prepaid SIMs. Check the plan includes SMS (some M2M data
+    plans are data-only). A7670C needs LTE B1/B3/B5/B8/B40/B41; Airtel and Vi 4G cover these, while Vi rural coverage is weaker.
+    As a fallback, an ordinary prepaid SIM costs about Rs 150-200/month minimum validity.
+- item: LTE antenna with u.FL/IPEX (if not included with breakout)
+  description: Wideband 700-2700 MHz LTE flex/PCB antenna with about 100-150 mm u.FL (IPEX MHF1) pigtail
+  manufacturer: SparkFun / Lanwise (LWC) / generic
+  mpn: SparkFun WRL-17841 / LWC-4G-PCB-03
+  sources:
+  - supplier: Tanotis
+    country: IN
+    url: https://www.tanotis.com/products/sparkfun-wide-band-4g-lte-internal-lora-antenna
+    pack_qty: 1
+    pack_price_inr: 165.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: SparkFun 700-2700 MHz flat-patch antenna, 100 mm IPEX cable. Price includes GST and import duty.
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/lwc-4g-pcb-03-v1-0
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Internal 2G/3G/4G PCB antenna with 3M adhesive. Check it has a u.FL pigtail.
+  concerns: The Robocraze A7670C kit already includes a foldable antenna, so this is only needed for a bare board or for mounting
+    inside an enclosure. Match the connector to the board (u.FL vs SMA). Mount a PCB antenna away from metal and the battery.
+- item: DS18B20 waterproof probe (optional)
+  description: DS18B20 in stainless sleeve, 1 m 3-wire cable, 1-Wire, 3-5.5 V, ±0.5 °C
+  manufacturer: generic (7Semi)
+  mpn: DS18B20 waterproof probe 1m
+  sources:
+  - supplier: Hubtronics (7Semi)
+    country: IN
+    url: https://hubtronics.in/environment-sensors/ds18b20-waterproof-temperature-sensor
+    pack_qty: 1
+    pack_price_inr: 239.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 202.54 + 18% GST
+  - supplier: Robocraze (7Semi)
+    country: IN
+    url: https://robocraze.com/products/ds18b20-waterproof-temperature-sensor-probe-1m-range-7semi
+    pack_qty: 1
+    pack_price_inr: 220.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Sold out at index time (MRP 342)
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/?p=11500
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND
+  concerns: Many cheap probes use clone DS18B20 chips (they report 85 °C or fail on parasite power); use 3-wire mode with
+    a 4.7 kΩ pull-up.
+- item: TP4056 [SOP-8 with exposed pad, ESOP-8]
+  description: 1 A linear Li-ion charger IC, ESOP-8 (exposed pad), bare IC
+  manufacturer: UMW / TOP POWER ASIC (clone families of NanJing Top Power TP4056)
+  mpn: TP4056 (UMW) / TP4056-42-ESOP8 (Top Power)
+  sources:
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/tp4056-1a-linear-lithium-ion-battery-charger-ic-esop-8
+    pack_qty: 1
+    pack_price_inr: 13.05
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: UMW TP4056 ESOP-8; Rs 15.40 incl. GST; Rs 10.44 ex-GST at 100+.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C725790.html
+    pack_qty: 1
+    pack_price_inr: 6.53
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: UMW TP4056 ESOP-8, $0.0777 at the 5-49 break (1 USD = 84 INR), 291k in stock. The Top Power original TP4056-42-ESOP8
+      is C16581 at $0.1848 (5+) = Rs 15.52, 53k in stock.
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/tp4056-smd-ic
+    pack_qty: 1
+    pack_price_inr: 25.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Listed as package 'SMD-8', exposed pad NOT confirmed. Fallback only.
+  concerns: Every TP4056 sold is from a Chinese second-source maker. Use the ESOP-8 version so the exposed pad can be soldered
+    to copper for heat sinking. Hand-soldering the pad needs a via under the pad or hot air. Robu's listing may be plain SOP-8.
+- item: DW01A [SOT-23-6]
+  description: Single-cell Li-ion protection IC (OV/UV/OC), SOT-23-6
+  manufacturer: PUOLOP (LCSC) / Slkor (DigiKey)
+  mpn: DW01A
+  sources:
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/shenzhen-slkormicro-semicon-co-ltd/DW01A/28143000
+    pack_qty: 10
+    pack_price_inr: 21.4
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 2.14/pc at 10 pcs (tape & reel listing, ~Rs 1.19 at 1000). No single-piece cut-tape price was shown. DigiKey
+      charges Rs 1,200 shipping below Rs 7,000.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C351410.html
+    pack_qty: 1
+    pack_price_inr: 2.1
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: PUOLOP DW01A, $0.025 at the 20-199 break (1 USD = 84 INR), 83k in stock. Minimum break is 20 pcs.
+    selected: true
+    why_selected: same LCSC order as the other ICs
+  concerns: 'No Indian hobby-store listing (Robu, Evelta, Hubtronics) found for the bare DW01A. Several makers sell ''DW01A''
+    with slightly different thresholds. Check the datasheet: R1 >= 470 ohm, and the pinout matches the FS8205A reference circuit.'
+- item: FS8205A [TSSOP-8]
+  description: Dual N-MOSFET, common drain, 20 V ~6 A, TSSOP-8 (8205A)
+  manufacturer: Fortune Semicon / generic 8205A
+  mpn: FS8205A (TSSOP-8)
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/8205a-tssop8?tag=FS8205A
+    pack_qty: 1
+    pack_price_inr: 5.9
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 8205A 20V 6A dual N-ch TSSOP8; Rs 5.00 + 18% GST; Rs 5.61 at 100+.
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/fs8205a-dual-n-channel-mosfet-tssop-8-pin-smd-ic.html
+    pack_qty: 1
+    pack_price_inr: 15.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Rs 12.71 + 2.29 GST; in stock per snippet.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C16052.html
+    pack_qty: 1
+    pack_price_inr: 15.72
+    gst_included: false
+    in_stock: false
+    evidence: fetched 2026-11-22
+    note: Fortune FS8205A TSSOP-8, $0.1871 (5+), OUT OF STOCK (stock 0, marked discontinued in search). The LCSC FS8205A parts
+      in stock are SOT-23-6 only (TECH PUBLIC C2830320 $0.0504 at 10+, FUXINSEMI C908265).
+  concerns: At LCSC the TSSOP-8 FS8205A is out of stock or discontinued, and the in-stock FS8205A versions are SOT-23-6. Indian
+    stores (Hubtronics, Probots, Electroncomponents Rs 5.50+GST) still list the TSSOP-8, so buy it in India. Sellers quote
+    conflicting ratings (20V 5A / 6A / 9A), but this circuit only needs a few amps. Alternatively, put a dual TSSOP-8 / SOT-23-6
+    footprint on the board.
+- item: AO3401A [SOT-23]
+  description: P-MOSFET -30 V -4 A, Rds(on) <50 mOhm @ -10 V, SOT-23
+  manufacturer: Alpha & Omega Semiconductor
+  mpn: AO3401A
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/fet-mosfets/ao3401-p-mosfet
+    pack_qty: 1
+    pack_price_inr: 5.9
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Listed as AO3401 (not the A suffix), 30V 4A P-ch SOT-23; Rs 5.00 + 18% GST.
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/AO3401A
+    pack_qty: 1
+    pack_price_inr: 43.57
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Exact AO3401A. Rs 26.85 at 10 pcs, Rs 11.34 at 1000. Ships 7-10 days from Bengaluru.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C15127.html
+    pack_qty: 1
+    pack_price_inr: 6.95
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Genuine AOS AO3401A, $0.0827 at the 5-49 break, $0.0653 at 50+ (1 USD = 84 INR). 649k in stock.
+    selected: true
+    why_selected: genuine AOS AO3401A; cheap Indian stock is the AO3401 clone
+  concerns: AO3401 and AO3401A have the same pinout and close specs, so either works. Cheap Indian stock is usually a clone.
+    Genuine AOS parts are cheapest from LCSC.
+- item: MMBT3904 [SOT-23]
+  description: NPN 40 V 200 mA general-purpose transistor, SOT-23
+  manufacturer: JSCJ (LCSC) / Nexperia PMBT3904 (Lion Circuits)
+  mpn: MMBT3904
+  sources:
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/PMBT3904%2C215
+    pack_qty: 1
+    pack_price_inr: 11.56
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Nexperia PMBT3904,215 (equivalent). Minimum order 9. Ships in 7-10 days.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C20526.html
+    pack_qty: 50
+    pack_price_inr: 43.68
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: JSCJ MMBT3904, $0.0104/pc at the 50-499 break (Rs 0.87/pc, 1 USD = 84 INR). Minimum break is 50 pcs. 3.6M in stock.
+    selected: true
+    why_selected: same LCSC order; Rs 0.87 each
+  concerns: No Indian hobby-store price found. DigiKey India shows about Rs 9-15 per piece, but those prices were not tied
+    to a specific URL, so they are not listed. Pinout is standard B-E-C (1-2-3) for SOT-23.
+- item: SS34 [SMA / DO-214AC]
+  description: Schottky rectifier 40 V 3 A, SMA (DO-214AC)
+  manufacturer: generic / MDD
+  mpn: SS34
+  sources:
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/ss34-sma-40v-3a-schottky-rectifier-diode-2pin-do-214ac/
+    pack_qty: 1
+    pack_price_inr: 5.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 4.25 at 10-99, Rs 3.50 at 100+ (ex-GST).
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C8678.html
+    pack_qty: 1
+    pack_price_inr: 2.91
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: MDD SS34 SMA(DO-214AC), $0.0347 at the 20-199 break (1 USD = 84 INR). 1.5M in stock.
+  concerns: Make sure the part is SMA. Some 'SS34' listings, such as the onsemi and Taiwan Semiconductor parts on DigiKey,
+    are SMC (DO-214AB).
+- item: SMAJ15A [SMA]
+  description: TVS diode 400 W, 15 V standoff, unidirectional, ~24.4 V clamp, SMA
+  manufacturer: generic / Jingdao (LCSC)
+  mpn: SMAJ15A
+  sources:
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/smaj15a-15v-400w-esd-suppressor-tvs-diodes-2pin-sma-do-214ac/
+    pack_qty: 1
+    pack_price_inr: 5.64
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 4.79 at 10-99, Rs 3.95 at 100+ (ex-GST).
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C353478.html
+    pack_qty: 1
+    pack_price_inr: 3.02
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Jingdao SMAJ15A, $0.0359 at the 20-199 break (1 USD = 84 INR). 58k in stock.
+  concerns: '''A'' means unidirectional (the bidirectional part is SMAJ15CA). Check the cathode band orientation on the footprint.'
+- item: 1N4148W [SOD-123]
+  description: Small-signal switching diode 75-100 V 150-300 mA, SOD-123
+  manufacturer: CJ / Diodes Inc. / Semtech
+  mpn: 1N4148W
+  sources:
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/switching-diode-100v-150ma-sod-123/
+    pack_qty: 1
+    pack_price_inr: 1.84
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'CJ 1N4148W; Rs 2.17 incl. GST; Rs 1.56 at 10-99. Evelta also lists Diodes 1N4148W-7-F at Rs 2.65 ex-GST (min 5
+      pcs): https://evelta.com/1n4148w-7-f-100v-300ma-fast-switching-diode-2pin-smt-sod123'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C81598.html
+    pack_qty: 50
+    pack_price_inr: 52.08
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: 1N4148W SOD-123, $0.0124/pc at the 50-499 break (Rs 1.04/pc, 1 USD = 84 INR). Minimum break is 50.
+  concerns: Make sure it is SOD-123. The 1N4148WS is SOD-323 and is easy to mix up.
+- item: AP2112K-3.3 [SOT-23-5]
+  description: 600 mA CMOS LDO 3.3 V with enable, SOT-23-5 (SOT-25)
+  manufacturer: Diodes Incorporated
+  mpn: AP2112K-3.3TRG1
+  sources:
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/diodes-ap2112k-3-3trg1-3-3v-600ma-cmos-ldo-voltage-regulator-sot25.html
+    pack_qty: 1
+    pack_price_inr: 24.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Genuine Diodes AP2112K-3.3TRG1; Rs 20.34 + 3.66 GST; OUT OF STOCK per snippet.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C51118.html
+    pack_qty: 1
+    pack_price_inr: 14.14
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Genuine DIODES AP2112K-3.3TRG1, $0.1683 at the 5-49 break, $0.13 at 50+ (1 USD = 84 INR). 19.5k in stock. A TECH
+      PUBLIC clone (C23380830, about $0.11 at 5+) also exists.
+    selected: true
+    why_selected: genuine Diodes part; only Indian listing out of stock
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/diodes-incorporated/AP2112K-3-3TRG1/4470746
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND (snippet shows the listing and a 24-week lead time, no price).
+  concerns: 'The only Indian retail listing found (Probots) is out of stock. LCSC has the genuine Diodes part. Pin-compatible
+    fallbacks if needed: ME6211C33M5G, RT9013-33, XC6220 (check the enable pin and capacitor requirements).'
+- item: DS3231SN [SOIC-16 wide]
+  description: Extremely accurate I2C RTC with integrated TCXO + crystal, SOIC-16 300 mil, bare IC
+  manufacturer: Analog Devices / Maxim Integrated
+  mpn: DS3231SN# / DS3231SN#T&R
+  sources:
+  - supplier: Electroncomponents
+    country: IN
+    url: https://www.electroncomponents.com/ds3231sn-smd-sop-16-ic-realtime-clock
+    pack_qty: 1
+    pack_price_inr: 230.0
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Labelled '[Original]'. The snippet gave both 'Rs 230.00' and 'Rs 220.00 + GST' (inconsistent). Rs 228 at 10+.
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/special-function-ics/ds3231sn
+    pack_qty: 1
+    pack_price_inr: 349.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 295.76 + 18% GST.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C9866.html
+    pack_qty: 1
+    pack_price_inr: 614.86
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Maxim DS3231SN#T&R, $7.3198 at the 10-29 break ($8.2765 for 1) (1 USD = 84 INR). 3,622 in stock. Also DS3231SN#
+      C722469, $9.598 at 10+.
+    selected: true
+    why_selected: authorised-price genuine Maxim; Indian Rs 230-350 is below cost, likely remarked
+  concerns: The genuine DS3231SN is available, so the DS3231M is not needed. Indian prices of Rs 230-350 are well below the
+    authorized price (about Rs 615 at LCSC), so remelted or counterfeit chips are likely. Accuracy (+/-2 ppm) is the reason
+    to use this part. Buy from an authorized source (LCSC, DigiKey, Mouser) if the timing spec matters. IndiaMART listings
+    (Rs 146 for 'DS3231 SOP-16', Rs 900) were not used.
+- item: Polyfuse 1.5 A hold [1812]
+  description: Resettable PPTC fuse, Ihold 1.5 A, Itrip 3 A, 24 V, 1812
+  manufacturer: Yageo / PTTC (Polytronics)
+  mpn: SMD1812B150TF/24 (Yageo) / SMD1812P150TF/24 (PTTC)
+  sources:
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/resettable-fuse-ptc-24v-1-5a-1812-smd1812b150tf-24/
+    pack_qty: 1
+    pack_price_inr: 13.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Yageo SMD1812B150TF/24, 24 V, Itrip 3 A; Rs 10.40 at 10-99, Rs 7.80 at 100+ (ex-GST).
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C209713.html
+    pack_qty: 1
+    pack_price_inr: 9.87
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: PTTC SMD1812P150TF/24, $0.1175 at the 5-49 break (1 USD = 84 INR). 1,335 in stock.
+  concerns: Meets the spec (24 V >= 16 V). Check the trip time and resistance (R1max about 0.15 ohm) against the voltage-drop
+    budget at the expected current.
+- item: 18650 PCB holder, single cell, THT [Keystone 1042 or equivalent]
+  description: Single 18650 cell holder, PCB through-hole pins
+  manufacturer: generic / Keystone
+  mpn: generic 18650 PCB holder / Keystone 1043 (THT version)
+  sources:
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/18650-li-ion-battery-cell-holder-case-single-cell
+    pack_qty: 1
+    pack_price_inr: 28.0
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Search summary calls it a PCB-mount holder (169 in stock). The pin type and pitch were NOT confirmed, so check the
+      photo or drawing.
+  - supplier: DNA Tech India
+    country: IN
+    url: https://www.dnatechindia.com/18650-3.7v-battery-holder-connector-th-pcb-mount-buy-in-india.html?page=1
+    pack_qty: 1
+    pack_price_inr: 70.09
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: TH PCB-mount 18650 holder, Rs 59.40 + GST, stock 100 (another page on the same site showed a different price).
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/keystone-electronics/1043/2745669
+    pack_qty: 1
+    pack_price_inr: 278.63
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Genuine Keystone 1043 (PC pin), Rs 241.35 at 10 pcs, 19.8k in stock. Plus Rs 1,200 DigiKey shipping below Rs 7,000.
+    selected: true
+    why_selected: 'product-owner decision 2026-11-22: genuine Keystone 1043 for the 20 mOhm path budget'
+  concerns: 'IMPORTANT: Keystone 1042 is the SMT-tab version (DigiKey: ''SMD (SMT) Tab''), not THT. The THT version is the
+    Keystone 1043/1043P, which has a different footprint, so check its drawing before assuming 79.38 mm. Generic Indian/Chinese
+    THT holders have no standard pin pitch. Pin spacing is often around 70-78 mm, and some have 2 pins per end. Pin spacing
+    could not be confirmed for the Quartz or DNA parts. Buy samples first and draw the footprint from the actual part, or
+    use slotted pads to fit several holders. Robu/Robocraze cheap holders are SMT, not THT. LCSC: TE BAT-HLD-001-THM (C22417572,
+    $0.7031 at 10+ = Rs 59) is out of stock.'
+- item: CR2032 PCB holder [Keystone 3002 or equivalent]
+  description: 20 mm coin cell holder for CR2032
+  manufacturer: Keystone / generic
+  mpn: Keystone 3002 (SMT) / generic 20 mm THT holder
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/1528?tag=pcb+mount
+    pack_qty: 1
+    pack_price_inr: 6.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Generic 20 mm THT CR2032/CR2025 holder; Rs 5.08 + 18% GST; Rs 4.25 at 1000. Fits 0.1-inch perfboard. A holiday shipping
+      pause in Nov 2026 was noted.
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/keystone-electronics/3002/227444
+    pack_qty: 1
+    pack_price_inr: 41.6
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Genuine Keystone 3002, Rs 28.74 at 100. The bulk version has an 11-week lead time. The 3002TR (in stock, 26.6k)
+      is Rs 63.37 for 1 pc cut tape. Rs 1,200 DigiKey shipping below Rs 7,000.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C964823.html
+    pack_qty: 1
+    pack_price_inr: 13.7
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: MYOUNG MY-2032-06 'CR2032-A' horizontal DIP holder, $0.1631 at the 5-49 break (1 USD = 84 INR). 3,940 in stock.
+  concerns: Keystone 3002 is SMT (spring-arm retainer), while the cheap generic holders are THT with a different footprint.
+    Pick one before layout. The 3002 needs a PCB pad under the cell for the negative contact.
+- item: microSD socket [Hirose DM3AT-SF-PEJM5 or equivalent push-push with card detect]
+  description: microSD push-push SMT socket with card-detect switch
+  manufacturer: Hirose / generic
+  mpn: DM3AT-SF-PEJM5 / generic 9-pin push-push (TF-01A style)
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/connectors/micro-sd-card-connector-push-type
+    pack_qty: 1
+    pack_price_inr: 17.7
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Generic 9-pin SMT push-push. Pin 9 = card detect (shorted to shell/GND when a card is inserted). Rs 15 + 18% GST.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C114218.html
+    pack_qty: 1
+    pack_price_inr: 98.81
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Genuine Hirose DM3AT-SF-PEJM5, $1.1763 at the 10-29 break ($1.4042 for 1) (1 USD = 84 INR). 13.4k in stock. A generic
+      push-push alternative is C91145 (TF-01A), $0.1946 at 5+ = Rs 16.35.
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/hirose-electric-co-ltd/DM3AT-SF-PEJM5/2533565
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND (27.4k in stock per snippet, price table not shown).
+  concerns: The generic sockets do not match the DM3AT footprint. The DM3AT has card detect between the CD pin and a switch
+    pin, while the generic part shorts pin 9 to the shell. Pick one before layout. Fine-pitch SMT is hand-solderable but fiddly.
+- item: DC barrel jack 5.5x2.1 mm, PCB horizontal with switch pin
+  description: DC-005 type 5.5 x 2.1 mm PCB jack, 3-pin (center, sleeve, switch), horizontal THT
+  manufacturer: generic
+  mpn: DC-005
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/?p=121507
+    pack_qty: 5
+    pack_price_inr: 45.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: DC-005 female PCB socket 5-pack, 30 V rated. The URL is a Robu mirror host from the search index (same product id
+      ?p=121507 on robu.in).
+  - supplier: Flyrobo
+    country: IN
+    url: https://www.flyrobo.in/dc-005-5.5-2.1mm-female-dc-power-jack-supply-socket
+    pack_qty: 1
+    pack_price_inr: 9.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: DC-005 female DIP jack.
+  concerns: Most DC-005 jacks have 3 pins including the switch pin, but pin spacing and slot/round pins vary between makers.
+    Use a footprint with slotted or oversized holes. Current rating is typically only 0.5-2 A, which is fine here.
+- item: Active buzzer 5 V, 12 mm, 7.6 mm pin pitch
+  description: Magnetic active buzzer (built-in driver) 5 V, 12 x 9.5 mm, 7.6 mm pin spacing
+  manufacturer: Huaneng / generic
+  mpn: TMB12A05
+  sources:
+  - supplier: Thingbits
+    country: IN
+    url: https://www.thingbits.in/products/tmb12a05-5v-dc-active-buzzer-12-x-9-5mm
+    pack_qty: 1
+    pack_price_inr: 22.42
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: TMB12A05 12 x 9.5 mm; Rs 19.00 ex-GST; Rs 20.63 at 10-24. Thingbits lists 7.5 mm pin spacing, others list 7.6 mm.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C96093.html
+    pack_qty: 1
+    pack_price_inr: 15.31
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Huaneng TMB12A05, active magnetic, 4-8 V, 2.4 kHz, 85 dB, $0.1823 at the 5-49 break (1 USD = 84 INR). 116k in stock.
+  concerns: Robu's cheaper '5V Active Electromagnetic Buzzer (Pack of 5)' at Rs 55 incl. GST is 12 x 9.5 mm with 6 mm pin
+    pitch per the search summary, so it does not match 7.6 mm. Draw slotted pads if mixing sources. Draws about 25-30 mA,
+    so drive it through the MMBT3904.
+- item: Tactile switch 6x6 mm, 13 mm height, THT
+  description: 6 x 6 mm tactile switch, 13 mm total height, 4-pin straight THT
+  manufacturer: generic
+  mpn: 6x6x13 tact switch (e.g. KFC-A06-13)
+  sources:
+  - supplier: Ezyspare
+    country: IN
+    url: https://ezyspare.com/?p=2555
+    pack_qty: 5
+    pack_price_inr: 20.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 6x6x13 mm 4-pin tactile switch, 5-piece pack.
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/switches/6x6x13-ra-tactile-switch
+    pack_qty: 1
+    pack_price_inr: 5.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: RIGHT-ANGLE version, Rs 4.24 + 18% GST (= Rs 5.00). Use only if a right-angle switch is wanted.
+  concerns: Straight 6x6x13 THT switches from big Indian stores (Robu, Robocraze) were not found in search. They stock 5/7/8/12/14
+    mm heights (Zbotic 6x6x14 pack of 20 at Rs 29.80 + GST). A 12 or 14 mm version is an acceptable fallback if the enclosure
+    allows. Footprint is the standard 6.5 x 4.5 mm 4-pin.
+- item: LED 3 mm red / green, THT
+  description: 3 mm through-hole indicator LEDs, red and green (diffused preferred)
+  manufacturer: generic / Everlight
+  mpn: 3 mm LED red; 3 mm LED green
+  sources:
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/3mm-red-led-pack-of-10
+    pack_qty: 10
+    pack_price_inr: 14.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: RED, pack of 10 (227 left per snippet).
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/3mm-green-led-pack-of-10
+    pack_qty: 10
+    pack_price_inr: 13.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: GREEN, pack of 10 (61 left per snippet).
+  - supplier: Electroncomponents
+    country: IN
+    url: https://www.electroncomponents.com/LED-3mm-Red-Diffused
+    pack_qty: 10
+    pack_price_inr: 8.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Everlight 3 mm red diffused, 10 pcs, Rs 8 + GST (red only).
+  concerns: Generic LEDs have no datasheet, so set the series resistor for about 2-5 mA at 3.3 V (red Vf about 2.0 V, green
+    about 2.1-3.0 V depending on the chip). Combined entry covers both colours.
+- item: Resistor 0805 1% (per value)
+  description: '0805 thick-film chip resistor, 1%, 1/8 W. Values: 100R, 680R, 1k, 2.2k, 4.7k, 10k, 22k, 100k. Single-value
+    packs (20-100 pcs) or an 0805 1% assortment kit.'
+  manufacturer: generic / UNI-ROYAL (LCSC)
+  mpn: 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values
+  sources:
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/10k-ohm-103-1-smd-resistor-0805-pack-of-20-pieces
+    pack_qty: 20
+    pack_price_inr: 13.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: '10K 0805 1% pack of 20. Other values presumably same format/price (not checked per value). ElectronicsComp sells
+      10K 0805 pack of 20 at Rs 16 + 18% GST (https://www.electronicscomp.com/10k-ohm-resistor-0805-smd-package). No Indian
+      100-pc single-value pack found; Robu sells singles (Yageo 0805 1%, Rs 2.00 incl GST each at 1-1249 pcs, but a 0.25 W
+      AEC part). DigiKey India RC0805FR-07100RL: Rs 161.61 for 100 pcs.'
+  - supplier: Quartz Components (assortment kit)
+    country: IN
+    url: https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy
+    pack_qty: 1000
+    pack_price_inr: 366.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Kit: ''50 Sets 0805 SMD Resistor Kit 2 ohm - 3.3M, 1/8 W, 1%'', ~20 pcs per value (1000 pcs) for Rs 366. A 100-value
+      2000-pc version is Rs 711 (https://quartzcomponents.com/products/50-sets-resistor-kit-805-smd-with-1-tolerance-from-2-ohm-to-3-3m-ohm-1000pcs-copy).
+      Amazon.in alternatives: Chanzon 1200 pcs/60 values 1% Rs 1,217 (https://www.amazon.in/Chanzon-Resistor-Tolerance-Resistors-Certificated/dp/B08RYMY6XK).'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C17414.html
+    pack_qty: 100
+    pack_price_inr: 27.7
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: '10k, MOQ 100, USD 0.0033/pc at 100 = USD 0.33 per 100. All 8 values in stock at LCSC, MOQ 100 each, USD per pc
+      at 100: 100R C17408 0.0035, 680R C17798 0.0054, 1k C17513 0.0030, 2.2k C17520 0.0050, 4.7k C17673 0.0026, 10k C17414
+      0.0033, 22k C17560 0.0048, 100k C149504 0.0040. All 8 x 100 pcs = USD 3.16 = ~Rs 265 before shipping/duty.'
+  concerns: Check that the kit contains 680R, 2.2k and 22k (a 50-value set may skip some E24 values; the 100-value kit is
+    safer). Per-value prices at Quartz were only confirmed for 10k.
+- item: Capacitor 0805 X7R 100nF 50V
+  description: MLCC 100 nF, 50 V, X7R, 0805, 10%
+  manufacturer: Walsin / YAGEO
+  mpn: 0805B104K500CT (Walsin) / CC0805KRX7R9BB104 (Yageo, LCSC C49678)
+  sources:
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/walsin-0805b104k500ct
+    pack_qty: 100
+    pack_price_inr: 49.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Walsin 0805B104K500CT pack of 100: Rs 49.00 (Rs 41.53 + 18% GST). Evelta also lists a 100nF 50V X7R 0805 (https://evelta.com/100nf-50v-10-x7r-0805-capacitor)
+      - price not in snippet.'
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/CL21B104KBCNNNC
+    pack_qty: 100
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Samsung CL21B104KBCNNNC: Rs 104.04 for 1 pc, ''about Rs 1 each at 100 pcs'' per search summary - exact 100-pc price
+      not shown, so PRICE NOT FOUND for the pack.'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C49678.html
+    pack_qty: 50
+    pack_price_inr: 58.4
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Yageo CC0805KRX7R9BB104, MOQ 20, USD 0.0139/pc (20-199), 0.0091 (200+). 50 pcs = USD 0.695. Stock 7.35M. Alt Samsung
+      CL21B104KBCNNNC C1711 USD 0.0113 (20+).
+  concerns: None; standard part.
+- item: Capacitor 0805 X5R/X7R 1uF 25V
+  description: MLCC 1 uF, >=25 V, X7R (or X5R), 0805
+  manufacturer: Samsung / Yageo
+  mpn: CL21B105KAFNFNE (Samsung, LCSC C1712) / CC0805KKX7R8BB105 (Yageo)
+  sources:
+  - supplier: ElectronicsComp
+    country: IN
+    url: https://www.electronicscomp.com/1uf-50v-smd-capacitor-0805-package
+    pack_qty: 10
+    pack_price_inr: 20.0
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: 1uF 50V 0805, pack of 10, Rs 20.00 + 18% GST (MRP Rs 23.6). ~5,411 in stock. Dielectric not stated in snippet.
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/CC0805KKX7R8BB105
+    pack_qty: 10
+    pack_price_inr: 106.7
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Yageo CC0805KKX7R8BB105 (1uF 25V X7R) Rs 10.67/unit, MOQ 10 (pack price = 10 x 10.67, computed). Also KEMET C0805C105K3RACTU
+      Rs 11.56/unit.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C1712.html
+    pack_qty: 20
+    pack_price_inr: 52.8
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Samsung CL21B105KAFNFNE 1uF 25V X7R, MOQ 20, USD 0.0314/pc (20-199) -> 20 pcs USD 0.628. Stock 13,080. (CL21B105KBFNNNE
+      C28323 and CL21B105KAFNNNE C116352 were out of stock.)
+    selected: true
+    why_selected: Samsung X7R; Indian packs do not state the dielectric
+  concerns: ElectronicsComp listing does not state dielectric - confirm X5R/X7R (not Y5V) before buying. 1uF X7R in 0805 at
+    25 V loses a large part of capacitance under DC bias; fine for decoupling.
+- item: Capacitor 0805 X5R 4.7uF 10V
+  description: MLCC 4.7 uF, >=10 V, X5R, 0805
+  manufacturer: Samsung
+  mpn: CL21A475KAQNNNE (25V X5R, LCSC C1779)
+  sources:
+  - supplier: electroncomponents.com
+    country: IN
+    url: https://www.electroncomponents.com/4.7uf-475-smd-50v-0805-ceramic-capacitor
+    pack_qty: 10
+    pack_price_inr: 8.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 10 pcs 4.7uF 50V (475) 0805 MLCC, Rs 8.00 + GST; Rs 7.00 for 20+ packs, Rs 6.50 for 50+. Dielectric not stated.
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/product/mc0805f475z160ct-multicomp-pro-cap-smd-mlcc-4-7%c2%b5f-16-v-0805-pack-of-5
+    pack_qty: 5
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Multicomp MC0805F475Z160CT 4.7uF 16V pack of 5 - 'F...Z' code is Y5V (-20/+80%), NOT recommended.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C1779.html
+    pack_qty: 20
+    pack_price_inr: 58.1
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Samsung CL21A475KAQNNNE 4.7uF 25V X5R, MOQ 20, USD 0.0346/pc (20-199) -> 20 pcs USD 0.692. Stock 297,280. Alt CL21A475KOFNNNE
+      16V X5R C1746 USD 0.0453 (10+).
+    selected: true
+    why_selected: Samsung X5R; Indian packs do not state the dielectric (risk of Y5V)
+  concerns: A 50 V 4.7uF in 0805 at Rs 0.8/pc is suspicious; dielectric/voltage unverified (may be Y5V or a mislabelled part).
+    Samsung CL21A475KAQNNNE (LCSC) is the safe choice.
+- item: Capacitor 0805 C0G 33pF and 10pF
+  description: 'MLCC C0G/NP0, 50 V, 0805, 5%: 33 pF and 10 pF (two line items)'
+  manufacturer: Vishay / Samsung / generic
+  mpn: '33pF: VJ0805A330JXACW1BC (Vishay) or CL21C330JBANNNC (Samsung, LCSC C1814); 10pF: CL21C100JBANNNC (Samsung, LCSC C1785)'
+  sources:
+  - supplier: electroncomponents.com
+    country: IN
+    url: https://www.electroncomponents.com/10pf-180-smd-50v-0805-ceramic-capacitor
+    pack_qty: 20
+    pack_price_inr: 9.5
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: '10pF 50V 0805, 20 pcs, Rs 9.50 + GST (Rs 9.00 for 10+ sets). Dielectric not stated. ElectronicsComp: 10pF 50V 0805
+      10 pcs Rs 20 + GST (https://www.electronicscomp.com/10pf-50v-smd-capacitor-0805-package); a 33pF 50V 0805 10-pc pack
+      at Rs 20 also appears in its catalogue.'
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/VJ0805A330JXACW1BC
+    pack_qty: 10
+    pack_price_inr: 115.6
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: '33pF Vishay VJ0805A330JXACW1BC C0G 50V 5%: Rs 11.56/unit, MOQ 9 (10 pcs computed). Ships 7-10 days from Bengaluru.
+      in.element14 33pF 0805 C0G 100V: Rs 17.70 at 10+.'
+    selected: true
+    why_selected: Vishay C0G (dielectric matters for RF decoupling at the modem)
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C1814.html
+    pack_qty: 50
+    pack_price_inr: 56.3
+    gst_included: false
+    in_stock: false
+    evidence: fetched 2026-11-22
+    note: 33pF Samsung CL21C330JBANNNC C0G 50V, MOQ 50, USD 0.0134 -> 50 pcs USD 0.67. OUT OF STOCK. 10pF CL21C100JBANNNC
+      (C1785) USD 0.0132 (50+), also OUT OF STOCK. In-stock 0805 C0G neighbours exist (27pF C1808, 39pF C1817, 12pF C1792)
+      but are not the spec values.
+  concerns: Cheap Indian packs do not state C0G - confirm NP0/C0G (crystal/RF load caps need C0G). LCSC Samsung 33pF/10pF
+    both out of stock on 2026-11-22.
+- item: Capacitor 1206 X5R 10uF 16V
+  description: MLCC 10 uF, >=16 V, X5R/X7R, 1206
+  manufacturer: Samsung
+  mpn: CL31A106KBHNNNE (50V X5R, LCSC C13585)
+  sources:
+  - supplier: ElectronicsComp
+    country: IN
+    url: https://www.electronicscomp.com/10uf-50v-smd-capacitor-1206-package
+    pack_qty: 10
+    pack_price_inr: 22.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 10uF 50V 1206, 10 pcs, Rs 22.00 + 18% GST (MRP Rs 25.96). Dielectric not stated.
+  - supplier: electroncomponents.com
+    country: IN
+    url: https://www.electroncomponents.com/10uf-50v-1206-10mf-ceramic-capacitor-smd
+    pack_qty: 10
+    pack_price_inr: 8.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 10uF 50V 1206, 10 pcs, Rs 8.00 + GST (Rs 7.50 for 10+ packs), +/-10%. Price per search summary - suspiciously low,
+      verify.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C13585.html
+    pack_qty: 20
+    pack_price_inr: 203.1
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: 'Samsung CL31A106KBHNNNE 10uF 50V X5R 1206, MOQ 10, USD 0.1209/pc (10-99) -> 20 pcs USD 2.418. Stock 310,460. Robu:
+      KEMET C1206C106K4RACTU 10uF 16V X7R Rs 12.00 each (cut tape) - https://robu.in/product/c1206c106k4ractu-kemet-smd-multilayer-ceramic-capacitor-10-%C2%B5f-16-v-1206-3216-metric-%C2%B1-10-x7r-c-series-kemet/'
+    selected: true
+    why_selected: Samsung X5R; Indian packs do not state the dielectric
+  concerns: 'Indian generic packs: dielectric unverified. Branded options: Robu KEMET X7R Rs 12/pc, Lion Circuits KEMET C1206C106K4RACTU
+    Rs 15.38 at 10 pcs.'
+- item: Capacitor 1206 X5R 22uF 10V
+  description: MLCC 22 uF, >=10 V, X5R/X7R, 1206
+  manufacturer: Murata / Samsung
+  mpn: GRM31CR71A226KE15L (Murata 10V X7R) / CL31A226KAHNNNE (Samsung 25V X5R, LCSC C12891)
+  sources:
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/GRM31CR71A226KE15L
+    pack_qty: 3
+    pack_price_inr: 106.7
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Murata GRM31CR71A226KE15L 22uF 10V X7R 1206: Rs 35.57/unit, MOQ 3 (pack price computed 3 x 35.57); steep volume
+      breaks. Ships 7-10 days.'
+  - supplier: Electronic Spices
+    country: IN
+    url: https://electronicspices.com/product/22uf-1206-50v-smd-capacitor-pack-of-50
+    pack_qty: 50
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. '22uF 1206 50V pack of 50' - a 50 V 22uF 1206 claim is doubtful.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C12891.html
+    pack_qty: 20
+    pack_price_inr: 174.0
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Samsung CL31A226KAHNNNE 22uF 25V X5R 1206, MOQ 20, USD 0.1036/pc (20-199) -> 20 pcs USD 2.072. Stock 967,680.
+  concerns: Cheap Indian generic 22uF 1206 packs not found with price; LCSC Samsung is the economical branded option.
+- item: Electrolytic 100uF 25V radial 8 mm, 3.5 mm pitch
+  description: Aluminium electrolytic 100 uF 25 V, radial, ideally D8 mm with 3.5 mm lead pitch, 105 C
+  manufacturer: generic / Rubycon
+  mpn: generic; LCSC alt Rubycon 25YXJ100M5X11 (C108360, D5 mm)
+  sources:
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/100uf-25v-electrolytic-capacitor-pack-of-5
+    pack_qty: 5
+    pack_price_inr: 23.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 100uF/25V through-hole pack of 5, Rs 23 (MRP Rs 39). Some collection pages show 'Sold out'. Size/pitch not stated
+      (generic is usually 6.3x11, 2.5 mm).
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/100uf-25v-radial-electrolytic-capacitor
+    pack_qty: 1
+    pack_price_inr: 3.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Search summary: ''100uF 25V radial, about Rs 3 each'', +/-15%. Size not stated. Robu has a 100uF 25V pack of 10
+      (https://aws.robu.in/?p=1090071) - price not in snippet.'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C108360.html
+    pack_qty: 10
+    pack_price_inr: 44.9
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Rubycon 25YXJ100M5X11 (D5 x 11 mm, 2.0 mm pitch, ESR 400 mOhm @100k), MOQ 10, USD 0.0535 -> 10 pcs USD 0.535. Not
+      the 8 mm / 3.5 mm footprint.
+  concerns: 100uF 25V is normally D5 or D6.3 (2.0/2.5 mm pitch); an 8 mm / 3.5 mm part is unusual. Either change the footprint
+    to 6.3 mm/2.5 mm, or use a smaller can with leads formed to 3.5 mm. No Indian listing confirmed an 8 mm body.
+- item: Electrolytic 100uF 10V radial 6.3 mm, 2.5 mm pitch
+  description: Aluminium electrolytic 100 uF 10 V, radial D6.3 mm, 2.5 mm pitch
+  manufacturer: Panasonic / generic
+  mpn: ECE-A1AKA101 (Panasonic KA, 6.3 x 7 mm, 2.5 mm)
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/100-uf-10v-through-hole-electrolytic-capacitor-pack-of-20/
+    pack_qty: 20
+    pack_price_inr: 39.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'SKU 616604: category page Rs 39.00 incl GST (Rs 33.05 + GST) for pack of 20; product page data conflicts (Rs 1.36/pc,
+      ''pack of 40''). Body listed as ''8 x 4 mm'' - size unclear.'
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/panasonic-industry/ECE-A1AKA101/44751
+    pack_qty: 10
+    pack_price_inr: 178.9
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Panasonic ECE-A1AKA101 100uF 10V, D6.3 mm, 2.5 mm pitch, 7 mm tall, 85 C/1000 h: Rs 28.89 x1, Rs 17.89 each at
+      10 (10 pcs computed). DigiKey free shipping threshold / GST not checked.'
+  - supplier: Tanotis
+    country: IN
+    url: https://www.tanotis.com/products/panasonic-electronic-components-ecea1aka101-electrolytic-capacitor-100-micro-f-10-v-ka-series-plusmn-20-radial-leaded-6-3-mm
+    pack_qty: 2
+    pack_price_inr: 46.95
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Same Panasonic ECEA1AKA101; Rs 46.95 quoted 'for quantity 2' (unclear if per piece).
+  concerns: Panasonic KA is an 85 C general-purpose series; for a warm shed prefer a 105 C part (e.g. Rubycon YXJ/YXF 10V
+    100uF 5x11 or 6.3x11). Robu generic size is unclear.
+- item: Electrolytic 470uF 10V radial 8 mm, 3.5 mm pitch
+  description: Aluminium electrolytic 470 uF 10 V, radial D8 x 11.5 mm, 3.5 mm pitch, 105 C
+  manufacturer: Rubycon
+  mpn: 10YXF470MFFC8X11.5 (Robu) / 10YXG470MEFCT78X11.5 (LCSC C2940709)
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/10yxf470mffc8x11-5-rubycon-470uf-10v-%C2%B120-400ma100khz-plugind8xl11-5mm-aluminum-electrolytic-capacitors-leaded-rohs/
+    pack_qty: 200
+    pack_price_inr: 2200.0
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: 'Rubycon 10YXF470MFFC8X11.5 (D8 x 11.5, 400 mA@100k): Rs 11.00/pc, MOQ 200 (full bag) -> Rs 2,200. Exact footprint
+      match but far more than 10 units.'
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/rubycon/10YXF470MEFCT78X11-5/3567037
+    pack_qty: 1
+    pack_price_inr: 32.62
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rubycon 10YXF470MEFCT78X11.5 (8 x 11.5, 6000 h) Rs 32.62 single cut-tape; Rs 9.34 at 1000. Marked not recommended
+      for new designs. Taped-lead variant (check lead form).
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C2940709.html
+    pack_qty: 10
+    pack_price_inr: 76.3
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Rubycon 10YXG470MEFCT78X11.5, D8 x 11.5, 3.5 mm pitch, MOQ 5, USD 0.0908 (5-49) -> 10 pcs USD 0.908. Stock 1,145.
+      Bulk version 10YXG470MEFC8X11.5 (C428685, ESR 130 mOhm, 640 mA) is out of stock.
+    selected: true
+    why_selected: exact Rubycon 8x11.5; Robu sells only bags of 200
+  concerns: Robu MOQ 200. 'T78' suffix = taped leads; confirm lead pitch 3.5 mm after removing from tape (LCSC lists 3.5 mm).
+- item: Electrolytic 1000uF 6.3V LOW-ESR radial 10 mm, 5 mm pitch
+  description: Low-ESR aluminium electrolytic 1000 uF >=6.3 V, D10 x 12.5 mm, 5 mm pitch, ESR <= 40 mOhm @100 kHz, 105 C
+  manufacturer: Rubycon / Panasonic
+  mpn: 10ZLH1000MEFC10X12.5 (Rubycon ZLH, 10 V) or EEU-FM0J102 (Panasonic FM, 6.3 V)
+  sources:
+  - supplier: Tanotis
+    country: IN
+    url: https://www.tanotis.com/products/rubycon-10zlh1000mefc10x12-5-electrolytic-capacitor-miniature-1000-micro-f-10-v-zlh-series-plusmn-20-radial-leaded-10-mm
+    pack_qty: 1
+    pack_price_inr: 71.31
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Rubycon 10ZLH1000MEFC10X12.5 (1000uF 10V ZLH, 10 mm): Rs 67.68 - 71.31 depending on quantity. ESR 39 mOhm @100
+      kHz, ripple 1.33 A (from LCSC listing params for the same MPN).'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C694052.html
+    pack_qty: 10
+    pack_price_inr: 135.0
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Rubycon 10ZLH1000MEFC10X12.5, D10 x 12.5, 5 mm pitch, ESR 39 mOhm @100 kHz, 1.33 A ripple. MOQ 5, USD 0.1607 (5-49)
+      -> 10 pcs USD 1.607. Stock 3,345. Taped variant 10ZLH1000MEFCT810X12.5 (C424098) USD 0.136.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C1498005.html
+    pack_qty: 10
+    pack_price_inr: 212.9
+    gst_included: false
+    in_stock: false
+    evidence: fetched 2026-11-22
+    note: 'Panasonic EEU-FM0J102 (1000uF 6.3V FM, 10 x 12.5, 5 mm pitch): Panasonic datasheet table gives impedance 0.038
+      Ohm @100 kHz, ripple 1290 mA, 4000 h. LCSC USD 0.2534 (1+) -> 10 pcs USD 2.534, OUT OF STOCK. Not found at Indian stores.
+      NOTE: Panasonic FR EEU-FR0J102 is 8 x 11.5 with 0.056 Ohm - does NOT meet the 40 mOhm target; FR 10x12.5 option is EEU-FR0J122
+      (1200uF, 0.043 Ohm).'
+  concerns: 'Rubycon 10ZLH1000 (10 V, 39 mOhm) is the best pick: meets ESR, exact footprint, in stock at LCSC and listed in
+    India (Tanotis). ESR at 39 mOhm is right at the 40 mOhm limit; no margin at low temperature. Avoid generic ''low ESR''
+    parts without a datasheet.'
+- item: JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin)
+  description: 'JST XH 2.50 mm: PCB vertical headers B2B/B3B/B4B-XH-A plus XHP-2/3/4 housings and SXH-001T crimps, or pre-crimped
+    cables'
+  manufacturer: JST (genuine) / generic XH-compatible
+  mpn: B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN)
+  sources:
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/3-pin-jst-xh-polarised-connector-254mm-wire-harness.html
+    pack_qty: 1
+    pack_price_inr: 30.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: '3-pin JST-XH-style male+female harness (header + pre-crimped housing, 26 AWG, ~200 mm): Rs 30 incl GST (Rs 25.42
+      + 4.58). 2-pin version Rs 25 incl GST (https://probots.co.in/2-pin-jst-xh-polarised-connector-254mm-wire-harness.html);
+      4-pin exists (https://probots.co.in/4-pin-jst-xh-polarised-connector-254mm-wire-harness.html), price not in snippet.
+      Kits: Indian Hobby Center 460-pc XH 2-6 pin kit Rs 349 incl GST (https://www.indianhobbycenter.com/products/460pcs-jst-xh-2-54-2-3-4-5-6-pin-2-54mm-pitch-housing-connector-terminal-kit);
+      Probots 230-pc XH kit (price not found).'
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/parts/B2B-XH-A
+    pack_qty: 1
+    pack_price_inr: 10.67
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Genuine JST B2B-XH-A Rs 10.67/unit (about Rs 6.21 at 500). B3B/B4B pages exist (https://www.lioncircuits.com/parts/B3B-XH-A(LF)(SN),
+      https://lioncircuits.com/parts/B4B-XH-A%20(LF)(SN)) - prices not in snippet. Robu B2B-XH-A-M Rs 13 incl GST but out
+      of stock.
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C158012.html
+    pack_qty: 20
+    pack_price_inr: 64.7
+    gst_included: false
+    in_stock: true
+    evidence: fetched 2026-11-22
+    note: Genuine JST B2B-XH-A(LF)(SN), MOQ 20, USD 0.0385 -> 20 pcs USD 0.77. B3B-XH-A C144394 MOQ 10 USD 0.0531 (10 pcs
+      Rs 44.6); B4B-XH-A C144395 MOQ 10 USD 0.0533 (10 pcs Rs 44.8). Generic BOOMELE XH-2A C20079 USD 0.0069 (MOQ 100). Housings/crimps
+      not looked up at LCSC.
+  concerns: Many Indian listings call XH '2.54 mm'; genuine XH is 2.50 mm - fine for short headers, but don't mix with 2.54
+    mm KF2510 'relimate' parts. Generic harness quality varies; crimping genuine SXH-001T needs a proper crimp tool, so pre-crimped
+    harnesses are practical for 10 units.
+- item: Female header 1x19 2.54 mm
+  description: Single-row female socket header, 2.54 mm, 1x19 (or cut from 1x20 / 1x40 strip)
+  manufacturer: generic
+  mpn: generic 1x40 / 1x20 female berg strip
+  sources:
+  - supplier: ElectronicsComp
+    country: IN
+    url: https://www.electronicscomp.com/40-pin-female-berg-strip-break-away-header
+    pack_qty: 1
+    pack_price_inr: 9.0
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: '1x40 female break-away strip, straight, Rs 9.00 + 18% GST (another snippet: Rs 10.62 incl). One strip yields 2
+      x 1x19 (cut sacrifices a pin).'
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/2-54mm-1x20-pin-female-single-row-straight-header-strip-pack-of-5/
+    pack_qty: 1
+    pack_price_inr: 13.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 1x20 female straight strip, Rs 13 incl GST (structured data Rs 11); title says 'pack of 5' but price appears per
+      strip - unclear. 1x20 cut down to 1x19 is cleanest.
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/40x1-pin-2-54mm-straight-female-pin-berg-strip-pack-of-50
+    pack_qty: 50
+    pack_price_inr: 319.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Pack of 50 x 1x40 female strips Rs 319 (MRP Rs 550).
+  concerns: Female strips must be cut through a pin position (lose one contact per cut) and edges need filing. Robu 1x40 pack-of-10
+    listing (https://robu.in/product/2-54mm-1x40-pin-female-single-row-header-strip-pack-of-10/) shows out of stock.
+- item: Female header 1x8 and 1x4 2.54 mm
+  description: Single-row female socket headers 2.54 mm, 1x8 and 1x4, standard height (~8.5 mm)
+  manufacturer: generic
+  mpn: generic
+  sources:
+  - supplier: ElectronicsComp
+    country: IN
+    url: https://www.electronicscomp.com/40-pin-female-berg-strip-break-away-header
+    pack_qty: 1
+    pack_price_inr: 9.0
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: 'Cut from a 1x40 female strip (Rs 9 + GST): one strip gives e.g. 2 x 1x8 + 4 x 1x4 with cut losses. No clean Indian
+      per-size 1x8/1x4 price found.'
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/connectors/pin-header-connectors/pc104-8pin-female-header
+    pack_qty: 1
+    pack_price_inr: 25.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PC104 8-pin long-row female header (11 mm long pins) Rs 25 incl GST (Rs 21.19 + GST). Long-tail stackable type,
+      not standard height.
+  - supplier: IndiaMART (various)
+    country: IN
+    url: https://m.indiamart.com/impcat/header-connector.html
+    pack_qty: 1
+    pack_price_inr: 23.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 4-pin female 11 mm tall stackable header, Rs 23/pc, sold as pack of 5. DNA Tech India has 1x8 precut female header
+      (https://www.dnatechindia.com/power_devices/1x8-2.54mm-female-precut-header-buy-in-india.html), price not found; Robu
+      120-pc single-row female socket kit (https://robu.in/product/120pcs-single-row-female-pin-socket-connector-kit/), price
+      not found.
+  concerns: Precut standard-height 1x8/1x4 not found with prices; cutting a 1x40 strip is cheapest. The 'stackable 11 mm'
+    types are much dearer and taller.
+- item: Male header strip 1x40 2.54 mm + jumper shunt
+  description: Single-row male pin header 1x40, 2.54 mm, breakable; 2.54 mm 2-pin jumper shunts
+  manufacturer: generic
+  mpn: generic
+  sources:
+  - supplier: Zbotic
+    country: IN
+    url: https://zbotic.in/product/2-54mm-single-row-male-1x40-pin-header-strip-red/
+    pack_qty: 10
+    pack_price_inr: 37.88
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Pack of 10 x 1x40 male headers (red) Rs 37.88 incl GST (Rs 32.10 + GST), free shipping. Robu 1x40 male pack of 10
+      exists (https://aws.robu.in/?p=470829), price not in snippet.
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/misc-connectors/1752
+    pack_qty: 10
+    pack_price_inr: 29.5
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 2-pin 2.54 mm jumper shunt cap, pack of 10, Rs 29.50 incl GST (Rs 25 + GST), 6 mm high. Zbotic jumper caps pack
+      of 5 ~Rs 4.37 incl GST (https://zbotic.in/product/2-54mm-standard-circuit-board-computer-jumper-cap-shunts-short-circuit-cap-black/).
+      Quartz 100-pc shunts (https://quartzcomponents.com/products/jumper-shorted-cap-headers-2-54mm-for-100-pcs) price not
+      found.
+  concerns: Hubtronics URL is a category/product-id page from the search result; colour variant may differ. Zbotic header
+    pin length varies by colour listing (17 vs 20 mm) - check.
+- item: NTC 10k B3950 (optional)
+  description: NTC thermistor 10 kOhm @25 C, B = 3950, leaded bead (MF52) or epoxy probe with cable
+  manufacturer: generic
+  mpn: MF52-103 3950 (generic)
+  sources:
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/thermistor-10k-ohm
+    pack_qty: 1
+    pack_price_inr: 8.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Generic 10K NTC thermistor, B 3950, +/-1%, Rs 8.00 per unit.
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/10k-ntc-thermistor-negative-temperature-coefficient.html
+    pack_qty: 1
+    pack_price_inr: 18.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: MF52-103 10K NTC, 5% tolerance, Rs 18 incl GST (Rs 15.25 + 2.75). B value not stated in snippet.
+  - supplier: Zbotic
+    country: IN
+    url: https://zbotic.in/product/b3950-10k-ntc-thermistor-temperature-sensor-525mm-with-xh2-54-connector-with-0-5-meter-cable/
+    pack_qty: 1
+    pack_price_inr: 114.46
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: B3950 10K probe 5 x 25 mm with XH2.54 plug; Rs 114.46 incl GST quoted for 'one length variant' - may not be the
+      0.5 m version.
+  concerns: Prefer 1% B3950 parts with a datasheet; 5% MF52 adds ~1 C error. Probe-with-cable versions are better for shed
+    air temperature sensing.
+- item: 'PCB fabrication: 2-layer, 190 x 152 mm, 1.6 mm FR4, 1 oz, HASL, qty 5 and qty 10'
+  description: 2-layer FR4 1.6 mm, 1 oz Cu, HASL, green mask, 190 x 152 mm (288.8 cm2 = 0.0289 m2 per board), 5 and 10 pcs
+  manufacturer: PCB fab
+  mpn: n/a
+  sources:
+  - supplier: Lion Circuits
+    country: IN
+    url: https://lioncircuits.com/
+    pack_qty: 5
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'PRICE NOT FOUND for this size. Published basis only: ''5 Boards for Just Rs 799, in 5-6 days'' (low-cost Mii service,
+      2/4 layer, 1 oz) - entry price, almost certainly for small boards. Instant online quote for 2-layer requires the Gerber
+      upload (site not reachable from sandbox).'
+  - supplier: Secure Circuits (IndiaMART)
+    country: IN
+    url: https://m.indiamart.com/secure-circuits/double-layer-pcb.html
+    pack_qty: 1
+    pack_price_inr: 187.7
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Published rate Rs 0.65 / sq cm for double-layer 1.6 mm, 35 um (1 oz). 288.8 cm2 x 0.65 = Rs 187.7 per board (computed,
+      not a quote): ~Rs 939 for 5, ~Rs 1,877 for 10, before tooling/setup, GST, shipping (setup charge unknown). PCB Power
+      (https://www.pcbpower.com/pcbfabrication): online calculator only, no published price; MOQ 1, ''no additional setup
+      charges''. Circuitwala: no pricing found.'
+  - supplier: JLCPCB
+    country: CN
+    url: https://jlcpcb.com/help/article/how-much-does-shipping-cost
+    pack_qty: 5
+    pack_price_inr: null
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'PRICE NOT FOUND (quote page not reachable). Published basis: USD 2 for 5 pcs only up to 100 x 100 mm; larger boards
+      are priced per m2 (fee = board area x qty x rate/m2; max 2-layer size 480 x 320 mm). Community data point: 5 pcs 60
+      x 120 mm 2-layer quoted USD 45.93 (SparkFun forum, undated; unclear whether shipping included). Shipping to India per
+      Zbotic blog: ~Rs 250 (Global Standard, 10-15 days) to ~Rs 700 (DHL, 4-6 days); other pages say USD 8-25. Indian import:
+      BCD 10-20% + 18% IGST possible; consignee KYC needed at customs (JLCPCB help).'
+  concerns: 'No firm quote obtained for any fab. At 190 x 152 mm the board is ~2.9x the 100 x 100 promo area, so JLCPCB will
+    not be USD 2; get live quotes by uploading Gerbers to Lion Circuits, PCB Power, Circuitwala and JLCPCB (India address)
+    before budgeting. Rough budget from the Rs 0.65/cm2 Indian rate: Rs 1,000-2,000 for 5-10 boards plus GST/shipping.'

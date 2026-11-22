@@ -107,7 +107,7 @@ void loop() {
   pollButtons();
   ui->tick(millis() / 1000);
   oled.setPower(ui->displayOn(millis() / 1000));  // D-046: sleeps on battery after 60 s idle
-  if (dirty || millis() - lastDraw > 1000) {  // full frame over 100 kHz I2C takes ~90 ms
+  if (dirty || millis() - lastDraw > 1000) {  // full frame over 50 kHz I2C takes ~180 ms
     oled.show(ui->render(seri::UiStatus{modem.lastKnownRegistered(), wifi.connected(), rtc.nowUtc()}));
     lastDraw = millis();
     dirty = false;

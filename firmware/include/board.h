@@ -5,7 +5,7 @@
 
 namespace board {
 constexpr int kI2cSda = 21, kI2cScl = 22;          // SHT31 (0x44), DS3231 (0x68), OLED (0x3C)
-constexpr uint32_t kI2cHz = 100000;                  // 2 m probe cable: stay at standard mode
+constexpr uint32_t kI2cHz = 50000;                   // 2 m extended probe cable (D-052): half of standard mode
 constexpr int kModemTx = 17, kModemRx = 16;          // UART2 -> A7670C RXD / from A7670C TXD
 constexpr int kModemPwrKey = 27;                     // via NPN (Q8) on the carrier: HIGH = press
 #ifdef SERI_SIM

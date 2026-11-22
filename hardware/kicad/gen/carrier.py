@@ -178,8 +178,8 @@ conn("J2", "DevKitC J2 (left)", J2, SKT)
 conn("J3", "DevKitC J3 (right)", J3, SKT)
 
 # =============================== 7. Sensors, clock, storage ==================================
-R("R22", "4.7k", "+3V3", "I2C_SDA")
-R("R23", "4.7k", "+3V3", "I2C_SCL")
+R("R22", "2.2k", "+3V3", "I2C_SDA")                                             # 2 m cable: rise time < 1 us (D-052)
+R("R23", "2.2k", "+3V3", "I2C_SCL")
 R("R24", "100", "I2C_SDA", "PROBE_SDA")                                          # 2 m cable: series R for ESD
 R("R25", "100", "I2C_SCL", "PROBE_SCL")
 conn("J11", "SHT31 PROBE (2 m)", ["+3V3", "PROBE_SDA", "PROBE_SCL", "GND"], XH)

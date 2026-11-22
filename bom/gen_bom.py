@@ -122,7 +122,13 @@ def carrier_lines():
 
 
 def pick_source(entry):
+    """The source marked `selected: true` (chosen on spec, recorded with a reason), else the cheapest
+    in-stock priced source, Indian suppliers first."""
     priced = [s for s in entry.get("sources", []) if s.get("pack_price_inr") not in (None, "")]
+    chosen = [s for s in priced if s.get("selected")]
+    if chosen:
+        return chosen[0]
+    priced = [s for s in priced if s.get("in_stock") is not False]
     if not priced:
         return None
     india = [s for s in priced if s.get("country") == "IN"]
@@ -157,6 +163,14 @@ def price_lines(lines, sources, units=10):
     return rows, missing
 
 
+def availability_problems(rows):
+    out = []
+    for r in rows:
+        if r["qty"] and r["source"] and r["source"].get("in_stock") is False and r["item"] not in out:
+            out.append(r["item"])
+    return out
+
+
 def offboard_lines():
     return [{"item": i, "value": "", "qty": q, "refs": n, "dnp_refs": "", "footprint": "off-board"} for i, q, n in OFFBOARD]
 
@@ -170,9 +184,16 @@ def report(units=10):
     board, mb = price_lines(carrier_lines(), sources, units)
     off, mo = price_lines(offboard_lines(), sources, units)
     missing = mb + [m for m in mo if m not in mb]
-    lines = [f"# Bill of materials: Seri-tool v1 pilot", "",
-             "**Status: FINAL (every line priced)**" if not missing else
-             f"**Status: NOT FINAL — {len(missing)} line(s) without a price:** " + "; ".join(missing), "",
+    avail = availability_problems(board + off)
+    if not missing and not avail:
+        status = "**Status: FINAL (every line priced and in stock at research time)**"
+    else:
+        status = "**Status: NOT FINAL**"
+        if missing:
+            status += f"\n\n* {len(missing)} line(s) without a price: " + "; ".join(missing)
+        if avail:
+            status += f"\n* {len(avail)} chosen source(s) out of stock at research time: " + "; ".join(avail)
+    lines = [f"# Bill of materials: Seri-tool v1 pilot", "", status, "",
              "Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD). Most come from a "
              "web-search index on 2026-11-22, not a live checkout: confirm before ordering. Shipping not included. "
              "Sources and links: `bom/sources.yaml`.", ""]
@@ -196,7 +217,7 @@ def report(units=10):
     lines += ["## Total", "", f"* Per unit (parts only): **{fmt(u)}**",
               f"* Pilot batch of {units} (whole packs, so leftover stock): **{fmt(b)}** ({fmt(b / units)} per unit)", "",
               "Not costed here: " + "; ".join(f"{i} ({why})" for i, why in NOT_COSTED), ""]
-    return "\n".join(lines) + "\n", board + off, missing
+    return "\n".join(lines) + "\n", board + off, missing + avail
 
 
 def main(argv):
