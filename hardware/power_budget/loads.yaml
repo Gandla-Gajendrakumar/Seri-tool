@@ -104,9 +104,13 @@ loads:
     duty: 0.1
     source: "Design: status LED 2 mA (via 680 ohm from 3.3 V) blinking 10 %; buzzer only during alarms (ignored)"
   tp4056_battery_drain:
-    ma: 0.005
+    ma: 0.002
     duty: 1.0
-    source: "ASSUMED: charger reverse drain with no input; not in the NJ/SZ datasheet tables I read"
+    source: "TP4056 NJ REV_2.4 p5: BAT pin current in sleep mode (VCC = 0 V) -1 typ / -2 max uA"
+  dw01a_protection:
+    ma: 0.006
+    duty: 1.0
+    source: "DW01x-DS-17 Rev 1.7 p9: supply current 3.0 typ / 6.0 max uA at 3.9 V"
   charger:
     ma: 1000
     duty: 1.0

@@ -3,26 +3,30 @@
 *   cell Rint <= 60 mOhm each, 2 cells in parallel        Great Power 18650 2600 mAh spec Ver A/1
 *   modem VBAT 3.4-4.2 V, peak 2 A, bulk >= 300 uF        SIMCom A7672X/A7670X HD V1.03 p26-27
 *   GSM burst 577 us every 4.615 ms                       GSM TDMA frame (3GPP), not a datasheet value
-*   P-FET Rds(on) <= 85 mOhm at Vgs = -2.5 V              AO3401A Rev 3.1
+*   P-FET Rds(on) <= 85 mOhm at Vgs = -2.5 V (each)       AO3401A Rev 3.1
 *   LDO dropout <= 400 mV at 600 mA, 3.3 V out            AP2112K-3.3 Rev 2-2
 *   boost efficiency ~0.95 at 3.6 V in, 5 V 2 A out        TPS61088 ZHCSDP8A (read from graph); 0.88 used (margin)
 *   printer peak current IPRN                              PLACEHOLDER until Adafruit printer guide (bench item)
-.param VOCV=3.60 RCELL={0.060/2} RHOLDER=0.040 RTRACE=0.015
+*   protection FETs: 3 x FS8205A in parallel, 2 FETs in series each, <= 35 mOhm per FET at Vgs 2.5 V
+*                                                          -> 23 mOhm total   FS8205A-DS-12 Rev 1.2 p3 (D-049)
+*   holders + wiring <= 20 mOhm                            design requirement, bench-measured (D-044)
+*   power-path P-FET: 2 x AO3401A in parallel              -> 42.5 mOhm
+.param VOCV=3.60 RCELL={0.060/2} RHOLDER=0.020 RTRACE=0.015 RPROT=0.0233
 .param IPRN=2.0 VPRN=5.0 EFF=0.88 IESP=0.30 IMODEM_BASE=0.10 IBURST=2.0
 
 * ---- battery: open-circuit voltage + internal resistance + holder/wiring ----
 Vcell  ncell 0 {VOCV}
-Rcell  ncell nbat {RCELL+RHOLDER}
-* ---- battery rail to the modem: trace + bulk caps at the module (330 uF low-ESR + 2 x 22 uF) ----
+Rcell  ncell nbat {RCELL+RHOLDER+RPROT}
+* ---- battery rail to the modem: trace + bulk caps at the module (2 x 1000 uF low-ESR + 2 x 22 uF) ----
 Rtr    nbat nvbatm {RTRACE}
-C1     nvbatm nc1 330u
-Resr1  nc1 0 0.050
+C1     nvbatm nc1 2000u
+Resr1  nc1 0 0.020
 C2     nvbatm 0 44u
 * modem: base current plus GSM PA bursts
 Imod   nvbatm 0 PULSE({IMODEM_BASE} {IMODEM_BASE+IBURST} 1m 5u 5u 577u 4.615m)
 
 * ---- load-sharing P-FET battery -> system rail (mains absent) ----
-Rpfet  nbat nsys 0.085
+Rpfet  nbat nsys 0.0425
 Csys   nsys 0 22u
 * ---- AP2112K: 3.3 V or Vin minus dropout (400 mV at 600 mA, linear in load) ----
 Bldo   n3v3 0 V = min(3.3, V(nsys) - 0.4*I(Vesp)/0.6)

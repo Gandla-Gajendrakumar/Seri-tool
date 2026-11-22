@@ -1,40 +1,52 @@
-| Cell OCV | Cells | Printer peak | Printer during modem burst | Modem min | 3V3 min | Per-cell A | Result |
-|---|---|---|---|---|---|---|---|
-| 3.6 V | 2 | 1.0 A | yes | 3.27 V | 2.92 V | 2.11 | FAIL |
-| 3.6 V | 2 | 1.0 A | no | 3.40 V | 3.21 V | 1.20 | PASS |
-| 3.6 V | 2 | 1.5 A | yes | 3.20 V | 2.76 V | 2.64 | FAIL |
-| 3.6 V | 2 | 1.5 A | no | 3.40 V | 3.21 V | 1.20 | PASS |
-| 3.6 V | 2 | 2.0 A | yes | 3.11 V | 2.57 V | 3.25 | FAIL |
-| 3.6 V | 2 | 2.0 A | no | 3.40 V | 3.21 V | 1.20 | PASS |
-| 3.6 V | 4 | 1.0 A | yes | 3.34 V | 2.99 V | 1.04 | FAIL |
-| 3.6 V | 4 | 1.0 A | no | 3.44 V | 3.24 V | 0.60 | PASS |
-| 3.6 V | 4 | 1.5 A | yes | 3.28 V | 2.85 V | 1.30 | FAIL |
-| 3.6 V | 4 | 1.5 A | no | 3.44 V | 3.24 V | 0.60 | PASS |
-| 3.6 V | 4 | 2.0 A | yes | 3.22 V | 2.69 V | 1.58 | FAIL |
-| 3.6 V | 4 | 2.0 A | no | 3.44 V | 3.24 V | 0.60 | PASS |
-| 3.8 V | 2 | 1.0 A | yes | 3.48 V | 3.14 V | 2.05 | PASS |
-| 3.8 V | 2 | 1.0 A | no | 3.60 V | 3.30 V | 1.20 | PASS |
-| 3.8 V | 2 | 1.5 A | yes | 3.41 V | 2.99 V | 2.53 | FAIL |
-| 3.8 V | 2 | 1.5 A | no | 3.60 V | 3.30 V | 1.20 | PASS |
-| 3.8 V | 2 | 2.0 A | yes | 3.34 V | 2.82 V | 3.08 | FAIL |
-| 3.8 V | 2 | 2.0 A | no | 3.60 V | 3.30 V | 1.20 | PASS |
-| 3.8 V | 4 | 1.0 A | yes | 3.54 V | 3.21 V | 1.02 | PASS |
-| 3.8 V | 4 | 1.0 A | no | 3.64 V | 3.30 V | 0.60 | PASS |
-| 3.8 V | 4 | 1.5 A | yes | 3.49 V | 3.08 V | 1.25 | PASS |
-| 3.8 V | 4 | 1.5 A | no | 3.64 V | 3.30 V | 0.60 | PASS |
-| 3.8 V | 4 | 2.0 A | yes | 3.44 V | 2.94 V | 1.51 | FAIL |
-| 3.8 V | 4 | 2.0 A | no | 3.64 V | 3.30 V | 0.60 | PASS |
-| 4.0 V | 2 | 1.0 A | yes | 3.69 V | 3.30 V | 2.00 | PASS |
-| 4.0 V | 2 | 1.0 A | no | 3.80 V | 3.30 V | 1.20 | PASS |
-| 4.0 V | 2 | 1.5 A | yes | 3.63 V | 3.22 V | 2.45 | PASS |
-| 4.0 V | 2 | 1.5 A | no | 3.80 V | 3.30 V | 1.20 | PASS |
-| 4.0 V | 2 | 2.0 A | yes | 3.56 V | 3.07 V | 2.94 | PASS |
-| 4.0 V | 2 | 2.0 A | no | 3.80 V | 3.30 V | 1.20 | PASS |
-| 4.0 V | 4 | 1.0 A | yes | 3.75 V | 3.30 V | 0.99 | PASS |
-| 4.0 V | 4 | 1.0 A | no | 3.84 V | 3.30 V | 0.60 | PASS |
-| 4.0 V | 4 | 1.5 A | yes | 3.70 V | 3.30 V | 1.21 | PASS |
-| 4.0 V | 4 | 1.5 A | no | 3.84 V | 3.30 V | 0.60 | PASS |
-| 4.0 V | 4 | 2.0 A | yes | 3.65 V | 3.17 V | 1.44 | PASS |
-| 4.0 V | 4 | 2.0 A | no | 3.84 V | 3.30 V | 0.60 | PASS |
+| Cell OCV | Cells | Printer peak (5 V) | Printer during modem burst | Modem min | 3V3 min | Per-cell A | Pack A | In envelope | Result |
+|---|---|---|---|---|---|---|---|---|---|
+| 3.6 V | 2 | 0.75 A | yes | 3.308 V | 3.070 V | 1.79 | 3.58 | no | FAIL |
+| 3.6 V | 2 | 0.75 A | no | 3.403 V | 3.213 V | 1.14 | 2.28 | yes | PASS |
+| 3.6 V | 2 | 1.00 A | yes | 3.275 V | 3.016 V | 2.02 | 4.04 | no | FAIL |
+| 3.6 V | 2 | 1.00 A | no | 3.403 V | 3.162 V | 1.14 | 2.28 | yes | PASS |
+| 3.6 V | 2 | 1.50 A | yes | 3.203 V | 2.903 V | 2.50 | 5.01 | no | FAIL |
+| 3.6 V | 2 | 1.50 A | no | 3.377 V | 3.055 V | 1.51 | 3.02 | no | FAIL |
+| 3.6 V | 2 | 2.00 A | yes | 3.126 V | 2.781 V | 3.03 | 6.07 | no | FAIL |
+| 3.6 V | 2 | 2.00 A | no | 3.304 V | 2.939 V | 2.01 | 4.02 | no | FAIL |
+| 3.6 V | 4 | 0.75 A | yes | 3.360 V | 3.123 V | 0.90 | 3.60 | no | FAIL |
+| 3.6 V | 4 | 0.75 A | no | 3.434 V | 3.239 V | 0.58 | 2.32 | yes | PASS |
+| 3.6 V | 4 | 1.00 A | yes | 3.333 V | 3.077 V | 1.01 | 4.05 | no | FAIL |
+| 3.6 V | 4 | 1.00 A | no | 3.434 V | 3.195 V | 0.58 | 2.32 | yes | PASS |
+| 3.6 V | 4 | 1.50 A | yes | 3.279 V | 2.982 V | 1.25 | 4.99 | no | FAIL |
+| 3.6 V | 4 | 1.50 A | no | 3.425 V | 3.104 V | 0.74 | 2.98 | no | PASS |
+| 3.6 V | 4 | 2.00 A | yes | 3.220 V | 2.881 V | 1.50 | 6.00 | no | FAIL |
+| 3.6 V | 4 | 2.00 A | no | 3.369 V | 3.007 V | 0.99 | 3.94 | no | FAIL |
+| 3.8 V | 2 | 0.75 A | yes | 3.514 V | 3.279 V | 1.75 | 3.50 | no | PASS |
+| 3.8 V | 2 | 0.75 A | no | 3.603 V | 3.300 V | 1.14 | 2.28 | yes | PASS |
+| 3.8 V | 2 | 1.00 A | yes | 3.482 V | 3.229 V | 1.96 | 3.93 | no | PASS |
+| 3.8 V | 2 | 1.00 A | no | 3.603 V | 3.300 V | 1.14 | 2.28 | yes | PASS |
+| 3.8 V | 2 | 1.50 A | yes | 3.417 V | 3.124 V | 2.41 | 4.83 | no | PASS |
+| 3.8 V | 2 | 1.50 A | no | 3.589 V | 3.274 V | 1.43 | 2.85 | no | PASS |
+| 3.8 V | 2 | 2.00 A | yes | 3.346 V | 3.012 V | 2.90 | 5.80 | no | FAIL |
+| 3.8 V | 2 | 2.00 A | no | 3.522 V | 3.167 V | 1.89 | 3.77 | no | PASS |
+| 3.8 V | 4 | 0.75 A | yes | 3.564 V | 3.300 V | 0.88 | 3.53 | no | PASS |
+| 3.8 V | 4 | 0.75 A | no | 3.634 V | 3.300 V | 0.58 | 2.32 | yes | PASS |
+| 3.8 V | 4 | 1.00 A | yes | 3.539 V | 3.288 V | 0.99 | 3.95 | no | PASS |
+| 3.8 V | 4 | 1.00 A | no | 3.634 V | 3.300 V | 0.58 | 2.32 | yes | PASS |
+| 3.8 V | 4 | 1.50 A | yes | 3.488 V | 3.199 V | 1.21 | 4.82 | no | PASS |
+| 3.8 V | 4 | 1.50 A | no | 3.634 V | 3.300 V | 0.71 | 2.82 | no | PASS |
+| 3.8 V | 4 | 2.00 A | yes | 3.434 V | 3.106 V | 1.44 | 5.75 | no | FAIL |
+| 3.8 V | 4 | 2.00 A | no | 3.582 V | 3.230 V | 0.93 | 3.71 | no | PASS |
+| 4.0 V | 2 | 0.75 A | yes | 3.719 V | 3.300 V | 1.72 | 3.43 | no | PASS |
+| 4.0 V | 2 | 0.75 A | no | 3.803 V | 3.300 V | 1.14 | 2.28 | yes | PASS |
+| 4.0 V | 2 | 1.00 A | yes | 3.689 V | 3.300 V | 1.92 | 3.83 | no | PASS |
+| 4.0 V | 2 | 1.00 A | no | 3.803 V | 3.300 V | 1.14 | 2.28 | yes | PASS |
+| 4.0 V | 2 | 1.50 A | yes | 3.628 V | 3.300 V | 2.34 | 4.67 | no | PASS |
+| 4.0 V | 2 | 1.50 A | no | 3.800 V | 3.300 V | 1.35 | 2.71 | no | PASS |
+| 4.0 V | 2 | 2.00 A | yes | 3.563 V | 3.239 V | 2.78 | 5.57 | no | FAIL |
+| 4.0 V | 2 | 2.00 A | no | 3.737 V | 3.300 V | 1.78 | 3.56 | no | PASS |
+| 4.0 V | 4 | 0.75 A | yes | 3.768 V | 3.300 V | 0.87 | 3.46 | no | PASS |
+| 4.0 V | 4 | 0.75 A | no | 3.834 V | 3.300 V | 0.58 | 2.32 | yes | PASS |
+| 4.0 V | 4 | 1.00 A | yes | 3.745 V | 3.300 V | 0.96 | 3.86 | no | PASS |
+| 4.0 V | 4 | 1.00 A | no | 3.834 V | 3.300 V | 0.58 | 2.32 | yes | PASS |
+| 4.0 V | 4 | 1.50 A | yes | 3.697 V | 3.300 V | 1.17 | 4.68 | no | PASS |
+| 4.0 V | 4 | 1.50 A | no | 3.834 V | 3.300 V | 0.67 | 2.68 | no | PASS |
+| 4.0 V | 4 | 2.00 A | yes | 3.647 V | 3.300 V | 1.38 | 5.54 | no | FAIL |
+| 4.0 V | 4 | 2.00 A | no | 3.794 V | 3.300 V | 0.88 | 3.51 | no | PASS |
 
-Design envelope (interlock on, battery >= 3.60 V, 2 or 4 cells, printer up to 2 A): 18/18 cases pass -> PASS
+Design envelope (interlock on, battery >= 3.60 V, 2 or 4 cells, low-power printing <= 1.0 A at 5 V, protection FETs included): 12/12 cases pass -> PASS

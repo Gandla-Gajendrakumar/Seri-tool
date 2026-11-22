@@ -38,12 +38,15 @@ String ucs2Hex(const std::string& s) {
 void A7670Modem::begin(const std::string& clientId) {
   client_ = clientId;
   s_.begin(115200, SERIAL_8N1, rx_, tx_);
+  // PWRKEY is pulled up inside the module; pressing = pulling it low for >= 50 ms (HD V1.03 p29; 1 s used).
+  // On the carrier an NPN pulls it low, so the GPIO is active-high there; Wokwi wires it directly.
+  const int press = board::kPwrKeyActiveHigh ? HIGH : LOW, release = board::kPwrKeyActiveHigh ? LOW : HIGH;
   pinMode(pwr_, OUTPUT);
-  digitalWrite(pwr_, HIGH);
-  if (!alive()) {  // power-on pulse on PWRKEY (low for >= 50 ms per hardware design guide; 1 s used)
-    digitalWrite(pwr_, LOW);
+  digitalWrite(pwr_, release);
+  if (!alive()) {
+    digitalWrite(pwr_, press);
     delay(1000);
-    digitalWrite(pwr_, HIGH);
+    digitalWrite(pwr_, release);
     for (int i = 0; i < 20 && !alive(); ++i) delay(500);
   }
   cmd("ATE0", 1000);

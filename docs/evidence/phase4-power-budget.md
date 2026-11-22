@@ -21,7 +21,8 @@
 | battery_sense_divider | 0.021 | 1.0000 | 0.02 | Design: 100k + 100k divider across 4.2 V |
 | pfet_gate_pulldown | 0.042 | 1.0000 | 0.04 | Design: 100k gate pull-down on the load-sharing P-FET at 4.2 V |
 | leds_and_buzzer | 2 | 0.1000 | 0.20 | Design: status LED 2 mA (via 680 ohm from 3.3 V) blinking 10 %; buzzer only during alarms (ignored) |
-| tp4056_battery_drain | 0.005 | 1.0000 | 0.01 | ASSUMED: charger reverse drain with no input; not in the NJ/SZ datasheet tables I read |
+| tp4056_battery_drain | 0.002 | 1.0000 | 0.00 | TP4056 NJ REV_2.4 p5: BAT pin current in sleep mode (VCC = 0 V) -1 typ / -2 max uA |
+| dw01a_protection | 0.006 | 1.0000 | 0.01 | DW01x-DS-17 Rev 1.7 p9: supply current 3.0 typ / 6.0 max uA at 3.9 V |
 | charger (mains only) | 1000 | 1.0000 | 1000.00 | TP4056 NJ REV_2.4 p9: RPROG 1.1k -> 1000 mA (mains only) |
 
 Average battery current on battery: **68.8 mA**
@@ -41,11 +42,11 @@ Sensitivity: runtime on the fitted 2-cell pack if each assumed current is double
 |---|---|---|
 | devkitc_extras | 6 | 33 h |
 | modem_idle_registered | 25 | 27 h |
+| modem_upload_4g | 600 | 34 h |
 | oled_on | 20 | 36 h |
 | microsd_idle | 1.5 | 36 h |
 | microsd_write | 60 | 36 h |
 | printer_low_power | 1100 | 36 h |
-| tp4056_battery_drain | 0.005 | 36 h |
-| **all assumed values doubled at once** | | **25 h** |
+| **all assumed values doubled at once** | | **24 h** |
 
 Target (P-02 / Q-8: >= 24 h on the fitted 2-cell pack): >= 24 h on 5000 mAh. Result 36 h -> **PASS**

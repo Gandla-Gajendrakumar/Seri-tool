@@ -78,6 +78,8 @@ class Schematic:
         self.parts = {}  # ref -> dict
 
     def add(self, lib, name, ref, value, at, nets, footprint="", fields=None):
+        fields = dict(fields or {})
+        dnp = fields.pop("dnp", "no")
         key = f"{lib}:{name}"
         if key not in self.libsyms:
             self.libsyms[key] = self.lib.symbol(lib, name)
@@ -89,7 +91,7 @@ class Schematic:
             raise ValueError(f"{ref}: pins without a net: {sorted(missing)} (use 'NC' for no-connect)")
         node = ["symbol", ["lib_id", Q(key)], ["at", str(x), str(y), "0"], ["unit", "1"],
                 ["exclude_from_sim", "no"], ["in_bom", "no" if ref.startswith("#") else "yes"], ["on_board", "yes"],
-                ["dnp", "no"], ["uuid", uid(self.project + "/" + ref)]]
+                ["dnp", dnp], ["uuid", uid(self.project + "/" + ref)]]
         props = [("Reference", ref, (x + 3, y - 3)), ("Value", value, (x + 3, y + 3)),
                  ("Footprint", footprint, (x, y)), ("Datasheet", "~", (x, y))]
         for k, v in (fields or {}).items():
@@ -104,7 +106,8 @@ class Schematic:
         node.append(["instances", ["project", Q(self.project),
                                    ["path", Q("/" + self.sheet), ["reference", Q(ref)], ["unit", "1"]]]])
         self.items.append(node)
-        self.parts[ref] = {"lib": key, "value": value, "footprint": footprint, "pins": pins}
+        self.parts[ref] = {"lib": key, "value": value, "footprint": footprint, "pins": pins, "dnp": dnp == "yes",
+                           "fields": fields}
         for num, net in nets.items():
             if num not in pins:
                 raise ValueError(f"{ref}: no pin {num}")
