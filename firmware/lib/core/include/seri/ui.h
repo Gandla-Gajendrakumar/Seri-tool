@@ -14,6 +14,11 @@ struct Screen {
   std::vector<std::string> lines;  // 4 lines of 16 px on 128x64
   int highlight = -1;              // menu line drawn inverted
   bool bigFirstLine = false;       // home screen: reading in a large font
+  // Large mode (Hindi/Telugu/Kannada, decision D-033): a small ASCII header (16 px) and ONE item
+  // in 24 px text, word-wrapped onto at most 2 rows. `lines` is unused when large is true.
+  bool large = false;
+  std::string header;
+  std::string body;
 };
 
 struct UiStatus {
@@ -53,7 +58,8 @@ class Ui {
   int digitPos_ = 0;
   Tolerance editTol_;
   UiText msg_ = kUiSaved;
-  int64_t lastPress_ = 0, msgUntil_ = 0;
+  int64_t lastPress_ = 0, msgUntil_ = 0, uiNow_ = 0;
+  std::vector<std::string> listItems() const;  // items of the current list page
 };
 
 }  // namespace seri

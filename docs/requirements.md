@@ -139,7 +139,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | ID | Requirement | Verified by |
 |---|---|---|
 | F-OTA-01 | Over-the-air update over Wi-Fi only, using two app partitions with automatic rollback if the new image does not confirm itself healthy within 5 minutes. | P2 (partition/rollback logic), BENCH |
-| F-OTA-02 | Images are signed. Unsigned or tampered images are rejected. [ASSUMED] | P2 |
+| F-OTA-02 | ~~Images are signed.~~ **Deferred beyond version 1 (D-034, product owner).** | — |
 | F-OTA-03 | No update while running on battery or below 50 % charge. | P1 |
 
 ## 4. Reliability ("must not happen")

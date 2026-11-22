@@ -33,5 +33,7 @@ struct Bitmap {
 int measureText(const std::string& utf8, int cell, std::vector<std::string>* missing = nullptr);
 // widthPad > 0: bitmap padded (or clipped) to that width, e.g. 384 for the printer.
 Bitmap renderText(const std::string& utf8, int cell, int widthPad = 0, std::vector<std::string>* missing = nullptr);
+// Splits a line at spaces into rows no wider than `width` (a single over-wide word stays on its own row).
+std::vector<std::string> wrapText(const std::string& utf8, int cell, int width);
 
 }  // namespace seri

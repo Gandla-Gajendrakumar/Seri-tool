@@ -105,4 +105,23 @@ Bitmap renderText(const std::string& utf8, int cell, int widthPad, std::vector<s
   return b;
 }
 
+std::vector<std::string> wrapText(const std::string& utf8, int cell, int width) {
+  std::vector<std::string> rows;
+  std::string row;
+  size_t i = 0;
+  while (i <= utf8.size()) {
+    size_t j = utf8.find(' ', i);
+    if (j == std::string::npos) j = utf8.size();
+    const std::string word = utf8.substr(i, j - i);
+    if (!word.empty()) {
+      const std::string candidate = row.empty() ? word : row + " " + word;
+      if (row.empty() || measureText(candidate, cell) <= width) row = candidate;
+      else { rows.push_back(row); row = word; }
+    }
+    i = j + 1;
+  }
+  if (!row.empty()) rows.push_back(row);
+  return rows;
+}
+
 }  // namespace seri

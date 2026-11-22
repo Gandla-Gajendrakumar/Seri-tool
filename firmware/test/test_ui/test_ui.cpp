@@ -103,8 +103,16 @@ static void test_language_change_switches_the_whole_ui() {
   TEST_ASSERT_EQUAL(Language::Telugu, r.m.settings().lang[0]);
   r.run(5);
   TEST_ASSERT_EQUAL(Ui::Page::Home, r.ui.page());
-  TEST_ASSERT_EQUAL_STRING("అన్నీ సరి", r.screen().lines[2].c_str());
-  TEST_ASSERT_EQUAL_STRING("చాకీ 4G", r.screen().lines[1].c_str());
+  Screen home = r.screen();  // Telugu: large mode (D-033), one item at a time
+  TEST_ASSERT_TRUE(home.large);
+  bool sawOk = false, sawStage = false;
+  for (int i = 0; i < 9; ++i) {
+    sawOk |= r.screen().body == "అన్నీ సరి";
+    sawStage |= r.screen().body == "చాకీ 4G";
+    r.run(1);
+  }
+  TEST_ASSERT_TRUE(sawOk);
+  TEST_ASSERT_TRUE(sawStage);
 }
 
 static void test_range_edit_changes_tolerance() {
@@ -198,6 +206,55 @@ static void test_idle_returns_home() {
   TEST_ASSERT_EQUAL(Ui::Page::Home, r.ui.page());
 }
 
+static void switchToTelugu(Rig& r) {
+  Settings s = r.m.settings();
+  s.lang[0] = Language::Telugu;
+  r.m.changeSettings(s);
+}
+
+static void test_indian_language_home_uses_large_mode_and_rotates() {
+  Rig r;
+  switchToTelugu(r);
+  Screen s = r.screen();
+  TEST_ASSERT_TRUE(s.large);
+  TEST_ASSERT_EQUAL_STRING("27.5C 85% 14:06", s.header.c_str());
+  std::vector<std::string> seen;
+  for (int i = 0; i < 9; ++i) { seen.push_back(r.screen().body); r.run(1); }
+  auto has = [&](const char* x) { for (auto& b : seen) if (b == x) return true; return false; };
+  TEST_ASSERT_TRUE_MESSAGE(has("అన్నీ సరి"), "status shown");
+  TEST_ASSERT_TRUE_MESSAGE(has("చాకీ 4G"), "stage shown");
+  TEST_ASSERT_TRUE_MESSAGE(has("కరెంట్"), "power shown");
+}
+
+static void test_indian_language_menu_shows_one_large_item_with_position() {
+  Rig r;
+  switchToTelugu(r);
+  r.press(Button::Ok);
+  Screen s = r.screen();
+  TEST_ASSERT_TRUE(s.large);
+  TEST_ASSERT_EQUAL_STRING("దశ", s.body.c_str());
+  TEST_ASSERT_EQUAL_STRING("1/7", s.header.c_str());
+  r.press(Button::Down);
+  TEST_ASSERT_EQUAL_STRING("భాష", r.screen().body.c_str());
+  TEST_ASSERT_EQUAL_STRING("2/7", r.screen().header.c_str());
+}
+
+static void test_english_keeps_four_line_mode() {
+  Rig r;
+  TEST_ASSERT_FALSE(r.screen().large);
+}
+
+static void test_phone_editor_stays_small_in_every_language() {
+  Rig r;
+  switchToTelugu(r);
+  r.press(Button::Ok);
+  for (int i = 0; i < 3; ++i) r.press(Button::Down);
+  r.press(Button::Ok); r.press(Button::Ok); r.press(Button::Ok);
+  TEST_ASSERT_EQUAL(Ui::Page::PhoneEdit, r.ui.page());
+  TEST_ASSERT_FALSE(r.screen().large);
+  TEST_ASSERT_TRUE(r.shows("9876543210"));
+}
+
 static void test_every_ui_text_exists_in_every_language() {
   for (int l = 0; l < kLanguageCount; ++l)
     for (int t = 0; t < kUiTextCount; ++t)
@@ -218,5 +275,9 @@ int main() {
   RUN_TEST(test_buzzer_toggle_and_print_test);
   RUN_TEST(test_idle_returns_home);
   RUN_TEST(test_every_ui_text_exists_in_every_language);
+  RUN_TEST(test_indian_language_home_uses_large_mode_and_rotates);
+  RUN_TEST(test_indian_language_menu_shows_one_large_item_with_position);
+  RUN_TEST(test_english_keeps_four_line_mode);
+  RUN_TEST(test_phone_editor_stays_small_in_every_language);
   return UNITY_END();
 }
