@@ -54,9 +54,13 @@ uint32_t string_get_length(string_t s) { return (uint32_t)strlen(attrs[s - 1].st
 uint32_t string_read(string_t s, char* buf, uint32_t n) { snprintf(buf, n, "%s", attrs[s - 1].str); return (uint32_t)strlen(buf); }
 
 // ---- pins (unused by tests) ----
-pin_t pin_init(const char* name, uint32_t mode) { (void)name; (void)mode; return 1; }
-uint32_t pin_read(pin_t p) { (void)p; return 0; }
-void pin_write(pin_t p, uint32_t v) { (void)p; (void)v; }
+static const char* pin_names[8];
+static int npins;
+extern uint32_t host_pin_level[8];
+pin_t pin_init(const char* name, uint32_t mode) { (void)mode; pin_names[npins] = name; return npins++; }
+uint32_t pin_read(pin_t p) { return (p >= 0 && p < 8) ? host_pin_level[p] : 0; }
+void pin_write(pin_t p, uint32_t v) { if (p >= 0 && p < 8) host_pin_level[p] = v; }
+int host_pin(const char* name) { for (int i = 0; i < npins; i++) if (strcmp(pin_names[i], name) == 0) return i; return -1; }
 
 // ---- time ----
 double host_nanos;
@@ -114,3 +118,9 @@ void host_uart_send(const char* s, int n) {
   for (int i = 0; i < n; i++) { uart_cfg.rx_data(uart_cfg.user_data, (uint8_t)s[i]); host_pump(); }
 }
 void host_clear(void) { host_out_len = 0; host_out[0] = 0; host_uart_out_len = 0; }
+
+// ---- pins with recorded writes (for the carrier chip test) ----
+float host_dac[8];
+uint32_t host_pin_level[8];
+float pin_dac_write(pin_t p, float v) { if (p >= 0 && p < 8) host_dac[p] = v; return v; }
+void pin_mode(pin_t p, uint32_t m) { (void)p; (void)m; }

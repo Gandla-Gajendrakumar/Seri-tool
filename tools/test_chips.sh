@@ -5,7 +5,7 @@ set -u
 cd "$(dirname "$0")/../sim/wokwi/chips"
 out=$(mktemp -d)
 fail=0
-for chip in sht31 ds3231 a7670c printer; do
+for chip in sht31 ds3231 a7670c printer carrier; do
   if clang -std=c11 -Wall -Wno-unknown-attributes -include test/host_api.h -o "$out/$chip" \
        $chip.chip.c test/host_api.c test/test_$chip.c -lm 2>"$out/$chip.err"; then
     "$out/$chip" || fail=1

@@ -61,6 +61,16 @@ int main(void) {
   // clock: 05:00 UTC -> 10:30 IST
   at("AT+CCLK?");
   CHECK(has("+CCLK: \"26/11/21,10:30:00+22\""), "network time in IST with +22 quarter-hours");
+  // TLS certificate for MQTT: absent at first, then downloaded
+  at("AT+CCERTLIST");
+  CHECK(has("OK") && !has("ca.pem"), "no certificate stored yet");
+  at("AT+CCERTDOWN=\"ca.pem\",10");
+  CHECK(has(">"), "certificate prompt");
+  host_clear();
+  host_uart_send("0123456789", 10);
+  CHECK(has("OK"), "certificate stored");
+  at("AT+CCERTLIST");
+  CHECK(has("+CCERTLIST: \"ca.pem\""), "certificate listed");
   // MQTT
   at("AT+CMQTTSTART");
   CHECK(has("+CMQTTSTART: 0"), "mqtt start");

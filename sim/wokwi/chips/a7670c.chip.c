@@ -28,10 +28,11 @@ typedef struct {
   int len;
   mode_t2 mode;
   int raw_need;          // bytes still expected in M_RAW
-  int raw_target;        // 0 = topic, 1 = payload
+  int raw_target;        // 0 = topic, 1 = payload, 2 = certificate
   char topic[256], payload[LINE_MAX];
   int raw_len;
-  bool echo, ucs2, mqtt_started, mqtt_connected;
+  bool echo, ucs2, mqtt_started, mqtt_connected, have_cert;
+  char cert_name[32];
   char sms_to[64];
   uint8_t out[OUT_MAX];
   int out_head, out_tail;
@@ -204,6 +205,23 @@ static void handle_line(chip_t* c, char* s) {
     snprintf(buf, sizeof buf, "+CCLK: \"%02d/%02d/%02d,%02lld:%02lld:%02lld+22\"", y % 100, mo, d, sec / 3600, sec / 60 % 60, sec % 60);
     reply(c, buf); reply(c, "OK"); return;
   }
+  if (strcmp(s, "AT+CCERTLIST") == 0) {
+    if (c->have_cert) { snprintf(buf, sizeof buf, "+CCERTLIST: \"%s\"", c->cert_name); reply(c, buf); }
+    reply(c, "OK"); return;
+  }
+  if (starts(s, "AT+CCERTDOWN=")) {
+    char* q1 = strchr(s, '"'); char* q2 = q1 ? strchr(q1 + 1, '"') : NULL;
+    const char* comma = q2 ? strchr(q2, ',') : NULL;
+    if (!comma) { reply(c, "ERROR"); return; }
+    *q2 = 0;
+    snprintf(c->cert_name, sizeof c->cert_name, "%s", q1 + 1);
+    c->raw_need = atoi(comma + 1);
+    c->raw_target = 2; c->raw_len = 0;
+    if (c->raw_need <= 0) { reply(c, "ERROR"); return; }
+    c->mode = M_RAW;
+    out_str(c, "\r\n>");
+    return;
+  }
   if (strcmp(s, "AT+CMQTTSTART") == 0) { c->mqtt_started = true; reply(c, "OK"); reply(c, "+CMQTTSTART: 0"); return; }
   if (starts(s, "AT+CMQTTACCQ=")) { reply(c, "OK"); return; }
   if (starts(s, "AT+CMQTTCONNECT=")) {
@@ -261,6 +279,10 @@ static void finish_sms(chip_t* c) {
 static void on_rx(void* ud, uint8_t b) {
   chip_t* c = ud;
   if (c->mode == M_RAW) {
+    if (c->raw_target == 2) {  // certificate bytes are only counted, not kept
+      if (--c->raw_need == 0) { c->have_cert = true; c->mode = M_CMD; c->len = 0; reply(c, "OK"); }
+      return;
+    }
     char* dst = c->raw_target ? c->payload : c->topic;
     dst[c->raw_len++] = (char)b;
     if (--c->raw_need == 0) { dst[c->raw_len] = 0; c->mode = M_CMD; c->len = 0; reply(c, "OK"); }

@@ -15,6 +15,9 @@ bool host_i2c_read(uint8_t* d, int n);
 void host_uart_send(const char* s, int n);
 void host_clear(void);
 void chip_init(void);
+int host_pin(const char* name);
+extern float host_dac[8];
+extern uint32_t host_pin_level[8];
 static int fails;
 #define CHECK(cond, msg) do { if (!(cond)) { fails++; fprintf(stderr, "FAIL %s:%d %s\n", __FILE__, __LINE__, msg); } else { passes++; } } while (0)
 static int passes;
