@@ -34,3 +34,4 @@ cd firmware && pio test -e native
 | 1 Logic | Approved 2026-11-22 | `tools/phase1_gate.sh` → `docs/evidence/phase1-gate.txt` |
 | 2 Firmware on virtual hardware | Approved 2026-11-22 (all 8 Wokwi scenarios) | `docs/evidence/phase2-gate.md` |
 | 3 Whole-cycle replay | Approved 2026-11-22 | `tools/phase3_gate.sh` → `docs/evidence/phase3-gate.md` |
+| 4 Electronics | Gate passed 2026-11-22, awaiting approval | `tools/phase4_gate.sh` → `docs/evidence/phase4-gate.txt`; `docs/hardware/power-architecture.md` |
