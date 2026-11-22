@@ -10,9 +10,13 @@ steps:
   - set-control: {part-id: sht, control: temperature, value: 31}
   - wait-serial: "TempHigh,Start"
   - wait-serial: "sent,9876543210"
+  - delay: 1s
   - expect-pin: {part-id: led_r, pin: A, value: 1}
   - delay: 32s
   - set-control: {part-id: sht, control: temperature, value: 27}
   - wait-serial: "TempHigh,Clear"
   - wait-serial: "sent,9876543210"
+  - delay: 1s
   - expect-pin: {part-id: led_r, pin: A, value: 0}
+  # let the printer and modem finish what the last event started
+  - delay: 3s

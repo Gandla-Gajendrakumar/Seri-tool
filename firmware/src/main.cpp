@@ -115,8 +115,19 @@ void loop() {
 
   // Confirm a new firmware image after 5 minutes of normal running (F-OTA-01).
   if (!appConfirmed && millis() - bootMs > 5UL * 60UL * 1000UL / (cfg::kSim ? 60 : 1)) {
-    esp_ota_mark_app_valid_cancel_rollback();
+    esp_ota_img_states_t state;
+    if (esp_ota_get_state_partition(esp_ota_get_running_partition(), &state) == ESP_OK &&
+        state == ESP_OTA_IMG_PENDING_VERIFY) {
+      esp_ota_mark_app_valid_cancel_rollback();  // only a freshly updated image needs confirming
+    }
     appConfirmed = true;
+  }
+  if (cfg::kSim) {  // simulation diagnostics: what the power sense lines read
+    static uint32_t lastPwr = 0;
+    if (millis() - lastPwr > 3000) {
+      lastPwr = millis();
+      Serial.printf("PWR mains=%d batt=%ldmV\n", power.mainsPresent() ? 1 : 0, static_cast<long>(power.batteryMv()));
+    }
   }
   delay(cfg::kSim ? 5 : 20);
 }

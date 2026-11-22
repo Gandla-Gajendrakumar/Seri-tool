@@ -23,15 +23,19 @@ for n in "${names[@]}"; do
   secs=$(( $(date +%s) - start ))
   if [ $rc -ne 0 ]; then
     echo "FAIL $n: simulator exit $rc after ${secs}s (scenario step not reached or timeout)" | tee -a "$summary"
-    tail -25 "$log" | sed 's/^/    /' | tee -a "$summary"
+    echo "    events and messages (sample lines omitted):"
+    grep -v "^LOG S," "$log" | grep -vE "^(ets |rst:|configsip|clk_drv|mode:|load:|ho |entry )" | tail -60 | sed 's/^/    /'
+    tail -5 "$log" | sed 's/^/    /' >> "$summary"
     fail=1
     continue
   fi
-  if python3 tools/check_scenario.py $proj/scenarios/$n.expect "$log" | tee -a "$summary" | grep -q "^PASS"; then
+  python3 tools/check_scenario.py $proj/scenarios/$n.expect "$log" > $proj/logs/$n.check
+  cat $proj/logs/$n.check | tee -a "$summary"
+  if grep -q "^PASS" $proj/logs/$n.check; then
     echo "  ($n ran in ${secs}s)" >> "$summary"
   else
     fail=1
-    echo "---- last 40 lines of $n.log" ; tail -40 "$log" | sed 's/^/    /'
+    echo "---- $n: events and messages (sample lines omitted)"; grep -v "^LOG S," "$log" | tail -60 | sed 's/^/    /'
   fi
 done
 echo "----" >> "$summary"

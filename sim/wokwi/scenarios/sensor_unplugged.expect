@@ -1,8 +1,8 @@
 # Sensor unplugged: fault alert within 90 s, recovery when plugged back
 present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
-in-order: SMS to 9876543210: Shed-1: OK\s*$
+in-order: SMS to \+919876543210: Shed-1: OK\s*$
 in-order: LOG S,\d+,invalid
 in-order: PRINTER\| .* SENSOR FAULT
-in-order: SMS to 9876543210: Shed-1: Sensor fault, check probe cable
-in-order: SMS to 9876543210: Shed-1: Sensor OK again
+in-order: SMS to \+919876543210: Shed-1: Sensor fault, check probe cable
+in-order: SMS to \+919876543210: Shed-1: Sensor OK again
 absent: SMS to .*Temp (HIGH|LOW)

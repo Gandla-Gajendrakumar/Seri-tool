@@ -16,3 +16,5 @@ steps:
   - set-control: {part-id: printer, control: paper, value: 1}
   - wait-serial: "PaperOut,Clear"
   - delay: 2s
+  # let the printer and modem finish what the last event started
+  - delay: 3s

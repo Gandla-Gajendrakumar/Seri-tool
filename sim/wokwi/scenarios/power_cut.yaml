@@ -18,3 +18,5 @@ steps:
   - set-control: {part-id: carrier, control: batteryMv, value: 3800}
   - wait-serial: "MainsFail,Clear"
   - wait-serial: "sent,9876543210"
+  # let the printer and modem finish what the last event started
+  - delay: 3s

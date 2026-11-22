@@ -15,3 +15,5 @@ steps:
   - wait-serial: "sent,9876543210"
   - set-control: {part-id: carrier, control: sdPresent, value: 1}
   - wait-serial: "SdFault,Clear"
+  # let the printer and modem finish what the last event started
+  - delay: 3s

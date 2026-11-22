@@ -13,3 +13,5 @@ steps:
   - set-control: {part-id: sht, control: connected, value: 1}
   - wait-serial: "SensorFault,Clear"
   - wait-serial: "sent,9876543210"
+  # let the printer and modem finish what the last event started
+  - delay: 3s

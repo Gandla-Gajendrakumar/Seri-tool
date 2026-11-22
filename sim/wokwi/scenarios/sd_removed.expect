@@ -1,7 +1,7 @@
 # SD card removed: fault alert, monitoring and alerts continue, card back is detected
 present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
-in-order: SMS to 9876543210: Shed-1: OK\s*$
+in-order: SMS to \+919876543210: Shed-1: OK\s*$
 in-order: PRINTER\| .* SD CARD FAULT
-in-order: SMS to 9876543210: Shed-1: Memory card fault
-in-order: SMS to 9876543210: Shed-1: Temp HIGH 31\.0C
+in-order: SMS to \+919876543210: Shed-1: Memory card fault
+in-order: SMS to \+919876543210: Shed-1: Temp HIGH 31\.0C
 in-order: PRINTER\| .* SD CARD OK
