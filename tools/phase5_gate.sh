@@ -12,7 +12,9 @@ fail=0
   echo "== 1. Unit tests"
   if python3 -m unittest bom/test_bom.py > /tmp/p5ut.log 2>&1; then echo "  PASS bom/test_bom.py ($(grep -o 'Ran [0-9]* tests' /tmp/p5ut.log))"; else echo "  FAIL"; tail -5 /tmp/p5ut.log; fail=1; fi
   echo "== 2-3. BOM"
-  python3 bom/gen_bom.py > /tmp/p5bom.log; rc=$?
+  rm -f bom/bom.md bom/bom.csv   # never show a stale BOM if generation fails
+  python3 bom/gen_bom.py > /tmp/p5bom.log 2>&1; rc=$?
+  [ -f bom/bom.md ] || { echo "  FAIL: BOM generation crashed:"; tail -3 /tmp/p5bom.log | sed "s/^/    /"; }
   grep -E "Status|out of stock|without a price|Subtotal|Per unit|Pilot batch" bom/bom.md | sed 's/^/  /'
   [ $rc -eq 0 ] || fail=1
   echo

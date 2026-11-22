@@ -1,0 +1,18 @@
+Phase 7 gate run: 2026-11-22T15:27:28Z  commit 381d5bb
+== 1. Earlier gates
+  phase 1: PASSED
+  phase 3: PASSED
+  phase 4: PASSED
+  phase 6: PASSED
+  phase 5: NOT FINAL -> * 2 chosen source(s) out of stock at research time: A7670C 4G LTE Cat-1 breakout; 5 V boost module >= 2 A from 3.0-4.2 V
+  phase 2: Wokwi in GitHub Actions; last recorded: see docs/evidence/phase2-gate.md; re-run pending (B-27)
+== 2. Release outputs
+  fab: 13 Gerber/drill files, 296K zip
+  firmware: firmware/release/v0.2.0 (1.3M application)
+  firmware checksums OK
+  farmer card: docs/handoff/farmer-card.{html,pdf}
+  traceability: 76 requirements, 1 bench-only, 0 unverified, open/deferred: F-UP-04 (open), F-OTA-02 (deferred)
+== 3. Links and paths in the hand-off docs
+  78 references checked, 0 missing
+
+GATE: PASSED

@@ -1,4 +1,4 @@
-Phase 6 gate run: 2026-11-22T15:17:30Z  commit 6d37e36
+Phase 6 gate run: 2026-11-22T15:28:27Z  commit 381d5bb
 == 1. Board features
   120 parts -> mechanical/cadquery/board_features.json
 == 2. Build + export

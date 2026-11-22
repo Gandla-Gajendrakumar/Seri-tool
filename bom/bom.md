@@ -48,7 +48,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | Electrolytic 470uF 10V radial 8 mm, 3.5 mm pitch | 470uF 10V | 1 | C20 | 10YXF470MFFC8X11.5 (Robu) / 10YXG470MEFCT78X11.5 (LCSC C2940709) | [LCSC](https://www.lcsc.com/product-detail/C2940709.html) | ₹7.63 | ₹7.63 | ₹76.30 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | PRINTER POWER | 1 | J8 | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | ₹10.67 | ₹10.67 | ₹106.70 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | PRINTER TTL | 1 | J9 | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | ₹10.67 | ₹10.67 | ₹106.70 |
-| Female header 1x8 and 1x4 2.54 mm | A7670C BREAKOUT | 1 | J10 | generic | [ElectronicsComp](https://www.electronicscomp.com/40-pin-female-berg-strip-break-away-header) | ₹9.00 | ₹9.00 | ₹90.00 |
+| Male header strip 1x40 2.54 mm + jumper shunt | A7670C HARNESS | 1 | J10 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | Female header 1x19 2.54 mm | DevKitC J2 (left) | 1 | J2 | generic 1x40 / 1x20 female berg strip | [Robocraze](https://robocraze.com/products/40x1-pin-2-54mm-straight-female-pin-berg-strip-pack-of-50) | ₹6.38 | ₹6.38 | ₹319.00 |
 | Female header 1x19 2.54 mm | DevKitC J3 (right) | 1 | J3 | generic 1x40 / 1x20 female berg strip | [Robocraze](https://robocraze.com/products/40x1-pin-2-54mm-straight-female-pin-berg-strip-pack-of-50) | ₹6.38 | ₹6.38 | ₹319.00 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | SHT31 PROBE (2 m) | 1 | J11 | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | ₹10.67 | ₹10.67 | ₹106.70 |
@@ -56,7 +56,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | DS3231SN [SOIC-16 wide] | DS3231SN | 1 | U5 | DS3231SN# / DS3231SN#T&R | [LCSC](https://www.lcsc.com/product-detail/C9866.html) | ₹614.86 | ₹614.86 | ₹6,148.60 |
 | CR2032 PCB holder [Keystone 3002 or equivalent] | CR2032 | 1 | BT5 | Keystone 3002 (SMT) / generic 20 mm THT holder | [Hubtronics](https://hubtronics.in/1528?tag=pcb+mount) | ₹6.00 | ₹6.00 | ₹60.00 |
 | microSD socket [Hirose DM3AT-SF-PEJM5 or equivalent push-push with card detect] | microSD | 1 | J13 | DM3AT-SF-PEJM5 / generic 9-pin push-push (TF-01A style) | [Hubtronics](https://hubtronics.in/connectors/micro-sd-card-connector-push-type) | ₹17.70 | ₹17.70 | ₹177.00 |
-| Female header 1x8 and 1x4 2.54 mm | OLED 1.3in (GND VCC SCL SDA) | 1 | J14 | generic | [ElectronicsComp](https://www.electronicscomp.com/40-pin-female-berg-strip-break-away-header) | ₹9.00 | ₹9.00 | ₹90.00 |
+| Male header strip 1x40 2.54 mm + jumper shunt | OLED cable (GND VCC SCL SDA) | 1 | J14 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | Tactile switch 6x6 mm, 13 mm height, THT | UP | 1 | SW1 | 6x6x13 tact switch (e.g. KFC-A06-13) | [Ezyspare](https://ezyspare.com/?p=2555) | ₹4.00 | ₹4.00 | ₹40.00 |
 | Tactile switch 6x6 mm, 13 mm height, THT | OK | 1 | SW2 | 6x6x13 tact switch (e.g. KFC-A06-13) | [Ezyspare](https://ezyspare.com/?p=2555) | ₹4.00 | ₹4.00 | ₹40.00 |
 | Tactile switch 6x6 mm, 13 mm height, THT | DOWN | 1 | SW3 | 6x6x13 tact switch (e.g. KFC-A06-13) | [Ezyspare](https://ezyspare.com/?p=2555) | ₹4.00 | ₹4.00 | ₹40.00 |
@@ -67,7 +67,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | 1N4148W [SOD-123] | 1N4148W | 1 | D7 | 1N4148W | [Evelta](https://evelta.com/switching-diode-100v-150ma-sod-123/) | ₹1.84 | ₹1.84 | ₹18.40 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | RELAY (VSYS, IN, GND) | 1 | J15 | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | ₹10.67 | ₹10.67 | ₹106.70 |
 
-Subtotal: **₹1,793.89 per unit**, ₹21,443.86 for 10 units (whole packs)
+Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 
 ## Off-board parts
 
@@ -87,13 +87,23 @@ Subtotal: **₹1,793.89 per unit**, ₹21,443.86 for 10 units (whole packs)
 | CR2032 coin cell |  | 1 | BT5 | CR2032 | [Flipkart](https://www.flipkart.com/panasonic-cr2032-pack-10-battery/p/itm82db323a41035) | ₹42.30 | ₹42.30 | ₹423.00 |
 | 57 mm thermal paper roll |  | 2 | consumable: first two rolls | 57mm x 7m thermal roll | [IndiaMART (various)](https://m.indiamart.com/impcat/thermal-paper-rolls.html) | ₹12.00 | ₹24.00 | ₹240.00 |
 | PCB fabrication: 2-layer, 190 x 152 mm, 1.6 mm FR4, 1 oz, HASL, qty 5 and qty 10 |  | 1 | one board | n/a | [Secure Circuits (IndiaMART)](https://m.indiamart.com/secure-circuits/double-layer-pcb.html) | ₹187.70 | ₹187.70 | ₹1,877.00 |
+| PETG or ASA 3D printer filament 1 kg (1.75 mm) |  | 0.6 | kg: base 304 + lid 139 cm3 = 565 g solid PETG (own printer) | Anycubic PETG Black 1kg 1.75mm | [Robocraze](https://robocraze.com/products/anycubic-petg-black-1kg-1-75mm-petg-3d-printer-filament) | ₹949.00 | ₹569.40 | ₹5,694.00 |
+| M3 brass heat-set inserts (M3 x 5-6 mm), pack |  | 8 | 4 PCB posts + 4 lid bosses | M3 x 6 mm brass heat set threaded round insert nut | [iBots](https://ibots.in/?p=34353) | ₹5.12 | ₹40.96 | ₹512.00 |
+| M3 x 8 mm screws (pan/countersunk), pack |  | 8 | lid x 4 (M3 x 8), PCB x 4 (M3 x 6 from the same kit) | Rpi Shop M3x8mm Full Thread Phillips Drive CSK Head Screw (Pack of 100) | [Zbotic](https://zbotic.in/product/100pcs-m3-129-grade-alloy-steel-hex-bolt-socket-head-cap-screws-kits/) | ₹3.44 | ₹27.55 | ₹344.40 |
+| M2 x 5 mm self-tapping screws, pack |  | 4 | OLED on the lid posts | Pan Head Phillips Self-tapping Screws 2x5mm (LCSC C2911562) | [Probots](https://probots.co.in/m2-x-5mm-black-nylon-pan-head-phillips-screw.html) | ₹15.00 | ₹60.00 | ₹600.00 |
+| Acrylic light pipe rod 3 mm diameter |  | 2 | LEDs D5/D6 to the lid | SLP3-200-250-F | [DigiKey India](https://www.digikey.in/en/products/detail/bivar-inc/SLP3-200-250-F/7393552) | ₹75.43 | ₹150.86 | ₹1,508.60 |
+| PG7 nylon cable gland (IP68, 3-6.5 mm cable) |  | 1 | probe cable | 50.007 PA BS SW | [DigiKey India](https://www.digikey.in/en/products/detail/jacob-gmbh/50-007-PABSSW/11674493) | ₹130.46 | ₹130.46 | ₹1,304.60 |
+| M12 breathable membrane vent (IP67/IP68, protective vent) |  | 1 | bottom wall | M12 breather vent plug / JDAE12PA-SW | [Eleczar Pvt Ltd (aajjo.com)](https://www.aajjo.com/product/ip68-breather-vent-plugs-waterproof-m12-for-automotive-in-faridabad-eleczar-private-limited) | ₹39.00 | ₹39.00 | ₹390.00 |
+| Dupont jumper cable female-female, 4-wire ribbon, 15-20 cm |  | 4 | wires: OLED to J14 | 20CM DuPont Wire Color Jumper Cable 2.54mm 1P-1P Female to Female 40PCS | [Robu.in](https://aws.robu.in/?p=7449) | ₹0.85 | ₹3.40 | ₹34.00 |
+| Dupont jumper cable female-female, 8-wire, 10 cm |  | 8 | wires: modem breakout to J10 (D-057) | 10CM Female to Female Breadboard Jumper DuPont 2.54MM 1P-1P Cable 40 Pcs | [Zbotic](https://zbotic.in/product/10cm-female-to-female-breadboard-jumper-wires-2-54mm/) | ₹0.95 | ₹7.60 | ₹76.00 |
+| 3M VHB double-sided tape 12-25 mm |  | 0.012 | rolls (0.3 m of a 25 m roll): modem, buck, boost on the floor | VHB 5915 (12 mm x 25 m x 0.4 mm) | [Moglix](https://www.moglix.com/3m-vhb-5915-double-sided-tape-12mmx25mx04mm/mp/msn2r27xtmxyll) | ₹1,061.00 | ₹12.73 | ₹1,061.00 |
 
-Subtotal: **₹10,024.53 per unit**, ₹107,674.00 for 10 units (whole packs)
+Subtotal: **₹11,066.50 per unit**, ₹119,198.60 for 10 units (whole packs)
 
 ## Total
 
-* Per unit (parts only): **₹11,818.42**
-* Pilot batch of 10 (whole packs, so leftover stock): **₹129,117.86** (₹12,911.79 per unit)
+* Per unit (parts only): **₹12,848.28**
+* Pilot batch of 10 (whole packs, so leftover stock): **₹140,521.46** (₹14,052.15 per unit)
 
-Not costed here: IoT/M2M SIM (Airtel or Vi) (recurring operator charge, not hardware); Enclosure (phase 6 (CadQuery); cost added then)
+Not costed here: IoT/M2M SIM (Airtel or Vi) (recurring operator charge, not hardware); 3D printing labour / service (own printer assumed; a print service costs about Rs 3-10 per gram, i.e. Rs 1,700-5,700 per enclosure)
 

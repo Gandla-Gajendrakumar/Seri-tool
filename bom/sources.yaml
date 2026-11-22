@@ -1925,3 +1925,366 @@
   concerns: 'No small-quantity (5 m) retail listing with a price was found at hobby stores. Practical options: buy 2-5 m of
     CAT6 STP/FTP by the metre from a local network-cable shop (one twisted pair for SDA+GND, one for SCL+VCC), or order element14
     by the metre. For I2C over 2 m, keep the pull-ups strong (2.2 kΩ) or use an I2C extender (P82B715/PCA9615).'
+- item: Dupont jumper cable female-female, 4-wire ribbon, 15-20 cm
+  description: 40-wire F-F Dupont ribbon, 2.54 mm, 20 cm; peel off a 4-wire strip
+  manufacturer: generic
+  mpn: 20CM DuPont Wire Color Jumper Cable 2.54mm 1P-1P Female to Female 40PCS
+  sources:
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/?p=7449
+    pack_qty: 40
+    pack_price_inr: 34.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Robu mirror pages disagree: one shows Rs 34 incl. GST in stock, another Rs 35/41 incl. GST out of stock (25-30
+      day restock). Confirm on robu.in.'
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/f2f-jumper-wires-20cm-40pcs
+    pack_qty: 40
+    pack_price_inr: 35.0
+    gst_included: null
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Sale price Rs 35 (was Rs 63); marked sold out in snapshot.
+  - supplier: Evelta
+    country: IN
+    url: https://evelta.com/40-pin-female-to-female-jumper-wires-2-54-mm/
+    pack_qty: 40
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. 40-pin F-F, 2.54 mm, 20 cm.
+  concerns: One 40-wire pack gives 10 x 4-wire strips. 20 cm is at the top of the 15-20 cm range; fine for routing inside
+    the enclosure.
+- item: Dupont jumper cable female-female, 8-wire, 10 cm
+  description: 40-wire F-F Dupont ribbon, 2.54 mm, 10 cm; peel off an 8-wire strip
+  manufacturer: generic
+  mpn: 10CM Female to Female Breadboard Jumper DuPont 2.54MM 1P-1P Cable 40 Pcs
+  sources:
+  - supplier: Zbotic
+    country: IN
+    url: https://zbotic.in/product/10cm-female-to-female-breadboard-jumper-wires-2-54mm/
+    pack_qty: 40
+    pack_price_inr: 38.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 38.00 (Rs 32.20 + GST), free shipping.
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/female-to-female-jumper-wires-40-pcs-10cm.html
+    pack_qty: 40
+    pack_price_inr: 69.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Rs 69 (58.47 + 10.52 GST), out of stock; spec table says male-to-female, which conflicts with the title.
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/?p=44299
+    pack_qty: 40
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. 10 cm F-F 40 pcs listing.
+  concerns: 'Alternative: use the same 20 cm 40-wire pack from item 1 (split 8 wires); longer than needed but saves a separate
+    purchase. One 40-wire pack covers 5 x 8-wire strips.'
+- item: Acrylic light pipe rod 3 mm diameter
+  description: 3 mm clear acrylic (PMMA) rod cut to length, or ready-made 3 mm rigid LED light pipe
+  manufacturer: Bivar (ready-made) / generic (rod)
+  mpn: SLP3-200-250-F
+  sources:
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/bivar-inc/SLP3-200-250-F/7393552
+    pack_qty: 1
+    pack_price_inr: 75.43
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Ready-made 3 mm light pipe; Rs 75.43 each at qty 1, ~Rs 38.69 each at 100. Distributor prices usually ex-GST.
+    selected: true
+    why_selected: ready-made 3 mm light pipe with a stated part number; no Indian rod listing gives the diameter
+  - supplier: Parul Corporation (IndiaMART)
+    country: IN
+    url: https://m.indiamart.com/parulcorporation
+    pack_qty: 1
+    pack_price_inr: 95.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Transparent acrylic rod Rs 95 per metre; diameter NOT stated - confirm 3 mm is available. B2B seller, may have MOQ.
+  - supplier: eBay (import)
+    country: US
+    url: https://ebay.com/itm/325687530250
+    pack_qty: 30
+    pack_price_inr: 1061.0
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 30 pcs 3 mm x 12 in clear PMMA rod, US$12.63 = Rs 1061 at 84 INR/USD; excludes shipping/import duty.
+  concerns: 'No Indian retail listing for 3 mm clear rod with a confirmed price was found. Bivar SLP3 length (check datasheet)
+    must match the wall thickness + LED standoff. Cheapest path: local acrylic shop or the 3 mm rod import pack; cut and polish
+    ends.'
+- item: PG7 nylon cable gland (IP68, 3-6.5 mm cable)
+  description: PG7 polyamide cable gland, IP68, 3-6.5 mm clamping range, with locknut
+  manufacturer: Jacob GmbH
+  mpn: 50.007 PA BS SW
+  sources:
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/jacob-gmbh/50-007-PABSSW/11674493
+    pack_qty: 1
+    pack_price_inr: 130.46
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: IP68, 3-6.5 mm, PA6 black. Rs 111.08 each at qty 10. 193 in stock in snapshot.
+    selected: true
+    why_selected: IP68 and clamps 3-6.5 mm (the probe cable); the cheaper one clamps only 4-6.5 mm
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/adam-tech/CG-P-7/17736920
+    pack_qty: 1
+    pack_price_inr: 54.88
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Adam Tech CG-P-7, PG7 polyamide, 4-6.5 mm clamping range (not 3 mm); IP rating not confirmed in snippet.
+  - supplier: Robu.in
+    country: IN
+    url: https://stg.robu.in/?p=1765030
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. 'Polyamide Cable Gland PG 7', listed IP65 (not IP68).
+  concerns: Hobby-store PG7 glands are often generic IP68 claims; Jacob part is the verified IP68 3-6.5 mm match. IP68 only
+    with locknut and O-ring/washer fitted. DigiKey India adds shipping below its free-shipping threshold.
+- item: M12 breathable membrane vent (IP67/IP68, protective vent)
+  description: M12 x 1.5 screw-in pressure-equalising vent with ePTFE membrane, IP67/IP68
+  manufacturer: generic (Eleczar) / Jacob GmbH
+  mpn: M12 breather vent plug / JDAE12PA-SW
+  sources:
+  - supplier: Eleczar Pvt Ltd (aajjo.com)
+    country: IN
+    url: https://www.aajjo.com/product/ip68-breather-vent-plugs-waterproof-m12-for-automotive-in-faridabad-eleczar-private-limited
+    pack_qty: 1
+    pack_price_inr: 39.0
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: Listed Rs 39; packaging '100 pcs in one packet' so the price may be per piece with a 100-pc MOQ, or per pack - confirm.
+      IP68, PA6/PA66.
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/jacob-gmbh/JDAE12PA-SW/11674883
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Jacob M12 breather plug (polyamide, black), IP66/IP68 family.
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/amphenol-ltw/VENT-MS1NMS-O8001/9486401
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Amphenol LTW M12 vent.
+  concerns: No Indian hobby retailer (Robu/Robocraze/Evelta/Zbotic) listing found. The Rs 39 B2B listing does not state membrane
+    type; confirm it is an ePTFE membrane vent, not a plain blanking plug. Branded Jacob/Amphenol parts from DigiKey India
+    are the reliable option (price to be checked).
+- item: M3 brass heat-set inserts (M3 x 5-6 mm), pack
+  description: Knurled brass heat-set threaded insert M3, 6 mm long (~4.5-5 mm OD), for 3D-printed bosses
+  manufacturer: generic
+  mpn: M3 x 6 mm brass heat set threaded round insert nut
+  sources:
+  - supplier: iBots
+    country: IN
+    url: https://ibots.in/?p=34353
+    pack_qty: 25
+    pack_price_inr: 128.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: M3 x 6 mm brass insert, 25 pcs, sale price Rs 128.
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/m3-x-6mm-brass-heat-set-threaded-round-insert-nut-10-pcs
+    pack_qty: 10
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. M3 x 6 mm, 10 pcs.
+  - supplier: Robu.in
+    country: IN
+    url: https://robu.in/product/m3x12-mm-brass-insert-50pcs
+    pack_qty: 50
+    pack_price_inr: null
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Wrong length (M3 x 12). Robu M3 x 6 25-pc pack reported out of stock (25-30 day restock).
+  concerns: Check insert OD against the CAD boss hole (typically 4.0-4.2 mm hole for 4.5-5 mm OD inserts). IndiaMART bulk
+    M3 brass inserts quoted ~Rs 0.75/pc but length unspecified.
+- item: M3 x 8 mm screws (pan/countersunk), pack
+  description: M3 x 8 mm machine screws, Phillips CSK or pan head, steel; plus M3 x 6 for PCB posts
+  manufacturer: Rpi Shop / generic
+  mpn: Rpi Shop M3x8mm Full Thread Phillips Drive CSK Head Screw (Pack of 100)
+  sources:
+  - supplier: Moglix
+    country: IN
+    url: https://www.moglix.com/rpi-shop-m3x8mm-full-thread-phillips-drive-csk-head-screw-pack-of-100/mp/msne5n8ozpw0kl
+    pack_qty: 100
+    pack_price_inr: 290.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Rs 290 incl. all taxes (MRP Rs 885). Countersunk Phillips, carbon steel.
+  - supplier: Zbotic
+    country: IN
+    url: https://zbotic.in/product/100pcs-m3-129-grade-alloy-steel-hex-bolt-socket-head-cap-screws-kits/
+    pack_qty: 100
+    pack_price_inr: 344.4
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Kit: 25 each of M3 x 6, 8, 10, 12 mm socket head cap screws (12.9 alloy steel). Rs 344.40 (Rs 328 + GST). Covers
+      both M3 x 8 and M3 x 6 (PCB posts).'
+    selected: true
+    why_selected: kit also has the M3 x 6 for the PCB posts
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/?p=1295634
+    pack_qty: 100
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. Same style 100-pc M3 socket cap kit (6/8/10/12 mm x 25).
+  concerns: 'M3 x 6 for PCB posts: the Zbotic/Robu mixed kit gives 25 pcs; no dedicated M3 x 6 pack price found. Socket-head
+    kit is not pan/CSK - check head clearance. Pan-head M3x8 100-pack (MonsterBolts on cart2india) found without price.'
+- item: M2 x 5 mm self-tapping screws, pack
+  description: M2 x 5 mm pan head Phillips self-tapping (PT/thread-forming) screws for plastic, for OLED mounting
+  manufacturer: generic
+  mpn: Pan Head Phillips Self-tapping Screws 2x5mm (LCSC C2911562)
+  sources:
+  - supplier: ThinkRobotics
+    country: IN
+    url: https://thinkrobotics.com/collections/screws-and-nuts-online/products/self-tapping-screws
+    pack_qty: 10
+    pack_price_inr: 39.99
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Self-tapping screws pack of 10, size M2.6 x 6 mm (NOT M2 x 5).
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/C2911562.html
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'PRICE NOT FOUND (page fetch not permitted from this session). Exact spec match: pan head Phillips self-tapping
+      2 x 5 mm.'
+  - supplier: Probots
+    country: IN
+    url: https://probots.co.in/m2-x-5mm-black-nylon-pan-head-phillips-screw.html
+    pack_qty: 1
+    pack_price_inr: 15.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: M2 x 5 mm black nylon pan head machine screw (NOT self-tapping), sold singly, Rs 15 (12.71 + GST).
+    selected: true
+    why_selected: M2 x 5 machine screws thread into the 1.8 mm PETG posts; M2.6 self-tappers need bigger holes
+  concerns: 'No Indian listing found for exactly M2 x 5 self-tapping. Options: M2.6 x 6 self-tappers (ThinkRobotics) if the
+    OLED hole (~2.5-3 mm) and boss allow it; or M2 x 5 machine screws into M2 heat-set inserts / tapped holes; or LCSC exact
+    part with another order.'
+- item: 3M VHB double-sided tape 12-25 mm
+  description: 3M VHB acrylic foam tape, 12-24 mm wide, ~0.4-1.1 mm thick
+  manufacturer: 3M
+  mpn: VHB 5915 (12 mm x 25 m x 0.4 mm)
+  sources:
+  - supplier: Moglix
+    country: IN
+    url: https://www.moglix.com/3m-vhb-5915-double-sided-tape-12mmx25mx04mm/mp/msn2r27xtmxyll
+    pack_qty: 1
+    pack_price_inr: 1061.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 1 roll 12 mm x 25 m x 0.4 mm, Rs 1061 incl. taxes (MRP Rs 1252).
+    selected: true
+    why_selected: genuine 3M 5915 roll with stated length (25 m); shared across many units
+  - supplier: Ponnar Precision Engineering (IndiaMART)
+    country: IN
+    url: https://m.indiamart.com/ponnar-precision-engineering/foam-tape.html
+    pack_qty: 1
+    pack_price_inr: 450.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 3M VHB 4910 (clear), 0.5 in (~12.7 mm) width, Rs 450 per roll; roll length not stated. B2B seller.
+  - supplier: Moglix
+    country: IN
+    url: https://www.moglix.com/3m-vhb-5915-double-sided-tape-24mmx25mx1mm/mp/msn2vzholaqs93
+    pack_qty: 1
+    pack_price_inr: 2502.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 24 mm x 25 m x 1 mm roll, Rs 2502 incl. taxes.
+  concerns: Full 25 m rolls are far more than needed; small 12 mm x 5 m VHB rolls exist on IndiaMART (~Rs 199) but URL not
+    pinned. Beware counterfeit 'VHB' on marketplaces. 1 mm thick (4910/5952) conforms better to textured 3D-printed surfaces
+    than 0.4 mm 5915.
+- item: PETG or ASA 3D printer filament 1 kg (1.75 mm)
+  description: PETG (or ASA for UV/outdoor) filament, 1.75 mm, 1 kg spool
+  manufacturer: Anycubic (PETG) / Pro-Range (ASA)
+  mpn: Anycubic PETG Black 1kg 1.75mm
+  sources:
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/anycubic-petg-black-1kg-1-75mm-petg-3d-printer-filament
+    pack_qty: 1
+    pack_price_inr: 949.0
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: PETG, Rs 949 (was Rs 1149); '24 left in stock'. Free delivery above Rs 999.
+    selected: true
+    why_selected: PETG in stock; enough for one enclosure per 0.6 kg
+  - supplier: Robu.in
+    country: IN
+    url: https://stgaws.robu.in/?p=1665491
+    pack_qty: 1
+    pack_price_inr: 949.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: Numakers PETG Pure White 1 kg, Rs 949 incl. GST, out of stock. (Robu Orange-brand PETG reported at Rs 799 incl.
+      GST, low stock - specific colour URL not pinned.)
+  - supplier: Robu.in
+    country: IN
+    url: https://aws.robu.in/?p=2215977
+    pack_qty: 1
+    pack_price_inr: 1399.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: 'ASA alternative: Pro-Range ASA blue 1 kg, Rs 1399 incl. GST, low stock. Numakers ASA Light Gray Rs 999 on Robu
+      but out of stock.'
+  concerns: '3D-printing service in India (search-index 2026-11-22): typical FDM PLA/PETG ~Rs 3-10 per gram (IndiaMART listings
+    ~Rs 5-10/g, e.g. Make3d Surat Rs 5/g; Zbotic guide Rs 3-8/g), plus minimum order, GST and shipping. ASA needs an enclosed
+    printer; PETG is fine for indoor/shaded use.'

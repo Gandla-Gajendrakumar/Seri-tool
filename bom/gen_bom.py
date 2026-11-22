@@ -57,7 +57,7 @@ ITEM_BY_PART = {
 # connectors whose part depends on the footprint
 ITEM_BY_FOOTPRINT = {
     "JST_XH": "JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin)",
-    "PinHeader_1x02": "Male header strip 1x40 2.54 mm + jumper shunt",
+    "PinHeader_1x": "Male header strip 1x40 2.54 mm + jumper shunt",
     "PinSocket_1x04": "Female header 1x8 and 1x4 2.54 mm",
 }
 
@@ -77,9 +77,20 @@ OFFBOARD = [
     ("CR2032 coin cell", 1, "BT5"),
     ("57 mm thermal paper roll", 2, "consumable: first two rolls"),
     ("PCB fabrication: 2-layer, 190 x 152 mm, 1.6 mm FR4, 1 oz, HASL, qty 5 and qty 10", 1, "one board"),
+    # enclosure (phase 6): quantities per unit; pack sizes in sources.yaml
+    ("PETG or ASA 3D printer filament 1 kg (1.75 mm)", 0.6, "kg: base 304 + lid 139 cm3 = 565 g solid PETG (own printer)"),
+    ("M3 brass heat-set inserts (M3 x 5-6 mm), pack", 8, "4 PCB posts + 4 lid bosses"),
+    ("M3 x 8 mm screws (pan/countersunk), pack", 8, "lid x 4 (M3 x 8), PCB x 4 (M3 x 6 from the same kit)"),
+    ("M2 x 5 mm self-tapping screws, pack", 4, "OLED on the lid posts"),
+    ("Acrylic light pipe rod 3 mm diameter", 2, "LEDs D5/D6 to the lid"),
+    ("PG7 nylon cable gland (IP68, 3-6.5 mm cable)", 1, "probe cable"),
+    ("M12 breathable membrane vent (IP67/IP68, protective vent)", 1, "bottom wall"),
+    ("Dupont jumper cable female-female, 4-wire ribbon, 15-20 cm", 4, "wires: OLED to J14"),
+    ("Dupont jumper cable female-female, 8-wire, 10 cm", 8, "wires: modem breakout to J10 (D-057)"),
+    ("3M VHB double-sided tape 12-25 mm", 0.012, "rolls (0.3 m of a 25 m roll): modem, buck, boost on the floor"),
 ]
 NOT_COSTED = [("IoT/M2M SIM (Airtel or Vi)", "recurring operator charge, not hardware"),
-              ("Enclosure", "phase 6 (CadQuery); cost added then")]
+              ("3D printing labour / service", "own printer assumed; a print service costs about Rs 3-10 per gram, i.e. Rs 1,700-5,700 per enclosure")]
 
 
 def load_sources(path=os.path.join(HERE, "sources.yaml")):
