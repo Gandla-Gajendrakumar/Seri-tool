@@ -1,4 +1,4 @@
-Phase 3 gate run: 2026-11-22T22:59:58Z  commit f4d6850
+Phase 3 gate run: 2026-11-22T23:03:47Z  commit 49abbf4
 == 1. Generate synthetic cycle
   wrote 109440 rows (38 days) to sim/replay/out/cycle.csv
   sha256 998bbd3bc21c50e2

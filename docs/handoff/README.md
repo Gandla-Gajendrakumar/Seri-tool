@@ -9,7 +9,7 @@ What software could not prove is listed in the bench test plan.
 
 | Need | File |
 |---|---|
-| Order the parts | [ordering.md](ordering.md), `bom/bom.md`, `bom/bom.csv`, `bom/sources.yaml` |
+| Order the parts | [ordering.md](ordering.md), `bom/shopping-list-2units.md` (prototype, per supplier), [supplier-queries.md](supplier-queries.md), `bom/bom.md`, `bom/sources.yaml` |
 | Make the PCB | `hardware/fab/carrier-v1-gerbers.zip`, `hardware/fab/carrier-v1-schematic.pdf`, `hardware/fab/carrier-v1-assembly-top.pdf`, `hardware/fab/carrier-v1.step` |
 | Print the enclosure | `mechanical/cadquery/out/base.stl`, `mechanical/cadquery/out/lid.stl`, `mechanical/cadquery/out/plunger_SW1.stl` (x3), STEP files alongside |
 | Assemble and wire | [assembly.md](assembly.md) (solder order, jumpers, harness tables) |

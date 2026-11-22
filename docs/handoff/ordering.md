@@ -11,6 +11,11 @@ Prices are from 2026-11-22, mostly from search-engine snapshots of the stores' p
 3. Fit-check one **Keystone 1043** holder against the footprint drawing (B-20) before ordering boards.
 4. Run `tools/phase5_gate.sh` after updating `bom/sources.yaml`: it must report FINAL.
 
+## Prototype order (2 units)
+
+`bom/shopping-list-2units.md` lists what to buy from each supplier, in whole packs, with links
+(regenerate with `python3 bom/shopping_list.py 2`). Send the messages in [supplier-queries.md](supplier-queries.md) first.
+
 ## Order groups
 
 | Group | What | Where | Note |

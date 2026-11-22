@@ -1924,6 +1924,9 @@
     evidence: search-index 2026-11-22
     note: '''2 Pair 24 Awg Rs-485 Cable, Cat 6, STP'', Rs 110 per metre. Category page, not a product page. The seller''s
       MOQ is likely to be a full roll, so confirm.'
+    selected: true
+    why_selected: sold per metre (2 m per unit); the Rs 26/m CAT6 option is a 305 m box. Confirm the seller minimum order,
+      or buy 2-pair 24 AWG shielded cable locally
   - supplier: element14 India
     country: IN
     url: https://in.element14.com/c/cable-wire-cable-assemblies/multipair-cable/prl/results

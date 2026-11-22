@@ -75,7 +75,7 @@ Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 | ESP32-DevKitC V4 (WROOM-32E) |  | 1 | plugs into J2/J3 | ESP32-DevKitC-32E | [Robu.in](https://st.robu.in/product/espressif-esp32-devkitc-esp32-wroom-3-2e-development-board) | ₹799.00 | ₹799.00 | ₹7,990.00 |
 | A7670C 4G LTE Cat-1 breakout |  | 1 | plugs into J10 (match pin order before ordering PCBs) | SIMA7670C V1.1 (LM39302) | [Sharvi Technologies (IndiaMART, Bengaluru)](https://www.indiamart.com/proddetail/a7670c-lans-simcom-4g-lte-cat-1-module-breakout-board-2856405650597.html) | ₹975.00 | ₹975.00 | ₹9,750.00 |
 | SHT31 probe, 2 m cable |  | 1 | to J11; ~1 m probe extended to 2 m (D-052) | SHT31 cable probe (seller model) | [DigiKey (US)](https://www.digikey.com/en/products/detail/dfrobot/SEN0385/13590873) | ₹1,671.60 | ₹1,671.60 | ₹16,716.00 |
-| Shielded twisted-pair cable, 2-pair 24 AWG (per metre) |  | 2 | probe extension, metres | 2 pair 24 AWG STP (RS-485 type) | [IndiaMART (Belden CAT6 STP box)](https://m.indiamart.com/impcat/networking-cable.html) | ₹26.07 | ₹52.13 | ₹7,950.00 |
+| Shielded twisted-pair cable, 2-pair 24 AWG (per metre) |  | 2 | probe extension, metres | 2 pair 24 AWG STP (RS-485 type) | [IndiaMART (seller listing)](https://m.indiamart.com/impcat/twisted-pair-cables.html) | ₹110.00 | ₹220.00 | ₹2,200.00 |
 | 58 mm TTL thermal printer with status TX |  | 1 | to J8/J9 | CSN-A2L TTL | [DNA Technology (older page)](https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html) | ₹2,076.80 | ₹2,076.80 | ₹20,768.00 |
 | 1.3 inch OLED SH1106 I2C 128x64 |  | 1 | plugs into J14 | 1.3in OLED SH1106 I2C 4-pin | [Probots](https://probots.co.in/1-3-inch-128x64-oled-blue-display-sh1106-i2c.html) | ₹329.00 | ₹329.00 | ₹3,290.00 |
 | 18650 Li-ion cell 2500-3000 mAh (genuine brand) |  | 2 | BT1, BT2 (footprints for 4) | INR18650-25R | [Robu.in](https://robu.in/?p=63398) | ₹418.00 | ₹836.00 | ₹8,360.00 |
@@ -97,12 +97,12 @@ Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 | Dupont jumper cable female-female, 8-wire, 10 cm |  | 8 | wires: modem breakout to J10 (D-057) | 10CM Female to Female Breadboard Jumper DuPont 2.54MM 1P-1P Cable 40 Pcs | [Zbotic](https://zbotic.in/product/10cm-female-to-female-breadboard-jumper-wires-2-54mm/) | ₹0.95 | ₹7.60 | ₹76.00 |
 | 3M VHB double-sided tape 12-25 mm |  | 0.012 | rolls (0.3 m of a 25 m roll): modem, buck, boost on the floor | VHB 5915 (12 mm x 25 m x 0.4 mm) | [Moglix](https://www.moglix.com/3m-vhb-5915-double-sided-tape-12mmx25mx04mm/mp/msn2r27xtmxyll) | ₹1,061.00 | ₹12.73 | ₹1,061.00 |
 
-Subtotal: **₹10,705.50 per unit**, ₹115,588.60 for 10 units (whole packs)
+Subtotal: **₹10,873.36 per unit**, ₹109,838.60 for 10 units (whole packs)
 
 ## Total
 
-* Per unit (parts only): **₹12,487.28**
-* Pilot batch of 10 (whole packs, so leftover stock): **₹136,911.46** (₹13,691.15 per unit)
+* Per unit (parts only): **₹12,655.15**
+* Pilot batch of 10 (whole packs, so leftover stock): **₹131,161.46** (₹13,116.15 per unit)
 
 Not costed here: IoT/M2M SIM (Airtel or Vi) (recurring operator charge, not hardware); 3D printing labour / service (own printer assumed; a print service costs about Rs 3-10 per gram, i.e. Rs 1,700-5,700 per enclosure)
 

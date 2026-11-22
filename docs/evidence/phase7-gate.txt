@@ -1,4 +1,4 @@
-Phase 7 gate run: 2026-11-22T22:59:27Z  commit f4d6850
+Phase 7 gate run: 2026-11-22T23:03:29Z  commit 49abbf4
 == 1. Earlier gates
   phase 1: PASSED
   phase 3: PASSED
@@ -13,6 +13,6 @@ Phase 7 gate run: 2026-11-22T22:59:27Z  commit f4d6850
   farmer card: docs/handoff/farmer-card.{html,pdf}
   traceability: 76 requirements, 1 bench-only, 0 unverified, open/deferred: F-OTA-02 (deferred)
 == 3. Links and paths in the hand-off docs
-  84 references checked, 0 missing
+  88 references checked, 0 missing
 
 GATE: PASSED

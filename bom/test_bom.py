@@ -68,6 +68,14 @@ class BomTests(unittest.TestCase):
         self.assertEqual(2, sum(ln["qty"] for ln in holders))
         self.assertIn("BT3", " ".join(ln.get("dnp_refs", "") for ln in holders))
 
+    def test_shopping_list_buys_a_shared_kit_once(self):
+        import shopping_list
+        rows = [r for sup in shopping_list.build(2).values() for r in sup]
+        kits = [r for r in rows if r["item"] == "Resistor 0805 1% (per value)"]
+        self.assertEqual(1, len(kits))                 # every resistor value merged into one kit line
+        self.assertGreaterEqual(kits[0]["packs"] * kits[0]["pack"], kits[0]["pieces"])
+        self.assertEqual(len(rows), len({r["item"] for r in rows}))
+
 
 if __name__ == "__main__":
     unittest.main()
