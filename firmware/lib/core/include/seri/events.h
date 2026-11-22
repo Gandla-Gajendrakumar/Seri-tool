@@ -38,8 +38,8 @@ struct EngineConfig {
   int64_t sensorClearSec = 60;    // 3 consecutive valid samples
   int64_t mainsOnsetSec = 120;    // flicker debounce (D-008)
   int64_t mainsClearSec = 120;
-  int32_t battLowMv = 3400;       // provisional; confirmed against cell datasheet in phase 4
-  int32_t battClearMv = 3700;
+  int32_t battLowMv = 3700;       // D-038: alert while the modem can still send it (A7670 needs >= 3.4 V)
+  int32_t battClearMv = 3850;
   int64_t battOnsetSec = 60;      // ignore short sags during modem bursts
   int64_t sdOnsetSec = 30;        // 2 consecutive failed checks 30 s apart
 };

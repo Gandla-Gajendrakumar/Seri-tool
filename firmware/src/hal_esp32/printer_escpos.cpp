@@ -7,6 +7,14 @@ void EscPosPrinter::begin() {
   s_.write(init, sizeof init);
 }
 
+// ESC 7 n1 n2 n3 (CSN-A2 manual): n1 = max heating dots in units of 8 (default 9 = 80 dots),
+// n2 = heating time, n3 = heating interval. Fewer dots heated at once lowers the peak current
+// (manual p48) at the cost of slower printing. The real peak current is a bench measurement.
+void EscPosPrinter::setLowPower(bool on) {
+  const uint8_t cmd[] = {0x1B, 0x37, static_cast<uint8_t>(on ? 3 : 9), 80, 2};
+  s_.write(cmd, sizeof cmd);
+}
+
 bool EscPosPrinter::paperPresent() {
   while (s_.available()) s_.read();
   const uint8_t q[] = {0x10, 0x04, 0x04};  // DLE EOT 4: paper sensor status

@@ -29,7 +29,9 @@ void Monitor::begin() {
   summary_ = DailySummary(now);
   scheduler_ = SummaryScheduler(cfg_.summaryHourIst);
   onBattery_ = !hw_.power.mainsPresent();
-  batteryPct_ = batteryPercent(hw_.power.batteryMv());
+  batteryMv_ = hw_.power.batteryMv();
+  batteryPct_ = batteryPercent(batteryMv_);
+  hw_.printer.setLowPower(onBattery_);
   nextRaw_ = nextPower_ = nextPaper_ = nextSd_ = nextPoll_ = now + 1;
   nextAlertTick_ = now + 60;
   nextUpload_ = now + uploadIntervalSec(onBattery_);
@@ -56,7 +58,9 @@ void Monitor::tick() {
     nextPower_ = now + cfg_.powerCheckSec;
     const bool mains = hw_.power.mainsPresent();
     const int32_t mv = hw_.power.batteryMv();
+    if (onBattery_ != !mains) hw_.printer.setLowPower(!mains);  // D-039: lower printer peak current on battery
     onBattery_ = !mains;
+    batteryMv_ = mv;
     batteryPct_ = batteryPercent(mv);
     engine_.onMains(now, mains, ev);
     engine_.onBattery(now, mv, onBattery_, ev);
@@ -138,8 +142,14 @@ void Monitor::enqueueJobs(const std::vector<SmsJob>& jobs, int64_t now) {
   }
 }
 
+bool Monitor::modemAllowed(int64_t now) const {
+  if (!onBattery_) return true;
+  if (batteryMv_ < cfg_.modemCutoffMv) return false;    // D-038
+  return now - lastPrintAt_ >= cfg_.printModemGapSec;  // D-039
+}
+
 void Monitor::sendStep(int64_t now) {
-  if (outbox_.empty() || now < outbox_.front().nextTry) return;
+  if (outbox_.empty() || now < outbox_.front().nextTry || !modemAllowed(now)) return;
   OutgoingSms& o = outbox_.front();
   if (hw_.modem.sendSms(o.number, o.text)) {
     logLine("M," + std::to_string(now) + ",sent," + o.number);
@@ -161,7 +171,10 @@ void Monitor::sendStep(int64_t now) {
 }
 
 void Monitor::printOrQueue(const std::string& line, Language l) {
-  if (backlog_.empty() && hw_.printer.paperPresent() && hw_.printer.printLine(line, l)) return;
+  if (backlog_.empty() && hw_.printer.paperPresent() && hw_.printer.printLine(line, l)) {
+    lastPrintAt_ = hw_.clock.nowUtc();
+    return;
+  }
   backlog_.push_back({line, l});
   if (backlog_.size() > cfg_.printBacklogMax) backlog_.pop_front();
 }
@@ -169,6 +182,7 @@ void Monitor::printOrQueue(const std::string& line, Language l) {
 void Monitor::printStep() {
   for (int n = 0; n < 20 && !backlog_.empty() && hw_.printer.paperPresent(); ++n) {
     if (!hw_.printer.printLine(backlog_.front().first, backlog_.front().second)) break;
+    lastPrintAt_ = hw_.clock.nowUtc();
     backlog_.pop_front();
   }
 }
@@ -217,7 +231,7 @@ void Monitor::uploadStep(int64_t now) {
 
 void Monitor::flushQueue() {
   const bool wifi = hw_.wifi.connected();
-  if (!wifi && !hw_.modem.dataReady()) return;
+  if (!wifi && (!modemAllowed(hw_.clock.nowUtc()) || !hw_.modem.dataReady())) return;
   const std::string topic = "seri/" + settings_.deviceName + "/data";
   auto publish = [&](const std::string& rec) {
     return wifi ? hw_.wifi.mqttPublish(topic, rec) : hw_.modem.mqttPublish(topic, rec);
@@ -231,7 +245,7 @@ void Monitor::flushQueue() {
 }
 
 void Monitor::commandStep(int64_t now) {
-  if (!missed_.empty() && hw_.modem.registered()) {  // network is back: one summary per number (D-037)
+  if (!missed_.empty() && modemAllowed(now) && hw_.modem.registered()) {  // network is back: one summary per number (D-037)
     for (const auto& kv : missed_) {
       Language l = Language::English;
       for (int i = 0; i < kMaxRecipients; ++i) if (settings_.phone[i] == kv.first) l = settings_.lang[i];

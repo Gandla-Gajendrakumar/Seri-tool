@@ -98,15 +98,19 @@ E 2026-12-14 14:56:55 TempHigh Clear
 E 2026-12-18 03:02:00 MainsFail Start
 Q 2026-12-18 03:02:00 Start MainsFail slot0
 Q 2026-12-18 03:02:00 Start MainsFail slot1
+E 2026-12-18 07:48:30 LowBattery Start
+Q 2026-12-18 07:48:30 Start LowBattery slot0
+Q 2026-12-18 07:48:30 Start LowBattery slot1
+E 2026-12-18 09:00:00 LowBattery Clear
 E 2026-12-18 09:02:00 MainsFail Clear
 Q 2026-12-18 09:02:00 Recovery MainsFail slot0
 Q 2026-12-18 09:02:00 Recovery MainsFail slot1
 E 2026-12-20 18:02:00 MainsFail Start
 Q 2026-12-20 18:02:00 Start MainsFail slot0
 Q 2026-12-20 18:02:00 Start MainsFail slot1
-E 2026-12-21 04:56:30 LowBattery Start
-Q 2026-12-21 04:56:30 Start LowBattery slot0
-Q 2026-12-21 04:56:30 Start LowBattery slot1
+E 2026-12-21 00:15:30 LowBattery Start
+Q 2026-12-21 00:15:30 Start LowBattery slot0
+Q 2026-12-21 00:15:30 Start LowBattery slot1
 E 2026-12-21 06:30:00 LowBattery Clear
 E 2026-12-21 06:32:00 MainsFail Clear
 Q 2026-12-21 06:32:00 Recovery MainsFail slot0
@@ -231,8 +235,8 @@ DAY 2026-12-12 slot0 start=2 repeat=6 recovery=2 limit=1 total=11
 DAY 2026-12-12 slot1 start=2 repeat=6 recovery=2 limit=1 total=11
 DAY 2026-12-14 slot0 start=1 repeat=6 recovery=7 limit=1 total=15
 DAY 2026-12-14 slot1 start=1 repeat=6 recovery=7 limit=1 total=15
-DAY 2026-12-18 slot0 start=1 repeat=0 recovery=1 limit=0 total=2
-DAY 2026-12-18 slot1 start=1 repeat=0 recovery=1 limit=0 total=2
+DAY 2026-12-18 slot0 start=2 repeat=0 recovery=1 limit=0 total=3
+DAY 2026-12-18 slot1 start=2 repeat=0 recovery=1 limit=0 total=3
 DAY 2026-12-20 slot0 start=1 repeat=0 recovery=0 limit=0 total=1
 DAY 2026-12-20 slot1 start=1 repeat=0 recovery=0 limit=0 total=1
 DAY 2026-12-21 slot0 start=1 repeat=0 recovery=1 limit=0 total=2
@@ -255,4 +259,4 @@ DAY 2026-12-31 slot0 start=1 repeat=6 recovery=1 limit=1 total=9
 DAY 2026-12-31 slot1 start=1 repeat=6 recovery=1 limit=1 total=9
 DAY 2027-01-04 slot0 start=1 repeat=5 recovery=1 limit=0 total=7
 DAY 2027-01-04 slot1 start=1 repeat=5 recovery=1 limit=0 total=7
-TOTAL events=58 starts=29 sms_decisions=168
+TOTAL events=60 starts=30 sms_decisions=170

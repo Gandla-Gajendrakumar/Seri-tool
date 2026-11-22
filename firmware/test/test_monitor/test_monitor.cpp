@@ -16,6 +16,7 @@ struct Rig {
   explicit Rig(bool withOwner = true) {
     clock.t = kStart;
     modem.clock = &clock;
+    printer.clock = &clock;
     if (withOwner) {
       Settings s;
       s.phone[0] = "9876543210";
@@ -102,6 +103,53 @@ static void test_power_cut_alerts_after_debounce_and_returns() {
   r.power.mains = true;
   r.run(3 * 60);
   TEST_ASSERT_EQUAL(1, r.smsContaining("Power back"));
+}
+
+static void test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3750;
+  r.run(5 * 60);
+  TEST_ASSERT_EQUAL(0, r.smsContaining("Battery low"));
+  r.power.mv = 3690;
+  r.run(2 * 60);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("Battery low"), "D-038: alert at <= 3.70 V");
+}
+
+static void test_modem_does_not_transmit_below_3_60_v_on_battery() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3550;  // below the modem cut-off (A7670 needs >= 3.4 V during 2 A bursts)
+  r.sensor.t = 31.0f;
+  int before = r.modem.sendAttempts;
+  r.run(15 * 60);
+  TEST_ASSERT_TRUE(r.m->active(EventType::TempHigh));
+  TEST_ASSERT_EQUAL_MESSAGE(before, r.modem.sendAttempts, "no SMS attempts below cut-off");
+  TEST_ASSERT_EQUAL(0, r.modem.published.size());
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.count("TEMP HIGH") == 1, "printing and logging continue");
+  r.power.mains = true;  // mains back: queued alert goes out
+  r.run(4 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+}
+
+static void test_on_battery_modem_waits_2_s_after_printing() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3900;
+  r.run(10);
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.lowPower, "printer in low-power mode on battery (D-039)");
+  r.sensor.t = 31.0f;
+  r.run(8 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+  int64_t printed = 0;
+  for (size_t i = 0; i < r.printer.lines.size(); ++i)
+    if (r.printer.lines[i].find("TEMP HIGH") != std::string::npos) printed = r.printer.times[i];
+  int64_t sent = 0;
+  for (auto& s : r.modem.sent) if (s.text.find("Temp HIGH") != std::string::npos) sent = s.at;
+  TEST_ASSERT_TRUE_MESSAGE(sent - printed >= 2, "D-039: no modem burst while the printer heats");
+  r.power.mains = true;
+  r.run(5);
+  TEST_ASSERT_FALSE(r.printer.lowPower);
 }
 
 static void test_on_battery_uploads_every_15_minutes_instead_of_5() {
@@ -293,6 +341,9 @@ int main() {
   RUN_TEST(test_cold_night_low_temperature_alert);
   RUN_TEST(test_power_cut_alerts_after_debounce_and_returns);
   RUN_TEST(test_on_battery_uploads_every_15_minutes_instead_of_5);
+  RUN_TEST(test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it);
+  RUN_TEST(test_modem_does_not_transmit_below_3_60_v_on_battery);
+  RUN_TEST(test_on_battery_modem_waits_2_s_after_printing);
   RUN_TEST(test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring);
   RUN_TEST(test_sms_given_up_after_an_hour_is_printed);
   RUN_TEST(test_long_outage_sends_one_offline_summary_when_network_returns);

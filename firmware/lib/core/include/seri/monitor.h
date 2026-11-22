@@ -39,6 +39,8 @@ struct MonitorConfig {
   size_t ramLogLines = 400;
   size_t printBacklogMax = 200;    // F-PRN-05
   int summaryHourIst = 6;
+  int32_t modemCutoffMv = 3600;    // D-038: below this a 2 A modem burst pulls VBAT under 3.4 V (SPICE sweep)
+  int64_t printModemGapSec = 2;    // D-039: on battery, no modem activity within 2 s of printing
 };
 
 struct OutgoingSms {
@@ -105,6 +107,9 @@ class Monitor {
   std::deque<std::string> ramQueue_, ramLog_;
   bool onBattery_ = false, buzzerOn_ = false, sdWasOk_ = true;
   int batteryPct_ = 100;
+  int32_t batteryMv_ = 4200;
+  int64_t lastPrintAt_ = -1000;
+  bool modemAllowed(int64_t now) const;
   int64_t nextRaw_ = 0, nextPower_ = 0, nextPaper_ = 0, nextSd_ = 0, nextPoll_ = 0, nextAlertTick_ = 0;
   int64_t nextUpload_ = 0, nextClockSync_ = 0, lastUploadOk_ = 0, lastDay_ = -1;
   bool begun_ = false;

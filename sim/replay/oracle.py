@@ -9,7 +9,7 @@ Rules used (requirement / decision):
                 inside by 0.5 C / 2 %RH (F-EVT-01/02); band = target range +/- tolerance (Q-3)
   sensor fault  3 invalid samples (60 s) start, 3 valid clear (F-MEAS-04)
   mains         checked every 1 s; 120 s debounce both ways (D-008)
-  low battery   on battery and <= 3400 mV for 60 s; clears on mains or >= 3700 mV (D-019)
+  low battery   on battery and <= 3700 mV for 60 s; clears on mains or >= 3850 mV (D-019, D-038)
   paper         checked every 5 s, immediate; SD checked every 30 s, 2 failed checks (30 s)
   stage change  takes effect when the SMS is read (poll every 5 s, needs network); active climate events
                 no longer out of band clear silently; pending timers restart (F-EVT-07, D-009)
@@ -180,7 +180,7 @@ def main(src, dst):
         mains, mv = row["mains"] == "1", int(row["batt_mv"])
         # 1. power (every second)
         step("MainsFail", s, not mains, mains)
-        step("LowBattery", s, (not mains) and mv <= 3400, mains or mv >= 3700)
+        step("LowBattery", s, (not mains) and mv <= 3700, mains or mv >= 3850)
         # 2. raw read every 6 s from boot+1; 5th read -> sample
         if (s - t0 - 1) % 6 == 0:
             reads += 1

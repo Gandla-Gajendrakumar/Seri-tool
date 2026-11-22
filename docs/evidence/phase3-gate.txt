@@ -1,17 +1,17 @@
-Phase 3 gate run: 2026-11-22T05:36:35Z  commit 661b8fd
+Phase 3 gate run: 2026-11-22T13:37:49Z  commit 6415ddf
 == 1. Generate synthetic cycle
   wrote 109440 rows (38 days) to sim/replay/out/cycle.csv
   sha256 998bbd3bc21c50e2
 == 2. Oracle (rules) vs committed expected.txt
-  TOTAL events=58 starts=29 sms_decisions=168
+  TOTAL events=60 starts=30 sms_decisions=170
   expected.txt reproduced exactly
 == 3. Replay: real Monitor on fake hardware
-  replay: 58 events, 168 SMS decisions, 169 SMS sent, 469 printed lines, 38 summaries
-  actual == expected: 58 events, 168 SMS decisions, line for line
+  replay: 60 events, 170 SMS decisions, 171 SMS sent, 471 printed lines, 38 summaries
+  actual == expected: 60 events, 170 SMS decisions, line for line
 == 4. Caps and invariants
   worst day per number: 15 SMS (cap 20), 6 repeats (cap 6)
   told episodes per number: 38, recovery texts: 38
-  SMS jobs 179 (incl. 2 offline summaries) = sent 169 + reported not sent 10
+  SMS jobs 181 (incl. 2 offline summaries) = sent 171 + reported not sent 10
   monitoring gap max 30 s; summaries 38 (late 2)
 CHECKS: PASSED
 

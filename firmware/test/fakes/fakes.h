@@ -83,12 +83,17 @@ struct Wifi : hal::Wifi {
 };
 
 struct Printer : hal::Printer {
+  Clock* clock = nullptr;
   bool paper = true;
+  bool lowPower = false;
   std::vector<std::string> lines;
+  std::vector<int64_t> times;
+  void setLowPower(bool on) override { lowPower = on; }
   bool paperPresent() override { return paper; }
   bool printLine(const std::string& s, Language) override {
     if (!paper) return false;
     lines.push_back(s);
+    times.push_back(clock ? clock->t : 0);
     return true;
   }
   int count(const std::string& needle) const {

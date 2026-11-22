@@ -16,6 +16,7 @@ class EscPosPrinter : public seri::hal::Printer {
   void setRasteriser(Rasteriser r) { raster_ = std::move(r); }
   bool paperPresent() override;
   bool printLine(const std::string& utf8, seri::Language lang) override;
+  void setLowPower(bool on) override;
   bool statusSupported() const { return statusSeen_; }
  private:
   void printRaster(const std::vector<uint8_t>& bits, int widthBytes, int height);

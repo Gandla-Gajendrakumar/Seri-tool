@@ -52,6 +52,7 @@ struct Printer {                     // 58 mm ESC/POS panel printer
   virtual ~Printer() = default;
   virtual bool paperPresent() = 0;
   virtual bool printLine(const std::string& utf8, Language lang) = 0;  // false = not printed
+  virtual void setLowPower(bool on) = 0;  // fewer heating dots at once: lower peak current on battery (D-039)
 };
 
 struct Storage {                     // microSD: event log + store-and-forward upload queue
