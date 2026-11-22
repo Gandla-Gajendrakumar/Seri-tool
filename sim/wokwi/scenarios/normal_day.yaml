@@ -1,0 +1,21 @@
+name: "Normal day: no alerts, daily summary at 06:00, uploads every 5 min, stage change and status by SMS"
+version: 1
+author: "seri-tool"
+
+steps:
+  - wait-serial: "READY"
+  # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
+  - set-control: {part-id: modem, control: deliver, value: 1}
+  - wait-serial: "sent,9876543210"
+  - wait-serial: ",SUMMARY,"
+  # farmer moves to instar IV by SMS "11 4"
+  - set-control: {part-id: modem, control: deliver, value: 2}
+  - wait-serial: ",STAGE,3"
+  - set-control: {part-id: sht, control: temperature, value: 25}
+  - set-control: {part-id: sht, control: humidity, value: 70}
+  - wait-serial: "sent,9876543210"
+  - delay: 20s
+  # status request "20"
+  - set-control: {part-id: modem, control: deliver, value: 3}
+  - wait-serial: "C,"
+  - wait-serial: "sent,9876543210"

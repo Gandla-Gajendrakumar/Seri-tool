@@ -1,0 +1,400 @@
+{
+ "version": 1,
+ "author": "seri-tool",
+ "editor": "wokwi",
+ "parts": [
+  {
+   "type": "board-esp32-devkit-c-v4",
+   "id": "esp",
+   "top": 0,
+   "left": 0,
+   "attrs": {}
+  },
+  {
+   "type": "chip-sht31",
+   "id": "sht",
+   "top": -150,
+   "left": 250,
+   "attrs": {
+    "temperature": "27.5",
+    "humidity": "85",
+    "connected": "1"
+   }
+  },
+  {
+   "type": "chip-ds3231",
+   "id": "rtc",
+   "top": -150,
+   "left": 420,
+   "attrs": {
+    "start_epoch": "1795220400",
+    "speed": "60"
+   }
+  },
+  {
+   "type": "board-ssd1306",
+   "id": "oled",
+   "top": -160,
+   "left": -180,
+   "attrs": {
+    "i2cAddress": "0x3c"
+   }
+  },
+  {
+   "type": "chip-a7670c",
+   "id": "modem",
+   "top": 60,
+   "left": 300,
+   "attrs": {
+    "start_epoch": "1795220400",
+    "speed": "60",
+    "inbox": "+919876543210|10 000000;+919876543210|11 4;+919876543210|20"
+   }
+  },
+  {
+   "type": "chip-printer",
+   "id": "printer",
+   "top": 200,
+   "left": 300,
+   "attrs": {
+    "paper": "1"
+   }
+  },
+  {
+   "type": "chip-carrier",
+   "id": "carrier",
+   "top": 320,
+   "left": 300,
+   "attrs": {
+    "mains": "1",
+    "battery_mv": "4100",
+    "sd_present": "1"
+   }
+  },
+  {
+   "type": "wokwi-microsd-card",
+   "id": "sd",
+   "top": 200,
+   "left": -220,
+   "attrs": {}
+  },
+  {
+   "type": "wokwi-pushbutton",
+   "id": "btn_up",
+   "top": 330,
+   "left": -200,
+   "attrs": {
+    "color": "blue",
+    "label": "UP"
+   }
+  },
+  {
+   "type": "wokwi-pushbutton",
+   "id": "btn_ok",
+   "top": 330,
+   "left": -110,
+   "attrs": {
+    "color": "green",
+    "label": "OK"
+   }
+  },
+  {
+   "type": "wokwi-pushbutton",
+   "id": "btn_down",
+   "top": 330,
+   "left": -20,
+   "attrs": {
+    "color": "blue",
+    "label": "DOWN"
+   }
+  },
+  {
+   "type": "wokwi-buzzer",
+   "id": "buzzer",
+   "top": -60,
+   "left": -180,
+   "attrs": {
+    "volume": "0.1"
+   }
+  },
+  {
+   "type": "wokwi-led",
+   "id": "led_g",
+   "top": -60,
+   "left": -90,
+   "attrs": {
+    "color": "green"
+   }
+  },
+  {
+   "type": "wokwi-led",
+   "id": "led_r",
+   "top": -60,
+   "left": -50,
+   "attrs": {
+    "color": "red"
+   }
+  }
+ ],
+ "connections": [
+  [
+   "esp:TX",
+   "$serialMonitor:RX",
+   "gray",
+   []
+  ],
+  [
+   "esp:RX",
+   "$serialMonitor:TX",
+   "gray",
+   []
+  ],
+  [
+   "esp:21",
+   "sht:SDA",
+   "green",
+   []
+  ],
+  [
+   "esp:22",
+   "sht:SCL",
+   "blue",
+   []
+  ],
+  [
+   "sht:VCC",
+   "esp:3V3",
+   "red",
+   []
+  ],
+  [
+   "sht:GND",
+   "esp:GND.1",
+   "black",
+   []
+  ],
+  [
+   "esp:21",
+   "rtc:SDA",
+   "green",
+   []
+  ],
+  [
+   "esp:22",
+   "rtc:SCL",
+   "blue",
+   []
+  ],
+  [
+   "rtc:VCC",
+   "esp:3V3",
+   "red",
+   []
+  ],
+  [
+   "rtc:GND",
+   "esp:GND.1",
+   "black",
+   []
+  ],
+  [
+   "esp:21",
+   "oled:SDA",
+   "green",
+   []
+  ],
+  [
+   "esp:22",
+   "oled:SCL",
+   "blue",
+   []
+  ],
+  [
+   "oled:VCC",
+   "esp:3V3",
+   "red",
+   []
+  ],
+  [
+   "oled:GND",
+   "esp:GND.1",
+   "black",
+   []
+  ],
+  [
+   "esp:17",
+   "modem:RX",
+   "orange",
+   []
+  ],
+  [
+   "modem:TX",
+   "esp:16",
+   "yellow",
+   []
+  ],
+  [
+   "esp:27",
+   "modem:PWRKEY",
+   "purple",
+   []
+  ],
+  [
+   "modem:GND",
+   "esp:GND.1",
+   "black",
+   []
+  ],
+  [
+   "esp:25",
+   "printer:RX",
+   "orange",
+   []
+  ],
+  [
+   "printer:TX",
+   "esp:26",
+   "yellow",
+   []
+  ],
+  [
+   "printer:GND",
+   "esp:GND.1",
+   "black",
+   []
+  ],
+  [
+   "esp:18",
+   "sd:SCK",
+   "blue",
+   []
+  ],
+  [
+   "sd:DO",
+   "esp:19",
+   "yellow",
+   []
+  ],
+  [
+   "esp:23",
+   "sd:DI",
+   "orange",
+   []
+  ],
+  [
+   "esp:5",
+   "sd:CS",
+   "purple",
+   []
+  ],
+  [
+   "sd:VCC",
+   "esp:3V3",
+   "red",
+   []
+  ],
+  [
+   "sd:GND",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "carrier:MAINS_OK",
+   "esp:35",
+   "red",
+   []
+  ],
+  [
+   "carrier:BATT_SENSE",
+   "esp:VP",
+   "orange",
+   []
+  ],
+  [
+   "carrier:SD_CD",
+   "esp:34",
+   "purple",
+   []
+  ],
+  [
+   "carrier:GND",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "btn_up:1.l",
+   "esp:32",
+   "blue",
+   []
+  ],
+  [
+   "btn_up:2.l",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "btn_ok:1.l",
+   "esp:33",
+   "blue",
+   []
+  ],
+  [
+   "btn_ok:2.l",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "btn_down:1.l",
+   "esp:14",
+   "blue",
+   []
+  ],
+  [
+   "btn_down:2.l",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "buzzer:2",
+   "esp:13",
+   "red",
+   []
+  ],
+  [
+   "buzzer:1",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "led_g:A",
+   "esp:2",
+   "green",
+   []
+  ],
+  [
+   "led_g:C",
+   "esp:GND.2",
+   "black",
+   []
+  ],
+  [
+   "led_r:A",
+   "esp:4",
+   "red",
+   []
+  ],
+  [
+   "led_r:C",
+   "esp:GND.2",
+   "black",
+   []
+  ]
+ ],
+ "dependencies": {}
+}

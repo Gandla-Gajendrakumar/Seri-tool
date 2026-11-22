@@ -1,0 +1,25 @@
+# Wokwi project for the Seri-tool firmware (simulation build: env esp32-sim, clock x60).
+[wokwi]
+version = 1
+firmware = "../../firmware/.pio/build/esp32-sim/firmware.bin"
+elf = "../../firmware/.pio/build/esp32-sim/firmware.elf"
+
+[[chip]]
+name = "sht31"
+binary = "chips/sht31.chip.wasm"
+
+[[chip]]
+name = "ds3231"
+binary = "chips/ds3231.chip.wasm"
+
+[[chip]]
+name = "a7670c"
+binary = "chips/a7670c.chip.wasm"
+
+[[chip]]
+name = "printer"
+binary = "chips/printer.chip.wasm"
+
+[[chip]]
+name = "carrier"
+binary = "chips/carrier.chip.wasm"

@@ -43,5 +43,7 @@ int64_t fromIst(const CivilTime& t) {
 }
 
 int64_t istDay(int64_t utc) { return floorDiv(utc + kIstOffsetSec, 86400); }
+CivilTime toUtc(int64_t utc) { return toIst(utc - kIstOffsetSec); }
+int64_t fromUtc(const CivilTime& t) { return fromIst(t) + kIstOffsetSec; }
 
 }  // namespace seri

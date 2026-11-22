@@ -19,5 +19,8 @@ int64_t fromIst(const CivilTime& ist);
 // Day number (days since 1970-01-01) of the IST calendar date. Changes at IST midnight;
 // used to reset daily SMS caps and to close the daily summary.
 int64_t istDay(int64_t utc);
+// UTC calendar <-> UTC seconds (the DS3231 keeps UTC, decision D-005).
+CivilTime toUtc(int64_t utc);
+int64_t fromUtc(const CivilTime& utc);
 
 }  // namespace seri

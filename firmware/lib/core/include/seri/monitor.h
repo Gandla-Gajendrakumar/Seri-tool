@@ -23,6 +23,7 @@ struct Hardware {
   hal::Storage& storage;
   hal::Indicators& indicators;
   hal::Persist& persist;
+  hal::Trace* trace = nullptr;
 };
 
 struct MonitorConfig {

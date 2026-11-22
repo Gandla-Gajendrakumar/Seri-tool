@@ -8,3 +8,4 @@ fp-info-cache
 build/
 out/
 *.chip.wasm
+sim/wokwi/logs/

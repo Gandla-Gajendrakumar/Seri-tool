@@ -83,9 +83,14 @@ void Monitor::tick() {
   if (now >= nextPoll_) { nextPoll_ = now + cfg_.smsPollSec; commandStep(now); }
   sendStep(now);
   uploadStep(now);
-  for (const auto& due : scheduler_.tick(now, onBattery_, summary_))
-    for (const auto& line : printSummary(due.report, settings_.stage, engine_.band(), ownerLang(), due.late))
+  for (const auto& due : scheduler_.tick(now, onBattery_, summary_)) {
+    const DayReport& r = due.report;
+    logLine("D," + std::to_string(now) + ",SUMMARY," + std::to_string(r.tMin) + "," + std::to_string(r.tMax) + "," +
+            std::to_string(r.rhMin) + "," + std::to_string(r.rhMax) + "," + std::to_string(r.tOutSec) + "," +
+            std::to_string(r.rhOutSec) + "," + std::to_string(r.alerts) + (due.late ? ",late" : ""));
+    for (const auto& line : printSummary(r, settings_.stage, engine_.band(), ownerLang(), due.late))
       printOrQueue(line, ownerLang());
+  }
   if (now >= nextClockSync_) clockSync(now);
   indicate();
 }
@@ -163,6 +168,7 @@ void Monitor::printStep() {
 }
 
 void Monitor::logLine(const std::string& line) {
+  if (hw_.trace) hw_.trace->line(line);
   if (hw_.storage.ok() && hw_.storage.appendLog(line)) return;
   ramLog_.push_back(line);
   if (ramLog_.size() > cfg_.ramLogLines) ramLog_.pop_front();

@@ -57,6 +57,14 @@ static void test_ist_day_changes_exactly_at_ist_midnight() {
   TEST_ASSERT_EQUAL_INT64(0, istDay(fromIst(CivilTime{1970, 1, 1, 0, 0, 0})));
 }
 
+static void test_utc_calendar_conversion_round_trip() {
+  CivilTime u = toUtc(k20261121Utc + 3600 + 61);
+  TEST_ASSERT_EQUAL(2026, u.year); TEST_ASSERT_EQUAL(11, u.month); TEST_ASSERT_EQUAL(21, u.day);
+  TEST_ASSERT_EQUAL(1, u.hour); TEST_ASSERT_EQUAL(1, u.minute); TEST_ASSERT_EQUAL(1, u.second);
+  TEST_ASSERT_EQUAL_INT64(k20261121Utc + 3661, fromUtc(u));
+  TEST_ASSERT_EQUAL_INT64(fromIst(CivilTime{2026, 11, 21, 5, 30, 0}), fromUtc(CivilTime{2026, 11, 21, 0, 0, 0}));
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_utc_midnight_is_0530_ist_same_day);
@@ -64,5 +72,6 @@ int main() {
   RUN_TEST(test_leap_day_and_year_end);
   RUN_TEST(test_from_ist_matches_known_epoch);
   RUN_TEST(test_ist_day_changes_exactly_at_ist_midnight);
+  RUN_TEST(test_utc_calendar_conversion_round_trip);
   return UNITY_END();
 }

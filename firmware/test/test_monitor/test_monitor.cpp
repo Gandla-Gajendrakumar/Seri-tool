@@ -235,6 +235,7 @@ static void test_daily_summary_printed_at_6am() {
   int64_t to6 = fromIst(CivilTime{2026, 11, 22, 6, 0, 30}) - r.clock.t;
   r.run(to6);
   TEST_ASSERT_EQUAL(1, r.printer.count("DAILY SUMMARY"));
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.storage.count(",SUMMARY,"), "summary recorded in the log (and trace)");
 }
 
 static void test_upload_record_contains_samples() {

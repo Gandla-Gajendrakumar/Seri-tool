@@ -77,5 +77,11 @@ struct Persist {
   virtual bool save(const char* key, const std::string& blob) = 0;
 };
 
+// Optional diagnostic echo of every log line (serial console on the ESP32; used by Wokwi scenarios).
+struct Trace {
+  virtual ~Trace() = default;
+  virtual void line(const std::string& l) = 0;
+};
+
 }  // namespace hal
 }  // namespace seri
