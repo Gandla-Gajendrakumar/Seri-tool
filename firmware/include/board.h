@@ -36,5 +36,5 @@ constexpr bool kSim = true;
 constexpr bool kSim = false;
 #endif
 // MQTT broker: per device, imported from seri.cfg + ca.pem on the microSD card (D-060, docs/handoff/installer-guide.md).
-constexpr const char* kFirmwareVersion = "0.3.0";
+constexpr const char* kFirmwareVersion = "0.3.1";
 }  // namespace cfg

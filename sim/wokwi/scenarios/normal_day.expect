@@ -5,6 +5,6 @@ in-order: PRINTER\| ======= DAILY SUMMARY =======
 in-order: PRINTER\| \d\d/11 \d\d:\d\d STAGE -> Instar 4
 in-order: SMS to \+919876543210: Shed-1: OK - Instar 4
 in-order: SMS to \+919876543210: Shed-1: 25\.0C 70% Instar 4 \d\d:\d\d
-count >= 3: MQTT PUBLISH seri/Shed-1/data
+count >= 3: MQTT PUBLISH seri/seri-sim/data
 absent: LOG E,\d+,\w+,Start
 absent: SMS to .*(HIGH|LOW|fault|cut|low|finished)

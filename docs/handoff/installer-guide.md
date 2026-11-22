@@ -20,7 +20,10 @@ mqtt_pass=the-device-password
 client_id=seri-017
 ```
 
-`ca.pem`: the server's CA certificate, as given by the MQTT provider (PEM text, up to 4 KB).
+`ca.pem`: the server's CA certificate (PEM text, up to 4 KB).
+
+For HiveMQ Cloud (D-061) both files are generated per device by `tools/make_provision.py`; see
+[hivemq/README.md](hivemq/README.md).
 
 At start-up the device checks both files, saves them, and **deletes them from the card** so the password
 does not stay on a removable card. The event log on the card shows `CFG mqtt imported host=...` (the password

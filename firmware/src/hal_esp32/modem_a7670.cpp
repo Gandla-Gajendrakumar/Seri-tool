@@ -240,6 +240,9 @@ bool A7670Modem::ensureMqtt() {
   cmd("AT+CSSLCFG=\"sslversion\",0,4", 1000);  // TLS 1.2
   cmd("AT+CSSLCFG=\"authmode\",0,1", 1000);    // verify the server certificate
   cmd("AT+CSSLCFG=\"cacert\",0,\"ca.pem\"", 1000);
+  // HiveMQ Cloud (and most shared brokers) select the tenant by TLS SNI: without it the handshake fails
+  // (D-061). Syntax from SIMCom A76xx community usage; confirm on the bench (B-28).
+  cmd("AT+CSSLCFG=\"enableSNI\",0,1", 1000);
   const std::string& id = mqtt_.clientId.empty() ? client_ : mqtt_.clientId;
   cmd(String("AT+CMQTTACCQ=0,\"") + id.c_str() + "\",1", 2000);
   cmd("AT+CMQTTSSLCFG=0,0", 1000);

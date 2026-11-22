@@ -66,7 +66,7 @@ J11: 1 +3V3, 2 SDA, 3 SCL, 4 GND.
 
 ## 5. Firmware
 
-`firmware/release/v0.3.0/flash.sh /dev/ttyUSB0` (checks SHA256SUMS, then writes bootloader 0x1000,
+`firmware/release/v0.3.1/flash.sh /dev/ttyUSB0` (checks SHA256SUMS, then writes bootloader 0x1000,
 partitions 0x8000, boot_app0 0xe000, application 0x10000). Build from source: `cd firmware && pio run -e esp32`.
 
 ## 6. Enclosure

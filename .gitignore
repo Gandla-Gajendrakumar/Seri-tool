@@ -19,3 +19,4 @@ hardware/kicad/carrier/*-backups/
 hardware/kicad/carrier/*.kicad_prl
 hardware/kicad/carrier/drc.json
 hardware/kicad/carrier/erc.json
+provision/

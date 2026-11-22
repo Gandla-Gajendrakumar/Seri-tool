@@ -1,4 +1,4 @@
-Phase 7 gate run: 2026-11-22T15:49:17Z  commit a444881
+Phase 7 gate run: 2026-11-22T15:59:44Z  commit 157d5b4
 == 1. Earlier gates
   phase 1: PASSED
   phase 3: PASSED
@@ -8,11 +8,11 @@ Phase 7 gate run: 2026-11-22T15:49:17Z  commit a444881
   phase 2: Wokwi in GitHub Actions; last recorded: see docs/evidence/phase2-gate.md; re-run pending (B-27)
 == 2. Release outputs
   fab: 13 Gerber/drill files, 296K zip
-  firmware: firmware/release/v0.3.0 (1.3M application)
-  firmware checksums OK
+  firmware: firmware/release/v0.3.1 (1.3M application)
+  firmware v0.3.1 checksums OK
   farmer card: docs/handoff/farmer-card.{html,pdf}
   traceability: 76 requirements, 1 bench-only, 0 unverified, open/deferred: F-OTA-02 (deferred)
 == 3. Links and paths in the hand-off docs
-  78 references checked, 0 missing
+  84 references checked, 0 missing
 
 GATE: PASSED

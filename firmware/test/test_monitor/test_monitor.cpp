@@ -329,7 +329,7 @@ static void test_upload_record_contains_samples() {
   r.run(5 * 60 + 5);
   TEST_ASSERT_EQUAL(1, r.modem.published.size());
   const std::string& p = r.modem.published[0].second;
-  TEST_ASSERT_EQUAL_STRING("seri/Shed-1/data", r.modem.published[0].first.c_str());
+  TEST_ASSERT_EQUAL_STRING("seri/seri-1/data", r.modem.published[0].first.c_str());  // unique client_id (D-061)
   TEST_ASSERT_TRUE(p.find("\"d\":\"Shed-1\"") != std::string::npos);
   TEST_ASSERT_TRUE(p.find("275,850") != std::string::npos);
 }
@@ -386,6 +386,19 @@ static void test_saved_broker_is_applied_at_boot() {
   TEST_ASSERT_EQUAL(8883, r.wifi.mqtt.port);
 }
 
+// D-061: topics use the unique client_id from provisioning, so units that keep the default
+// device name ("Shed-1") on different farms never publish to the same topic.
+static void test_topic_falls_back_to_device_name_without_client_id() {
+  Rig r(true, false);
+  MqttConfig b = testBroker();
+  b.clientId.clear();
+  r.persist.kv["mqtt"] = encodeMqtt(b);
+  r.boot();
+  r.run(6 * 60);
+  TEST_ASSERT_TRUE(r.modem.published.size() >= 1);
+  TEST_ASSERT_EQUAL_STRING("seri/Shed-1/data", r.modem.published[0].first.c_str());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_provisioning_files_are_imported_saved_and_deleted);
@@ -393,6 +406,7 @@ int main() {
   RUN_TEST(test_missing_ca_certificate_is_rejected);
   RUN_TEST(test_no_broker_means_records_queue_but_nothing_is_published);
   RUN_TEST(test_saved_broker_is_applied_at_boot);
+  RUN_TEST(test_topic_falls_back_to_device_name_without_client_id);
   RUN_TEST(test_normal_day_sends_no_sms_and_samples_every_30s);
   RUN_TEST(test_heat_spike_alerts_prints_logs_buzzes_then_recovers);
   RUN_TEST(test_cold_night_low_temperature_alert);

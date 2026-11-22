@@ -13,7 +13,7 @@ Use a 12 V bench supply with its current limit set as given.
 | 5 | Two 18650 cells, **each within 0.05 V of the other before inserting**, limit raised to 1 A | BAT_P; 12 V supply current; D3 | Cell voltage; ≈ 0.25-0.3 A at 12 V while charging (500 mA into the cells); D3 lit |
 | 6 | As 5, disconnect 12 V | VSYS (follows battery − ~0.05 V); +3V3 | VSYS ≥ 3.5 V with charged cells; +3V3 stays 3.30 V |
 | 7 | 12 V back; boost wired to J6/J7; GPIO26 not driven (no DevKitC) | +5V_PRN (J7-1) | ~0 V (boost off by default: R11/R13 keep Q4 off) |
-| 8 | Flash firmware with JP2 **removed** and USB in (`firmware/release/v0.3.0/flash.sh`) | Serial monitor 115200 baud | `seri-tool 0.3.0 booting`, then `READY` |
+| 8 | Flash firmware with JP2 **removed** and USB in (`firmware/release/v0.3.1/flash.sh`) | Serial monitor 115200 baud | `seri-tool 0.3.1 booting`, then `READY` |
 | 9 | USB out, JP2 fitted, 12 V on, OLED/probe/SD/printer connected | OLED home screen; serial log via a USB-UART on the DevKitC is not available in this mode, so use JP2-removed + USB for logs | Home screen shows temperature, RH, stage, "Mains" |
 | 10 | Breathe on the probe | OLED RH rises within ~10 s | Responds |
 | 11 | Menu → print test | Printer prints a test line in the chosen language | Legible line; with paper removed the OLED/red LED show paper-out |

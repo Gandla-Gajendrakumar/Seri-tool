@@ -1,6 +1,6 @@
 # Bench and field test plan (what software could not prove)
 
-Everything below was **assumed or out of reach** in phases 0-6. Each item gives the reason, the method and the pass level.
+Everything below was **assumed or out of reach** in phases 0-6 (and the HiveMQ connection, D-061). Each item gives the reason, the method and the pass level.
 Items marked ⚠ gate the pilot order or the field trial. Record results per board in the table at the end.
 
 ## Power and electrical
@@ -28,6 +28,7 @@ Items marked ⚠ gate the pilot order or the field trial. Record results per boa
 | B-14 | LTE bands in the pilot districts (A7670C band list not verified from a datasheet) | Register in each pilot village, log band/RSSI | Registered, RSSI recorded |
 | B-15 | Unicode SMS rendering on 3 common feature phones | Send Telugu/Kannada/Hindi alerts | Readable (no boxes), or note models that fail |
 | B-16 | Wi-Fi range through shed walls | RSSI at the mounting spot | Upload works, or 4G only |
+| B-28 ⚠ | Upload to the real HiveMQ Cloud cluster over 4G (A7670C TLS 1.2 + SNI + ISRG Root X1) and over Wi-Fi | Provision one unit with tools/make_provision.py, watch the topic in the HiveMQ web client for 24 h | Records arrive on `seri/<client_id>/data`; no reconnect storm; if the modem rejects SNI or the certificate, note the firmware version (AT+SIMCOMATI) |
 
 ## Sensor and clock
 

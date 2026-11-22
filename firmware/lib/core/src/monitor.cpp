@@ -260,7 +260,8 @@ void Monitor::flushQueue() {
   if (!mqtt_.valid()) return;   // no broker yet (F-UP-04): records stay queued
   const bool wifi = hw_.wifi.connected();
   if (!wifi && (!modemAllowed(hw_.clock.nowUtc()) || !hw_.modem.dataReady())) return;
-  const std::string topic = "seri/" + settings_.deviceName + "/data";
+  // unique client_id from provisioning (D-061); the farmer-facing device name is only a fallback
+  const std::string topic = "seri/" + (mqtt_.clientId.empty() ? settings_.deviceName : mqtt_.clientId) + "/data";
   auto publish = [&](const std::string& rec) {
     return wifi ? hw_.wifi.mqttPublish(topic, rec) : hw_.modem.mqttPublish(topic, rec);
   };
