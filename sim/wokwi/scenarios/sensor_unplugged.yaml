@@ -1,0 +1,15 @@
+name: "Sensor unplugged: fault alert within 90 s, recovery when plugged back"
+version: 1
+author: "seri-tool"
+
+steps:
+  - wait-serial: "READY"
+  # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
+  - set-control: {part-id: modem, control: deliver, value: 1}
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: sht, control: connected, value: 0}
+  - wait-serial: "SensorFault,Start"
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: sht, control: connected, value: 1}
+  - wait-serial: "SensorFault,Clear"
+  - wait-serial: "sent,9876543210"

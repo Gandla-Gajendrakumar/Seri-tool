@@ -1,0 +1,10 @@
+{
+  "name": "seri-tools",
+  "private": true,
+  "type": "module",
+  "description": "Helper scripts for Seri-tool simulation",
+  "dependencies": {
+    "https-proxy-agent": "7.0.6",
+    "ws": "8.18.3"
+  }
+}

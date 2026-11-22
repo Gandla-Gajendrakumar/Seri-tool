@@ -1,0 +1,19 @@
+name: "Cold, damp night: temperature low and humidity high at once, then both recover"
+version: 1
+author: "seri-tool"
+
+steps:
+  - wait-serial: "READY"
+  # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
+  - set-control: {part-id: modem, control: deliver, value: 1}
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: sht, control: temperature, value: 24}
+  - set-control: {part-id: sht, control: humidity, value: 97}
+  - wait-serial: "RhHigh,Start"
+  - wait-serial: "sent,9876543210"
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: sht, control: temperature, value: 27.5}
+  - set-control: {part-id: sht, control: humidity, value: 85}
+  - wait-serial: "RhHigh,Clear"
+  - wait-serial: "sent,9876543210"
+  - wait-serial: "sent,9876543210"

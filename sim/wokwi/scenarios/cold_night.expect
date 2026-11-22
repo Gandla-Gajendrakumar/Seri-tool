@@ -1,0 +1,11 @@
+# Cold, damp night: temperature low and humidity high at once, then both recover
+present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
+in-order: SMS to 9876543210: Shed-1: OK\s*$
+present: PRINTER\| .* TEMP LOW 24\.0C
+present: PRINTER\| .* RH HIGH 97%
+present: SMS to 9876543210: Shed-1: Temp LOW 24\.0C \(safe 26-29C\) Chawki
+present: SMS to 9876543210: Shed-1: Humidity HIGH 97% \(safe 75-95%\) Chawki
+present: SMS to 9876543210: Shed-1: Temp normal again
+present: SMS to 9876543210: Shed-1: Humidity normal again
+count == 1: SMS to .*Temp LOW
+count == 1: SMS to .*Humidity HIGH

@@ -1,0 +1,8 @@
+{
+  "name": "Thermal printer 58mm",
+  "author": "seri-tool",
+  "pins": ["TX", "RX", "VCC", "GND"],
+  "controls": [
+    { "id": "paper", "label": "Paper loaded", "type": "range", "min": 0, "max": 1, "step": 1 }
+  ]
+}

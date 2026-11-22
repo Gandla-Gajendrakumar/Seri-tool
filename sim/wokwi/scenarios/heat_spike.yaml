@@ -1,0 +1,18 @@
+name: "Heat spike: alert after 5 min, one repeat after 30 min, one recovery"
+version: 1
+author: "seri-tool"
+
+steps:
+  - wait-serial: "READY"
+  # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
+  - set-control: {part-id: modem, control: deliver, value: 1}
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: sht, control: temperature, value: 31}
+  - wait-serial: "TempHigh,Start"
+  - wait-serial: "sent,9876543210"
+  - expect-pin: {part-id: led_r, pin: A, value: 1}
+  - delay: 32s
+  - set-control: {part-id: sht, control: temperature, value: 27}
+  - wait-serial: "TempHigh,Clear"
+  - wait-serial: "sent,9876543210"
+  - expect-pin: {part-id: led_r, pin: A, value: 0}

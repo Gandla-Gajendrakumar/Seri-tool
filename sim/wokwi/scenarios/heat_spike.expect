@@ -1,0 +1,12 @@
+# Heat spike: alert after 5 min, one repeat after 30 min, one recovery
+present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
+in-order: SMS to 9876543210: Shed-1: OK\s*$
+in-order: LOG E,\d+,TempHigh,Start,310
+in-order: PRINTER\| \d\d/11 \d\d:\d\d TEMP HIGH 31\.0C
+in-order: SMS to 9876543210: Shed-1: Temp HIGH 31\.0C \(safe 26-29C\) Chawki
+in-order: SMS to 9876543210: Shed-1: STILL Temp HIGH 31\.0C for 3\dmin
+in-order: PRINTER\| \d\d/11 \d\d:\d\d TEMP OK
+in-order: SMS to 9876543210: Shed-1: Temp normal again
+count == 1: SMS to .*Temp HIGH 31\.0C \(safe
+count == 1: SMS to .*STILL
+count == 1: SMS to .*Temp normal again

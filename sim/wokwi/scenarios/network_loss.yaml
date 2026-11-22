@@ -1,0 +1,16 @@
+name: "Network loss: monitoring and printing continue, SMS and uploads wait and are delivered once"
+version: 1
+author: "seri-tool"
+
+steps:
+  - wait-serial: "READY"
+  # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
+  - set-control: {part-id: modem, control: deliver, value: 1}
+  - wait-serial: "sent,9876543210"
+  - set-control: {part-id: modem, control: network, value: 0}
+  - set-control: {part-id: sht, control: temperature, value: 31}
+  - wait-serial: "TempHigh,Start"
+  - delay: 15s
+  - set-control: {part-id: modem, control: network, value: 1}
+  - wait-serial: "sent,9876543210"
+  - delay: 15s

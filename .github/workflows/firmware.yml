@@ -1,0 +1,82 @@
+name: firmware
+
+on:
+  push:
+    paths: ["firmware/**", "sim/**", "tools/**", ".github/workflows/**"]
+
+  workflow_dispatch:
+
+env:
+  WOKWI_CLI_VERSION: v0.29.1
+  PLATFORMIO_SETTING_ENABLE_TELEMETRY: "no"
+
+jobs:
+  native:
+    name: Logic tests, gate, custom chips
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ hashFiles('firmware/platformio.ini') }}
+      - name: Install PlatformIO and wokwi-cli
+        run: |
+          pip install platformio
+          mkdir -p ~/bin
+          curl -fsSL -o ~/bin/wokwi-cli https://github.com/wokwi/wokwi-cli/releases/download/${WOKWI_CLI_VERSION}/wokwi-cli-linuxstatic-x64
+          chmod +x ~/bin/wokwi-cli
+          echo "$HOME/bin" >> $GITHUB_PATH
+      - name: Native unit tests + phase 1 gate (core purity, ESP32 build)
+        run: tools/phase1_gate.sh
+      - name: Scenario checker tests
+        run: python3 -m unittest tools/test_check_scenario.py
+      - name: Custom chip tests (host) and WebAssembly build
+        run: tools/test_chips.sh
+
+  wokwi:
+    name: Wokwi scenarios
+    needs: native
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ hashFiles('firmware/platformio.ini') }}
+      - name: Check Wokwi token
+        env: { WOKWI_CLI_TOKEN: "${{ secrets.WOKWI_CLI_TOKEN }}" }
+        run: |
+          if [ -z "$WOKWI_CLI_TOKEN" ]; then
+            echo "::error::Repository secret WOKWI_CLI_TOKEN is not set (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+      - name: Install PlatformIO and wokwi-cli
+        run: |
+          pip install platformio
+          mkdir -p ~/bin
+          curl -fsSL -o ~/bin/wokwi-cli https://github.com/wokwi/wokwi-cli/releases/download/${WOKWI_CLI_VERSION}/wokwi-cli-linuxstatic-x64
+          chmod +x ~/bin/wokwi-cli
+          echo "$HOME/bin" >> $GITHUB_PATH
+      - name: Build simulation firmware (clock x60)
+        run: cd firmware && pio run -e esp32-sim
+      - name: Build custom chips
+        run: |
+          cd sim/wokwi/chips
+          for c in sht31 ds3231 a7670c printer carrier; do wokwi-cli chip compile $c.chip.c -o $c.chip.wasm; done
+      - name: Run scenarios
+        env: { WOKWI_CLI_TOKEN: "${{ secrets.WOKWI_CLI_TOKEN }}" }
+        run: tools/run_scenarios.sh
+      - name: Summary
+        if: always()
+        run: |
+          { echo '```'; cat sim/wokwi/logs/summary.txt 2>/dev/null || echo "no summary"; echo '```'; } >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wokwi-logs
+          path: sim/wokwi/logs/

@@ -1,0 +1,7 @@
+{
+  "name": "seri-core",
+  "version": "0.1.0",
+  "description": "Pure, hardware-independent logic for the Seri-tool climate monitor. No Arduino/ESP-IDF headers allowed.",
+  "build": { "includeDir": "include", "srcDir": "src", "flags": ["-std=gnu++17"] },
+  "platforms": "*"
+}
