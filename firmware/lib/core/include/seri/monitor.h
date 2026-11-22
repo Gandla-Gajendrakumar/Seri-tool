@@ -71,6 +71,7 @@ class Monitor {
   size_t printBacklog() const { return backlog_.size(); }
   size_t ramRecords() const { return ramQueue_.size(); }
   int64_t lastUploadOk() const { return lastUploadOk_; }
+  bool brokerConfigured() const { return mqtt_.valid(); }
   int offlineSummariesSent() const { return offlineSummaries_; }
 
  private:
@@ -83,6 +84,7 @@ class Monitor {
   void logLine(const std::string& line);
   void sdStep(int64_t now);
   void uploadStep(int64_t now);
+  void loadBroker();   // saved config, or import seri.cfg + ca.pem from the card (D-060)
   void flushQueue();
   void commandStep(int64_t now);
   void clockSync(int64_t now);
@@ -101,6 +103,7 @@ class Monitor {
   SummaryScheduler scheduler_;
   Sample last_{false, 0, 0};
   std::vector<RawReading> raw_;
+  MqttConfig mqtt_;
   std::vector<std::pair<int64_t, Sample>> pendingSamples_;  // for the next upload record
   std::deque<OutgoingSms> outbox_;
   std::deque<std::pair<std::string, Language>> backlog_;

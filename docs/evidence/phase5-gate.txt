@@ -1,4 +1,4 @@
-Phase 5 gate run: 2026-11-22T15:28:44Z  commit 381d5bb
+Phase 5 gate run: 2026-11-22T15:50:33Z  commit a444881
 == 1. Unit tests
   PASS bom/test_bom.py (Ran 9 tests)
 == 2-3. BOM

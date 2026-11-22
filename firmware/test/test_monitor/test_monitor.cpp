@@ -1,6 +1,7 @@
 // Application-level tests: the whole device logic running on fake hardware.
 // These mirror the phase-2 Wokwi scenarios so failures show up here first, in milliseconds.
 #include <unity.h>
+#include "seri/provision.h"
 #include "../fakes/fakes.h"
 #include "seri/monitor.h"
 #include "seri/persist.h"
@@ -9,11 +10,17 @@ using namespace seri;
 
 static const int64_t kStart = fromIst(CivilTime{2026, 11, 21, 8, 0, 0});
 
+static const char* kPem = "-----BEGIN CERTIFICATE-----\nMIIBszCCAVmgAwIBAgIUQ0FURVNU\n-----END CERTIFICATE-----\n";
+static MqttConfig testBroker() {
+  MqttConfig c; c.host = "broker.test.in"; c.user = "shed"; c.pass = "pw"; c.clientId = "seri-1"; c.caPem = kPem;
+  return c;
+}
+
 struct Rig {
   fakes::Clock clock; fakes::Sensor sensor; fakes::Power power; fakes::Modem modem; fakes::Wifi wifi;
   fakes::Printer printer; fakes::Storage storage; fakes::Indicators ind; fakes::Persist persist;
   Monitor* m = nullptr;
-  explicit Rig(bool withOwner = true) {
+  explicit Rig(bool withOwner = true, bool withBroker = true) {
     clock.t = kStart;
     modem.clock = &clock;
     printer.clock = &clock;
@@ -23,6 +30,7 @@ struct Rig {
       s.stage = Stage::Chawki;  // 26-29 C, 75-95 %
       persist.kv["settings"] = encodeSettings(s);
     }
+    if (withBroker) persist.kv["mqtt"] = encodeMqtt(testBroker());
     boot();
   }
   ~Rig() { delete m; }
@@ -334,8 +342,57 @@ static void test_wifi_preferred_over_cellular_for_upload() {
   TEST_ASSERT_EQUAL(0, r.modem.published.size());
 }
 
+// ---- F-UP-04 / D-060: broker settings provisioned from the microSD card ----
+static void test_provisioning_files_are_imported_saved_and_deleted() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_host=broker.example.in\nmqtt_user=shed-17\nmqtt_pass=TopSecret\nclient_id=seri-0017\n";
+  r.storage.files["ca.pem"] = kPem;
+  r.boot();
+  TEST_ASSERT_TRUE(r.persist.kv.count("mqtt") == 1);
+  TEST_ASSERT_EQUAL(0, r.storage.files.size());                       // secrets do not stay on the card
+  TEST_ASSERT_EQUAL_STRING("broker.example.in", r.modem.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL_STRING("broker.example.in", r.wifi.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt imported host=broker.example.in"));
+  TEST_ASSERT_EQUAL(0, r.storage.count("TopSecret"));                  // never logged
+}
+
+static void test_bad_provisioning_file_is_rejected_and_reported() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_prot=8883\n";
+  r.storage.files["ca.pem"] = kPem;
+  r.boot();
+  TEST_ASSERT_EQUAL(0, r.persist.kv.count("mqtt"));
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt rejected: unknown key: mqtt_prot"));
+}
+
+static void test_missing_ca_certificate_is_rejected() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_host=broker.example.in\n";
+  r.boot();
+  TEST_ASSERT_EQUAL(0, r.persist.kv.count("mqtt"));
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt rejected: ca.pem missing or not a PEM certificate"));
+}
+
+static void test_no_broker_means_records_queue_but_nothing_is_published() {
+  Rig r(true, false);
+  r.run(20 * 60);
+  TEST_ASSERT_EQUAL(0, r.modem.published.size());
+  TEST_ASSERT_TRUE(r.storage.queue.size() >= 3);                       // kept for when the broker is set
+}
+
+static void test_saved_broker_is_applied_at_boot() {
+  Rig r;
+  TEST_ASSERT_EQUAL_STRING("broker.test.in", r.modem.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL(8883, r.wifi.mqtt.port);
+}
+
 int main() {
   UNITY_BEGIN();
+  RUN_TEST(test_provisioning_files_are_imported_saved_and_deleted);
+  RUN_TEST(test_bad_provisioning_file_is_rejected_and_reported);
+  RUN_TEST(test_missing_ca_certificate_is_rejected);
+  RUN_TEST(test_no_broker_means_records_queue_but_nothing_is_published);
+  RUN_TEST(test_saved_broker_is_applied_at_boot);
   RUN_TEST(test_normal_day_sends_no_sms_and_samples_every_30s);
   RUN_TEST(test_heat_spike_alerts_prints_logs_buzzes_then_recovers);
   RUN_TEST(test_cold_night_low_temperature_alert);

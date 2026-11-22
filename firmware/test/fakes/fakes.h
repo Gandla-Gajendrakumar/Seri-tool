@@ -38,6 +38,8 @@ struct Sms { std::string to, text; int64_t at; };
 
 struct Modem : hal::Modem {
   Clock* clock = nullptr;
+  MqttConfig mqtt;  // last configuration given by the Monitor
+  void configureMqtt(const MqttConfig& c) override { mqtt = c; }
   bool network = true;
   bool data = true;
   int64_t netTimeOffset = 0;  // network time = clock + offset
@@ -72,6 +74,8 @@ struct Modem : hal::Modem {
 
 struct Wifi : hal::Wifi {
   bool up = false;
+  MqttConfig mqtt;
+  void configureMqtt(const MqttConfig& c) override { mqtt = c; }
   std::vector<std::pair<std::string, std::string>> published;
   bool connected() override { return up; }
   bool ntpTime(int64_t&) override { return false; }
@@ -107,7 +111,15 @@ struct Storage : hal::Storage {
   bool present = true;
   std::vector<std::string> log;
   std::deque<std::string> queue;
+  std::map<std::string, std::string> files;  // other files on the card (provisioning)
   bool ok() override { return present; }
+  bool readFile(const std::string& n, std::string& out) override {
+    auto it = files.find(n);
+    if (!present || it == files.end()) return false;
+    out = it->second;
+    return true;
+  }
+  bool removeFile(const std::string& n) override { return present && files.erase(n) > 0; }
   bool appendLog(const std::string& l) override { if (!present) return false; log.push_back(l); return true; }
   bool queuePush(const std::string& r) override { if (!present) return false; queue.push_back(r); return true; }
   bool queueFront(std::string& r) override { if (!present || queue.empty()) return false; r = queue.front(); return true; }

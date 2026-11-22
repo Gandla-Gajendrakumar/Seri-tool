@@ -1,28 +1,33 @@
-Phase 1 gate run: 2026-11-22T15:27:28Z  commit 381d5bb
+Phase 1 gate run: 2026-11-22T15:49:17Z  commit a444881
 
 == 1. Native unit tests (pio test -e native)
-  test/test_monitor/test_monitor.cpp:339: test_normal_day_sends_no_sms_and_samples_every_30s	[PASSED]
-  test/test_monitor/test_monitor.cpp:340: test_heat_spike_alerts_prints_logs_buzzes_then_recovers	[PASSED]
-  test/test_monitor/test_monitor.cpp:341: test_cold_night_low_temperature_alert	[PASSED]
-  test/test_monitor/test_monitor.cpp:342: test_power_cut_alerts_after_debounce_and_returns	[PASSED]
-  test/test_monitor/test_monitor.cpp:343: test_on_battery_uploads_every_15_minutes_instead_of_5	[PASSED]
-  test/test_monitor/test_monitor.cpp:344: test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it	[PASSED]
-  test/test_monitor/test_monitor.cpp:345: test_modem_does_not_transmit_below_3_60_v_on_battery	[PASSED]
-  test/test_monitor/test_monitor.cpp:346: test_on_battery_modem_waits_2_s_after_printing	[PASSED]
-  test/test_monitor/test_monitor.cpp:347: test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring	[PASSED]
-  test/test_monitor/test_monitor.cpp:348: test_sms_given_up_after_an_hour_is_printed	[PASSED]
-  test/test_monitor/test_monitor.cpp:349: test_long_outage_sends_one_offline_summary_when_network_returns	[PASSED]
-  test/test_monitor/test_monitor.cpp:350: test_short_outage_without_give_up_sends_no_offline_summary	[PASSED]
-  test/test_monitor/test_monitor.cpp:351: test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram	[PASSED]
-  test/test_monitor/test_monitor.cpp:352: test_sensor_unplugged_alerts_and_recovers	[PASSED]
-  test/test_monitor/test_monitor.cpp:353: test_paper_out_queues_lines_and_prints_them_later	[PASSED]
-  test/test_monitor/test_monitor.cpp:354: test_sms_command_changes_stage_replies_prints_and_persists	[PASSED]
-  test/test_monitor/test_monitor.cpp:355: test_stranger_sms_is_ignored	[PASSED]
-  test/test_monitor/test_monitor.cpp:356: test_reboot_keeps_sms_cap_and_settings	[PASSED]
-  test/test_monitor/test_monitor.cpp:357: test_clock_corrected_from_network_only_when_off_by_more_than_2s	[PASSED]
-  test/test_monitor/test_monitor.cpp:358: test_daily_summary_printed_at_6am	[PASSED]
-  test/test_monitor/test_monitor.cpp:359: test_upload_record_contains_samples	[PASSED]
-  test/test_monitor/test_monitor.cpp:360: test_wifi_preferred_over_cellular_for_upload	[PASSED]
+  test/test_monitor/test_monitor.cpp:391: test_provisioning_files_are_imported_saved_and_deleted	[PASSED]
+  test/test_monitor/test_monitor.cpp:392: test_bad_provisioning_file_is_rejected_and_reported	[PASSED]
+  test/test_monitor/test_monitor.cpp:393: test_missing_ca_certificate_is_rejected	[PASSED]
+  test/test_monitor/test_monitor.cpp:394: test_no_broker_means_records_queue_but_nothing_is_published	[PASSED]
+  test/test_monitor/test_monitor.cpp:395: test_saved_broker_is_applied_at_boot	[PASSED]
+  test/test_monitor/test_monitor.cpp:396: test_normal_day_sends_no_sms_and_samples_every_30s	[PASSED]
+  test/test_monitor/test_monitor.cpp:397: test_heat_spike_alerts_prints_logs_buzzes_then_recovers	[PASSED]
+  test/test_monitor/test_monitor.cpp:398: test_cold_night_low_temperature_alert	[PASSED]
+  test/test_monitor/test_monitor.cpp:399: test_power_cut_alerts_after_debounce_and_returns	[PASSED]
+  test/test_monitor/test_monitor.cpp:400: test_on_battery_uploads_every_15_minutes_instead_of_5	[PASSED]
+  test/test_monitor/test_monitor.cpp:401: test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it	[PASSED]
+  test/test_monitor/test_monitor.cpp:402: test_modem_does_not_transmit_below_3_60_v_on_battery	[PASSED]
+  test/test_monitor/test_monitor.cpp:403: test_on_battery_modem_waits_2_s_after_printing	[PASSED]
+  test/test_monitor/test_monitor.cpp:404: test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring	[PASSED]
+  test/test_monitor/test_monitor.cpp:405: test_sms_given_up_after_an_hour_is_printed	[PASSED]
+  test/test_monitor/test_monitor.cpp:406: test_long_outage_sends_one_offline_summary_when_network_returns	[PASSED]
+  test/test_monitor/test_monitor.cpp:407: test_short_outage_without_give_up_sends_no_offline_summary	[PASSED]
+  test/test_monitor/test_monitor.cpp:408: test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram	[PASSED]
+  test/test_monitor/test_monitor.cpp:409: test_sensor_unplugged_alerts_and_recovers	[PASSED]
+  test/test_monitor/test_monitor.cpp:410: test_paper_out_queues_lines_and_prints_them_later	[PASSED]
+  test/test_monitor/test_monitor.cpp:411: test_sms_command_changes_stage_replies_prints_and_persists	[PASSED]
+  test/test_monitor/test_monitor.cpp:412: test_stranger_sms_is_ignored	[PASSED]
+  test/test_monitor/test_monitor.cpp:413: test_reboot_keeps_sms_cap_and_settings	[PASSED]
+  test/test_monitor/test_monitor.cpp:414: test_clock_corrected_from_network_only_when_off_by_more_than_2s	[PASSED]
+  test/test_monitor/test_monitor.cpp:415: test_daily_summary_printed_at_6am	[PASSED]
+  test/test_monitor/test_monitor.cpp:416: test_upload_record_contains_samples	[PASSED]
+  test/test_monitor/test_monitor.cpp:417: test_wifi_preferred_over_cellular_for_upload	[PASSED]
   test/test_alerts/test_alerts.cpp:204: test_start_texts_every_registered_number_once	[PASSED]
   test/test_alerts/test_alerts.cpp:205: test_repeat_every_30_minutes_while_active	[PASSED]
   test/test_alerts/test_alerts.cpp:206: test_repeat_cap_then_one_limit_message_then_silence	[PASSED]
@@ -64,6 +69,13 @@ Phase 1 gate run: 2026-11-22T15:27:28Z  commit 381d5bb
   test/test_time/test_time.cpp:73: test_from_ist_matches_known_epoch	[PASSED]
   test/test_time/test_time.cpp:74: test_ist_day_changes_exactly_at_ist_midnight	[PASSED]
   test/test_time/test_time.cpp:75: test_utc_calendar_conversion_round_trip	[PASSED]
+  test/test_provision/test_provision.cpp:74: test_parses_a_complete_file_with_comments_and_crlf	[PASSED]
+  test/test_provision/test_provision.cpp:75: test_port_defaults_to_8883	[PASSED]
+  test/test_provision/test_provision.cpp:76: test_rejects_bad_files_with_a_reason	[PASSED]
+  test/test_provision/test_provision.cpp:77: test_failed_parse_leaves_config_untouched	[PASSED]
+  test/test_provision/test_provision.cpp:78: test_pem_validation	[PASSED]
+  test/test_provision/test_provision.cpp:79: test_encode_decode_round_trip	[PASSED]
+  test/test_provision/test_provision.cpp:80: test_valid_needs_host_and_ca	[PASSED]
   test/test_profiles/test_profiles.cpp:78: test_every_stage_has_a_profile_with_a_source	[PASSED]
   test/test_profiles/test_profiles.cpp:79: test_approved_values_are_loaded	[PASSED]
   test/test_profiles/test_profiles.cpp:80: test_band_widens_target_range_by_tolerance	[PASSED]
@@ -141,28 +153,29 @@ Phase 1 gate run: 2026-11-22T15:27:28Z  commit 381d5bb
   test/test_events/test_events.cpp:227: test_stage_change_silently_clears_event_now_in_band	[PASSED]
   test/test_events/test_events.cpp:228: test_stage_change_keeps_event_still_out_of_band	[PASSED]
   test/test_events/test_events.cpp:229: test_stage_change_restarts_pending_onset_timer	[PASSED]
-  native         test_monitor      PASSED    00:00:00.531
-  native         test_alerts       PASSED    00:00:00.485
-  native         test_sample       PASSED    00:00:00.483
-  native         test_power        PASSED    00:00:00.390
-  native         test_sms          PASSED    00:00:00.491
-  native         test_time         PASSED    00:00:00.410
-  native         test_profiles     PASSED    00:00:00.441
-  native         test_commands     PASSED    00:00:00.464
-  native         test_ui           PASSED    00:00:00.491
-  native         test_text_render  PASSED    00:00:00.515
-  native         test_print        PASSED    00:00:00.505
-  native         test_persist      PASSED    00:00:00.516
-  native         test_events       PASSED    00:00:00.442
-  ================ 140 test cases: 140 succeeded in 00:00:06.164 ================
+  native         test_monitor      PASSED    00:00:00.539
+  native         test_alerts       PASSED    00:00:00.493
+  native         test_sample       PASSED    00:00:00.547
+  native         test_power        PASSED    00:00:00.404
+  native         test_sms          PASSED    00:00:00.564
+  native         test_time         PASSED    00:00:00.528
+  native         test_provision    PASSED    00:00:00.415
+  native         test_profiles     PASSED    00:00:00.419
+  native         test_commands     PASSED    00:00:00.400
+  native         test_ui           PASSED    00:00:00.439
+  native         test_text_render  PASSED    00:00:00.474
+  native         test_print        PASSED    00:00:00.492
+  native         test_persist      PASSED    00:00:00.402
+  native         test_events       PASSED    00:00:00.455
+  ================ 152 test cases: 152 succeeded in 00:00:06.572 ================
 
 == 2. lib/core contains no Arduino / ESP-IDF headers
   PASS
 
 == 3. ESP32 cross-compile with lib/core linked
-  RAM:   [==        ]  15.7% (used 51524 bytes from 327680 bytes)
-  Flash: [======    ]  63.7% (used 1251601 bytes from 1966080 bytes)
-  ========================= [SUCCESS] Took 2.20 seconds =========================
-  esp32          SUCCESS   00:00:02.195
+  RAM:   [==        ]  15.8% (used 51772 bytes from 327680 bytes)
+  Flash: [======    ]  64.0% (used 1258225 bytes from 1966080 bytes)
+  ========================= [SUCCESS] Took 2.27 seconds =========================
+  esp32          SUCCESS   00:00:02.265
 
 GATE: PASSED

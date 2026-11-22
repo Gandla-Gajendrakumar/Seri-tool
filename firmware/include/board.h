@@ -35,8 +35,6 @@ constexpr bool kSim = true;
 #else
 constexpr bool kSim = false;
 #endif
-// MQTT broker is not chosen yet (Q-5): placeholders until the provider is picked.
-constexpr const char* kMqttHost = "mqtt.seri-tool.invalid";
-constexpr int kMqttPort = 8883;
-constexpr const char* kFirmwareVersion = "0.2.0";
+// MQTT broker: per device, imported from seri.cfg + ca.pem on the microSD card (D-060, docs/handoff/installer-guide.md).
+constexpr const char* kFirmwareVersion = "0.3.0";
 }  // namespace cfg

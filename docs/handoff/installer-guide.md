@@ -5,6 +5,29 @@
 * SIM active (Airtel or Vi), SMS tested. Charged cells fitted.
 * Print one farmer card in the farmer's language (`docs/handoff/farmer-card.pdf`, A5, one page per language).
 
+## Server settings (once per device, before mounting)
+
+The device uploads readings to an MQTT server over TLS (D-060). Each device gets its own login.
+Copy two files to the root of the microSD card, insert it, and power the device once:
+
+`seri.cfg` (plain text, one setting per line; lines starting with `#` are ignored):
+
+```
+mqtt_host=your-broker.example.com
+mqtt_port=8883
+mqtt_user=shed-017
+mqtt_pass=the-device-password
+client_id=seri-017
+```
+
+`ca.pem`: the server's CA certificate, as given by the MQTT provider (PEM text, up to 4 KB).
+
+At start-up the device checks both files, saves them, and **deletes them from the card** so the password
+does not stay on a removable card. The event log on the card shows `CFG mqtt imported host=...` (the password
+is never written). If a setting is wrong, the files stay on the card and the log says why, for example
+`CFG mqtt rejected: unknown key: mqtt_prot`. Until a server is set, readings are kept on the card (30 days)
+and sent later. SMS and printing never depend on the server.
+
 ## Mounting
 1. Mount on an inside wall of the rearing house, 1.5-1.8 m high, away from the heater and the door,
    out of direct sun and spray. Two screws for the keyholes, one at the bottom.

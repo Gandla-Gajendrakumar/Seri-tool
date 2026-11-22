@@ -114,7 +114,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | F-UP-01 | Every **5 minutes**, publish all samples since the last upload (10 × 30 s samples) plus device status by **MQTT over TLS**. | P2 |
 | F-UP-02 | Route: Wi-Fi if associated, otherwise cellular data. | P2 (network loss) |
 | F-UP-03 | If both fail, queue on SD and send oldest-first when the link returns. The queue holds at least **30 days** of data. Upload status shows on the OLED. | P2 |
-| F-UP-04 | MQTT broker: [Q-5]. The device stores broker host, port, CA certificate and per-device credentials. | OPEN: broker not chosen (Q-5); host/port/CA are compile-time placeholders, per-device credentials not implemented |
+| F-UP-04 | MQTT broker: [Q-5]. The device stores broker host, port, CA certificate and per-device credentials. | P1 (test_provision, test_monitor: SD import, validation, storage, no upload until set; D-060); BENCH: connect to the chosen broker (provider still open, Q-5) |
 | F-UP-05 | Upload never delays sampling or alerts (runs as a separate task). | P2 |
 
 ### 3.7 Local UI

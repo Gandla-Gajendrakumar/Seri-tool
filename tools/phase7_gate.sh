@@ -18,7 +18,8 @@ fail=0
   echo "  phase 2: Wokwi in GitHub Actions; last recorded: $(grep -m1 -o '[0-9]/[0-9] scenarios[^|]*\|8 Wokwi scenarios' docs/evidence/phase2-gate.md || echo see docs/evidence/phase2-gate.md); re-run pending (B-27)"
   echo "== 2. Release outputs"
   tools/make_release.sh 2>&1 | sed 's/^/  /'; [ ${PIPESTATUS[0]} -eq 0 ] || fail=1
-  (cd firmware/release/v*/ && sha256sum -c --quiet SHA256SUMS) && echo "  firmware checksums OK" || fail=1
+  ver=$(grep -o 'kFirmwareVersion = "[^"]*"' firmware/include/board.h | cut -d'"' -f2)
+  (cd firmware/release/v$ver && sha256sum -c --quiet SHA256SUMS) && echo "  firmware v$ver checksums OK" || fail=1
   python3 tools/gen_card.py | sed 's/^/  /' || fail=1
   python3 tools/gen_trace.py | sed 's/^/  /'; [ ${PIPESTATUS[0]} -eq 0 ] || fail=1
   echo "== 3. Links and paths in the hand-off docs"

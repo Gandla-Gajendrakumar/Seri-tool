@@ -12,6 +12,7 @@
 #include <vector>
 #include "fakes.h"
 #include "seri/monitor.h"
+#include "seri/provision.h"
 #include "seri/time_util.h"
 
 using namespace seri;
@@ -68,6 +69,12 @@ int main(int argc, char** argv) {
   Collector trace;
   clock.t = t0;
   modem.clock = &clock;
+  {  // a provisioned device (D-060): broker settings already in flash, as after the installer's SD import
+    MqttConfig b;
+    b.host = "broker.replay.test";
+    b.caPem = "-----BEGIN CERTIFICATE-----\nREPLAY\n-----END CERTIFICATE-----\n";
+    persist.kv["mqtt"] = encodeMqtt(b);
+  }
   Monitor m(Hardware{clock, sensor, power, modem, wifi, printer, storage, ind, persist, &trace});
   m.begin();  // fresh device: factory settings, no phone numbers
 

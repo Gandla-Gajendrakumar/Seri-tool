@@ -1,7 +1,6 @@
 #include "wifi_net.h"
 #include <time.h>
 #include "board.h"
-#include "ca_cert.h"
 
 void WifiNet::configure(const std::string& ssid, const std::string& pass, const std::string& clientId) {
   if (ssid == ssid_ && pass == pass_) return;
@@ -12,9 +11,14 @@ void WifiNet::configure(const std::string& ssid, const std::string& pass, const 
   if (ssid_.empty()) { WiFi.mode(WIFI_OFF); return; }
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid_.c_str(), pass_.c_str());
-  tls_.setCACert(kMqttCaPem);
-  mqtt_.setServer(cfg::kMqttHost, cfg::kMqttPort);
   mqtt_.setBufferSize(2048);
+}
+
+void WifiNet::configureMqtt(const seri::MqttConfig& c) {
+  cfg_ = c;
+  mqtt_.disconnect();
+  tls_.setCACert(cfg_.caPem.c_str());
+  mqtt_.setServer(cfg_.host.c_str(), static_cast<uint16_t>(cfg_.port));
 }
 
 bool WifiNet::connected() { return !ssid_.empty() && WiFi.status() == WL_CONNECTED; }
@@ -33,7 +37,11 @@ bool WifiNet::mqttPublish(const std::string& topic, const std::string& payload) 
   if (!mqtt_.connected()) {
     if (lastTry_ != 0 && millis() - lastTry_ < 30000) return false;
     lastTry_ = millis();
-    if (!mqtt_.connect(client_.c_str())) return false;
+    if (!cfg_.valid()) return false;
+    const std::string& id = cfg_.clientId.empty() ? client_ : cfg_.clientId;
+    const bool ok = cfg_.user.empty() ? mqtt_.connect(id.c_str())
+                                      : mqtt_.connect(id.c_str(), cfg_.user.c_str(), cfg_.pass.c_str());
+    if (!ok) return false;
   }
   mqtt_.loop();
   return mqtt_.publish(topic.c_str(), payload.c_str());

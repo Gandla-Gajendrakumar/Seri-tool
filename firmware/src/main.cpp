@@ -12,6 +12,7 @@
 #include "hal_esp32/persist_nvs.h"
 #include "hal_esp32/power_sense.h"
 #include "hal_esp32/printer_escpos.h"
+#include "hal_esp32/sim_broker.h"
 #include "hal_esp32/sensor_sht31.h"
 #include "hal_esp32/storage_sd.h"
 #include "hal_esp32/trace_serial.h"
@@ -92,6 +93,10 @@ void setup() {
 
   static seri::Hardware hw{rtc, sht, power, modem, wifi, printer, sd, indicators, persist, &trace};
   monitor = new seri::Monitor(hw);
+  if (cfg::kSim) {   // Wokwi: stand-in broker so the upload scenarios run (real units: SD import, D-060)
+    std::string blob;
+    if (!persist.load("mqtt", blob)) persist.save("mqtt", seri::encodeMqtt(simBroker()));
+  }
   monitor->begin();
   ui = new seri::Ui(*monitor);
   wifi.configure(monitor->settings().wifiSsid, monitor->settings().wifiPass, monitor->settings().deviceName);

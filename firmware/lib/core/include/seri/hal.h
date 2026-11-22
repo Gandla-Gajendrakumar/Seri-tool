@@ -10,6 +10,8 @@
 #include "seri/sample.h"
 #include "seri/types.h"
 
+#include "seri/provision.h"
+
 namespace seri {
 namespace hal {
 
@@ -34,6 +36,7 @@ struct Power {                       // mains-sense input and battery-voltage di
 struct Modem {                       // SIMCom A7670C
   virtual ~Modem() = default;
   virtual bool registered() = 0;                                  // on the cellular network (cached, cheap)
+  virtual void configureMqtt(const MqttConfig& c) = 0;            // broker settings (D-060)
   virtual bool sendSms(const std::string& number10, const std::string& utf8) = 0;
   virtual bool pollSms(std::string& from, std::string& body) = 0;  // true if one was received
   virtual bool networkTime(int64_t& utc) = 0;                     // from the cellular network
@@ -45,6 +48,7 @@ struct Wifi {
   virtual ~Wifi() = default;
   virtual bool connected() = 0;
   virtual bool ntpTime(int64_t& utc) = 0;
+  virtual void configureMqtt(const MqttConfig& c) = 0;
   virtual bool mqttPublish(const std::string& topic, const std::string& payload) = 0;
 };
 
@@ -63,6 +67,8 @@ struct Storage {                     // microSD: event log + store-and-forward u
   virtual bool queueFront(std::string& record) = 0;
   virtual bool queuePop() = 0;
   virtual size_t queueSize() = 0;
+  virtual bool readFile(const std::string& name, std::string& out) = 0;  // provisioning files (D-060)
+  virtual bool removeFile(const std::string& name) = 0;
 };
 
 struct Indicators {                  // buzzer + green/red LEDs

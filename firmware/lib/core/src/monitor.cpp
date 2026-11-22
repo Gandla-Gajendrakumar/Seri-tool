@@ -38,6 +38,7 @@ void Monitor::begin() {
   sdWasOk_ = hw_.storage.ok();
   lastDay_ = istDay(now);
   logLine("B," + std::to_string(now) + ",BOOT");
+  loadBroker();
   clockSync(now);
   begun_ = true;
   indicate();
@@ -229,7 +230,34 @@ void Monitor::uploadStep(int64_t now) {
   (void)now;
 }
 
+void Monitor::loadBroker() {
+  const std::string t = std::to_string(hw_.clock.nowUtc());
+  std::string cfg, pem, blob, err;
+  if (hw_.storage.readFile(kProvisionFile, cfg)) {
+    MqttConfig c = mqtt_;
+    if (!parseProvisioning(cfg, c, err)) {
+      logLine("C," + t + ",CFG mqtt rejected: " + err);
+    } else if (!hw_.storage.readFile(kCaFile, pem) || !validPem(pem)) {
+      logLine("C," + t + ",CFG mqtt rejected: ca.pem missing or not a PEM certificate");
+    } else {
+      c.caPem = pem;
+      if (hw_.persist.save("mqtt", encodeMqtt(c))) {
+        hw_.storage.removeFile(kProvisionFile);   // the password must not stay on a removable card
+        hw_.storage.removeFile(kCaFile);
+        logLine("C," + t + ",CFG mqtt imported host=" + c.host + " port=" + std::to_string(c.port));
+      }
+    }
+  }
+  MqttConfig saved;
+  if (hw_.persist.load("mqtt", blob) && decodeMqtt(blob, saved) && saved.valid()) {
+    mqtt_ = saved;
+    hw_.modem.configureMqtt(mqtt_);
+    hw_.wifi.configureMqtt(mqtt_);
+  }
+}
+
 void Monitor::flushQueue() {
+  if (!mqtt_.valid()) return;   // no broker yet (F-UP-04): records stay queued
   const bool wifi = hw_.wifi.connected();
   if (!wifi && (!modemAllowed(hw_.clock.nowUtc()) || !hw_.modem.dataReady())) return;
   const std::string topic = "seri/" + settings_.deviceName + "/data";
