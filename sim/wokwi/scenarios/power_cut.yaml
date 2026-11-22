@@ -8,13 +8,13 @@ steps:
   - set-control: {part-id: modem, control: deliver, value: 1}
   - wait-serial: "sent,9876543210"
   - set-control: {part-id: carrier, control: mains, value: 0}
-  - set-control: {part-id: carrier, control: battery_mv, value: 3900}
+  - set-control: {part-id: carrier, control: batteryMv, value: 3900}
   - wait-serial: "MainsFail,Start"
   - wait-serial: "sent,9876543210"
-  - set-control: {part-id: carrier, control: battery_mv, value: 3300}
+  - set-control: {part-id: carrier, control: batteryMv, value: 3300}
   - wait-serial: "LowBattery,Start"
   - wait-serial: "sent,9876543210"
   - set-control: {part-id: carrier, control: mains, value: 1}
-  - set-control: {part-id: carrier, control: battery_mv, value: 3800}
+  - set-control: {part-id: carrier, control: batteryMv, value: 3800}
   - wait-serial: "MainsFail,Clear"
   - wait-serial: "sent,9876543210"

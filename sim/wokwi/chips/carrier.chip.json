@@ -4,7 +4,7 @@
   "pins": ["MAINS_OK", "BATT_SENSE", "SD_CD", "GND"],
   "controls": [
     { "id": "mains", "label": "12 V mains present", "type": "range", "min": 0, "max": 1, "step": 1 },
-    { "id": "battery_mv", "label": "Battery (mV)", "type": "range", "min": 2800, "max": 4300, "step": 10 },
-    { "id": "sd_present", "label": "SD card inserted", "type": "range", "min": 0, "max": 1, "step": 1 }
+    { "id": "batteryMv", "label": "Battery (mV)", "type": "range", "min": 2800, "max": 4300, "step": 10 },
+    { "id": "sdPresent", "label": "SD card inserted", "type": "range", "min": 0, "max": 1, "step": 1 }
   ]
 }

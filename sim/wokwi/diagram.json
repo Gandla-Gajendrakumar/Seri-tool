@@ -67,8 +67,8 @@
    "left": 300,
    "attrs": {
     "mains": "1",
-    "battery_mv": "4100",
-    "sd_present": "1"
+    "batteryMv": "4100",
+    "sdPresent": "1"
    }
   },
   {

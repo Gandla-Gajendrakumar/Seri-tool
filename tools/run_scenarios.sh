@@ -18,12 +18,12 @@ for n in "${names[@]}"; do
   log=$proj/logs/$n.log
   start=$(date +%s)
   # --timeout is simulated time: 600 s at x60 = 10 hours of device time
-  wokwi-cli $proj --scenario $proj/scenarios/$n.yaml --timeout 600000 > "$log" 2>&1
+  wokwi-cli $proj --scenario scenarios/$n.yaml --timeout 600000 > "$log" 2>&1
   rc=$?
   secs=$(( $(date +%s) - start ))
   if [ $rc -ne 0 ]; then
     echo "FAIL $n: simulator exit $rc after ${secs}s (scenario step not reached or timeout)" | tee -a "$summary"
-    tail -5 "$log" | sed 's/^/    /' | tee -a "$summary"
+    tail -25 "$log" | sed 's/^/    /' | tee -a "$summary"
     fail=1
     continue
   fi
@@ -31,6 +31,7 @@ for n in "${names[@]}"; do
     echo "  ($n ran in ${secs}s)" >> "$summary"
   else
     fail=1
+    echo "---- last 40 lines of $n.log" ; tail -40 "$log" | sed 's/^/    /'
   fi
 done
 echo "----" >> "$summary"
