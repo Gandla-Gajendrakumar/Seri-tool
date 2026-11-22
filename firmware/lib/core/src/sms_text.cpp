@@ -18,7 +18,7 @@ enum T {
 const char* const kText[kLanguageCount][kTextCount] = {
     {// English
      "Temp HIGH", "Temp LOW", "Humidity HIGH", "Humidity LOW", "Sensor fault, check probe cable",
-     "Power cut, on battery", "Battery low", "Printer paper finished", "Memory card fault",
+     "Power cut, on battery", "Battery low", "Paper out, refill printer", "Memory card fault",
      "Clock not set",
      "Temp normal again", "Temp normal again", "Humidity normal again", "Humidity normal again",
      "Sensor OK again", "Power back", "Battery OK", "Printer paper OK", "Memory card OK", "Clock set",
@@ -26,7 +26,7 @@ const char* const kText[kLanguageCount][kTextCount] = {
      "SMS limit for today reached. Device keeps monitoring and printing."},
     {// Hindi
      "तापमान ज्यादा", "तापमान कम", "नमी ज्यादा", "नमी कम", "सेंसर खराब, प्रोब तार जाँचें",
-     "बिजली गई, बैटरी पर", "बैटरी कम", "प्रिंटर कागज खत्म", "मेमोरी कार्ड खराब",
+     "बिजली गई, बैटरी पर", "बैटरी कम", "कागज खत्म, प्रिंटर भरें", "मेमोरी कार्ड खराब",
      "घड़ी सेट नहीं",
      "तापमान फिर ठीक", "तापमान फिर ठीक", "नमी फिर ठीक", "नमी फिर ठीक",
      "सेंसर फिर ठीक", "बिजली वापस आई", "बैटरी ठीक", "प्रिंटर कागज ठीक", "मेमोरी कार्ड ठीक", "घड़ी सेट",
@@ -34,7 +34,7 @@ const char* const kText[kLanguageCount][kTextCount] = {
      "आज की SMS सीमा पूरी। निगरानी और प्रिंट जारी है।"},
     {// Telugu
      "ఉష్ణోగ్రత ఎక్కువ", "ఉష్ణోగ్రత తక్కువ", "తేమ ఎక్కువ", "తేమ తక్కువ", "సెన్సర్ లోపం, ప్రోబ్ వైర్ చూడండి",
-     "కరెంట్ పోయింది, బ్యాటరీపై", "బ్యాటరీ తక్కువ", "ప్రింటర్ పేపర్ అయిపోయింది", "మెమరీ కార్డ్ లోపం",
+     "కరెంట్ పోయింది, బ్యాటరీపై", "బ్యాటరీ తక్కువ", "పేపర్ అయిపోయింది, ప్రింటర్ నింపండి", "మెమరీ కార్డ్ లోపం",
      "గడియారం సెట్ కాలేదు",
      "ఉష్ణోగ్రత మళ్ళీ సరి", "ఉష్ణోగ్రత మళ్ళీ సరి", "తేమ మళ్ళీ సరి", "తేమ మళ్ళీ సరి",
      "సెన్సర్ మళ్ళీ సరి", "కరెంట్ వచ్చింది", "బ్యాటరీ సరి", "ప్రింటర్ పేపర్ సరి", "మెమరీ కార్డ్ సరి",
@@ -43,7 +43,7 @@ const char* const kText[kLanguageCount][kTextCount] = {
      "ఈరోజు SMS పరిమితి పూర్తి. నిఘా, ప్రింట్ కొనసాగుతాయి."},
     {// Kannada
      "ತಾಪಮಾನ ಹೆಚ್ಚು", "ತಾಪಮಾನ ಕಡಿಮೆ", "ತೇವಾಂಶ ಹೆಚ್ಚು", "ತೇವಾಂಶ ಕಡಿಮೆ", "ಸೆನ್ಸರ್ ದೋಷ, ಪ್ರೋಬ್ ವೈರ್ ನೋಡಿ",
-     "ಕರೆಂಟ್ ಹೋಗಿದೆ, ಬ್ಯಾಟರಿಯಲ್ಲಿ", "ಬ್ಯಾಟರಿ ಕಡಿಮೆ", "ಪ್ರಿಂಟರ್ ಪೇಪರ್ ಮುಗಿದಿದೆ", "ಮೆಮೊರಿ ಕಾರ್ಡ್ ದೋಷ",
+     "ಕರೆಂಟ್ ಹೋಗಿದೆ, ಬ್ಯಾಟರಿಯಲ್ಲಿ", "ಬ್ಯಾಟರಿ ಕಡಿಮೆ", "ಪೇಪರ್ ಮುಗಿದಿದೆ, ಪ್ರಿಂಟರ್ ತುಂಬಿಸಿ", "ಮೆಮೊರಿ ಕಾರ್ಡ್ ದೋಷ",
      "ಗಡಿಯಾರ ಸೆಟ್ ಆಗಿಲ್ಲ",
      "ತಾಪಮಾನ ಮತ್ತೆ ಸರಿ", "ತಾಪಮಾನ ಮತ್ತೆ ಸರಿ", "ತೇವಾಂಶ ಮತ್ತೆ ಸರಿ", "ತೇವಾಂಶ ಮತ್ತೆ ಸರಿ",
      "ಸೆನ್ಸರ್ ಮತ್ತೆ ಸರಿ", "ಕರೆಂಟ್ ಬಂದಿದೆ", "ಬ್ಯಾಟರಿ ಸರಿ", "ಪ್ರಿಂಟರ್ ಪೇಪರ್ ಸರಿ", "ಮೆಮೊರಿ ಕಾರ್ಡ್ ಸರಿ",
@@ -100,6 +100,11 @@ const char* stageName(Stage s, Language l) {
   return kStage[static_cast<int>(l)][static_cast<int>(s) % kStageCount];
 }
 const char* languageName(Language l) { return kLangName[static_cast<int>(l) % kLanguageCount]; }
+std::string shortEventPhrase(EventType t, bool ok, Language l) {
+  std::string p = eventPhrase(t, ok, l);
+  const size_t comma = p.find(',');
+  return comma == std::string::npos ? p : p.substr(0, comma);
+}
 const char* eventPhrase(EventType t, bool ok, Language l) {
   return txt(l, (ok ? kTempOk : 0) + static_cast<int>(t));
 }

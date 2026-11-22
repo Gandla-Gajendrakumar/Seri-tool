@@ -14,6 +14,7 @@ struct Rig {
   Monitor m{Hardware{clock, sensor, power, modem, wifi, printer, storage, ind, persist}};
   Ui ui{m};
   int64_t now = kT;
+  int64_t uiSec = 1000;  // UI timer (wall-clock seconds), deliberately unrelated to the device clock
   Rig() {
     clock.t = kT;
     Settings s;
@@ -22,8 +23,8 @@ struct Rig {
     m.begin();
     run(60);
   }
-  void run(int secs) { for (int i = 0; i < secs; ++i) { clock.t += 1; m.tick(); ui.tick(clock.t); } now = clock.t; }
-  void press(Button b) { ui.press(b, clock.t); }
+  void run(int secs) { for (int i = 0; i < secs; ++i) { clock.t += 1; ++uiSec; m.tick(); ui.tick(uiSec); } now = clock.t; }
+  void press(Button b) { ui.press(b, uiSec); }
   Screen screen() { return ui.render(UiStatus{true, false, clock.t}); }
   bool shows(const std::string& s) {
     for (auto& l : screen().lines) if (l.find(s) != std::string::npos) return true;
@@ -40,13 +41,13 @@ static void test_home_screen_shows_reading_stage_status_power() {
   TEST_ASSERT_EQUAL(4, s.lines.size());
   TEST_ASSERT_TRUE(s.bigFirstLine);
   TEST_ASSERT_EQUAL_STRING("27.5C 85%", s.lines[0].c_str());
-  TEST_ASSERT_EQUAL_STRING("Chawki", s.lines[1].c_str());
+  TEST_ASSERT_EQUAL_STRING("Chawki 4G", s.lines[1].c_str());
   TEST_ASSERT_EQUAL_STRING("All OK", s.lines[2].c_str());
-  TEST_ASSERT_EQUAL_STRING("Mains 4G 14:06", s.lines[3].c_str());
+  TEST_ASSERT_EQUAL_STRING("Mains 14:06", s.lines[3].c_str());
   r.power.mains = false;
   r.power.mv = 3800;
   r.run(2);
-  TEST_ASSERT_EQUAL_STRING("Battery 50% 4G 14:06", r.screen().lines[3].c_str());
+  TEST_ASSERT_EQUAL_STRING("Battery 50% 14:06", r.screen().lines[3].c_str());
 }
 
 static void test_home_shows_active_alarm_and_ok_silences_buzzer() {
@@ -103,7 +104,7 @@ static void test_language_change_switches_the_whole_ui() {
   r.run(5);
   TEST_ASSERT_EQUAL(Ui::Page::Home, r.ui.page());
   TEST_ASSERT_EQUAL_STRING("అన్నీ సరి", r.screen().lines[2].c_str());
-  TEST_ASSERT_EQUAL_STRING("చాకీ", r.screen().lines[1].c_str());
+  TEST_ASSERT_EQUAL_STRING("చాకీ 4G", r.screen().lines[1].c_str());
 }
 
 static void test_range_edit_changes_tolerance() {
@@ -185,6 +186,7 @@ static void test_buzzer_toggle_and_print_test() {
   r.press(Button::Down);
   r.press(Button::Ok);  // Print test
   TEST_ASSERT_EQUAL(1, r.printer.count("Printer test OK"));
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.printer.count("21/11 14:06 Printer test OK"), "stamped with the device clock, not the UI's timer");
 }
 
 static void test_idle_returns_home() {

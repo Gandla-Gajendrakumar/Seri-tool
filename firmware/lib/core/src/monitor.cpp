@@ -271,7 +271,7 @@ void Monitor::clockSync(int64_t now) {
   }
 }
 
-void Monitor::printText(const std::string& line) { printOrQueue(line, ownerLang()); }
+void Monitor::printText(const std::string& text) { printOrQueue(fmt::ddmmHhmm(hw_.clock.nowUtc()) + " " + text, ownerLang()); }
 
 void Monitor::silenceBuzzer() {
   buzzerOn_ = false;

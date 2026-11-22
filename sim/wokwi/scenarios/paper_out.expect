@@ -1,7 +1,7 @@
 # Paper out: alert, lines kept and printed when paper is loaded
 present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
 in-order: SMS to 9876543210: Shed-1: OK\s*$
-in-order: SMS to 9876543210: Shed-1: Printer paper finished
+in-order: SMS to 9876543210: Shed-1: Paper out, refill printer
 in-order: SMS to 9876543210: Shed-1: Temp HIGH 31\.0C
 in-order: PRINTER\| .* PAPER OUT
 in-order: PRINTER\| .* TEMP HIGH 31\.0C

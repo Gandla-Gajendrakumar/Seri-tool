@@ -8,6 +8,7 @@
 #include "hal_esp32/clock_ds3231.h"
 #include "hal_esp32/indicators.h"
 #include "hal_esp32/modem_a7670.h"
+#include "hal_esp32/oled.h"
 #include "hal_esp32/persist_nvs.h"
 #include "hal_esp32/power_sense.h"
 #include "hal_esp32/printer_escpos.h"
@@ -16,6 +17,8 @@
 #include "hal_esp32/trace_serial.h"
 #include "hal_esp32/wifi_net.h"
 #include "seri/monitor.h"
+#include "seri/text_render.h"
+#include "seri/ui.h"
 
 namespace {
 Ds3231Clock rtc(Wire);
@@ -28,11 +31,40 @@ SdStorage sd(board::kSdCs, board::kSdCardDetect);
 GpioIndicators indicators(board::kBuzzer, board::kLedGreen, board::kLedRed);
 NvsPersist persist;
 SerialTrace trace;
+Oled oled;
 seri::Monitor* monitor = nullptr;
+seri::Ui* ui = nullptr;
 
-uint32_t bootMs = 0;
-bool appConfirmed = false;
-bool okPrev = true;
+uint32_t bootMs = 0, lastDraw = 0;
+bool appConfirmed = false, dirty = true;
+
+struct Btn {
+  int pin;
+  seri::Button id;
+  bool down = false;
+  uint32_t changedMs = 0;
+};
+Btn buttons[] = {{board::kBtnUp, seri::Button::Up}, {board::kBtnOk, seri::Button::Ok}, {board::kBtnDown, seri::Button::Down}};
+
+void pollButtons() {
+  for (Btn& b : buttons) {
+    const bool down = digitalRead(b.pin) == LOW;
+    if (down != b.down && millis() - b.changedMs > 30) {  // 30 ms debounce
+      b.down = down;
+      b.changedMs = millis();
+      if (down) { ui->press(b.id, millis() / 1000); dirty = true; }
+    }
+  }
+}
+
+// Indian-script printer lines: 24-dot raster, 384 dots wide (58 mm head).
+bool rasterise(const std::string& utf8, seri::Language, std::vector<uint8_t>& bits, int& widthBytes, int& height) {
+  seri::Bitmap b = seri::renderText(utf8, seri::kPrintCell, seri::kPrintWidth);
+  bits = std::move(b.bits);
+  widthBytes = b.widthBytes();
+  height = b.height;
+  return true;
+}
 }  // namespace
 
 // Arduino-ESP32 hook: keep a freshly updated image "pending" until we confirm it is healthy,
@@ -51,6 +83,8 @@ void setup() {
   persist.begin();
   sd.begin();
   printer.begin();
+  printer.setRasteriser(rasterise);
+  oled.begin();
   modem.begin("seri-device");
   esp_task_wdt_config_t wdt = {.timeout_ms = 30000, .idle_core_mask = 0, .trigger_panic = true};
   esp_task_wdt_reconfigure(&wdt);
@@ -59,6 +93,7 @@ void setup() {
   static seri::Hardware hw{rtc, sht, power, modem, wifi, printer, sd, indicators, persist, &trace};
   monitor = new seri::Monitor(hw);
   monitor->begin();
+  ui = new seri::Ui(*monitor);
   wifi.configure(monitor->settings().wifiSsid, monitor->settings().wifiPass, monitor->settings().deviceName);
   bootMs = millis();
   Serial.println("READY");
@@ -68,10 +103,13 @@ void loop() {
   monitor->tick();
   esp_task_wdt_reset();
 
-  // OK button: silence the buzzer (full menu: UI task)
-  const bool ok = digitalRead(board::kBtnOk) == HIGH;
-  if (!ok && okPrev) monitor->silenceBuzzer();
-  okPrev = ok;
+  pollButtons();
+  ui->tick(millis() / 1000);
+  if (dirty || millis() - lastDraw > 1000) {  // full frame over 100 kHz I2C takes ~90 ms
+    oled.show(ui->render(seri::UiStatus{modem.lastKnownRegistered(), wifi.connected(), rtc.nowUtc()}));
+    lastDraw = millis();
+    dirty = false;
+  }
 
   wifi.configure(monitor->settings().wifiSsid, monitor->settings().wifiPass, monitor->settings().deviceName);
 

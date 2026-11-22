@@ -23,6 +23,8 @@ const char* stageName(Stage s, Language l);
 const char* languageName(Language l);  // in its own script, for the language menu
 // Short phrase for an event ("Temp HIGH" / ok=true: "Temp normal again") in a language.
 const char* eventPhrase(EventType t, bool ok, Language l);
+// Short form for one OLED line or one printed line: the phrase up to its first comma.
+std::string shortEventPhrase(EventType t, bool ok, Language l);
 
 struct SegmentInfo {
   bool ucs2;     // false = GSM-7

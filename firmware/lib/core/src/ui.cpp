@@ -43,6 +43,7 @@ int wrap(int v, int n) { return ((v % n) + n) % n; }
 
 const char* uiText(UiText t, Language l) { return kUi[static_cast<int>(l) % kLanguageCount][t]; }
 
+
 void Ui::go(Page p, int cursor) {
   page_ = p;
   cursor_ = cursor;
@@ -78,7 +79,7 @@ void Ui::press(Button b, int64_t now) {
         case 2: editTol_ = s.tol; go(Page::RangeT); return;
         case 3: go(Page::Phones); return;
         case 4: s.buzzerOn = !s.buzzerOn; m_.changeSettings(s); return;
-        case 5: m_.printText(fmt::ddmmHhmm(now) + " " + uiText(kUiPrinterOk, s.lang[0])); return;
+        case 5: m_.printText(uiText(kUiPrinterOk, s.lang[0])); return;
         default: go(Page::Home); return;
       }
     case Page::Stage:
@@ -153,14 +154,14 @@ Screen Ui::render(const UiStatus& st) const {
       sc.bigFirstLine = true;
       const Sample& x = m_.lastSample();
       sc.lines.push_back(x.valid ? fmt::temp(x.t) + " " + fmt::rh(x.rh) : "--.-C --%");
-      sc.lines.push_back(stageName(s.stage, L));
+      const std::string link = st.wifi ? "WiFi" : (st.network ? "4G" : "4G x");
+      sc.lines.push_back(std::string(stageName(s.stage, L)) + " " + link);
       std::string status = T(kUiAllOk);
       for (int i = 0; i < kEventTypeCount; ++i)
-        if (m_.active(static_cast<EventType>(i))) { status = eventPhrase(static_cast<EventType>(i), false, L); break; }
+        if (m_.active(static_cast<EventType>(i))) { status = shortEventPhrase(static_cast<EventType>(i), false, L); break; }
       sc.lines.push_back(status);
       std::string power = m_.onBattery() ? T(kUiBattery) + " " + std::to_string(m_.batteryPct()) + "%" : T(kUiMains);
-      std::string link = st.wifi ? "WiFi" : (st.network ? "4G" : T(kUiNoSignal));
-      sc.lines.push_back(power + " " + link + " " + fmt::hhmm(st.now));
+      sc.lines.push_back(power + " " + fmt::hhmm(st.now));
       return sc;
     }
     case Page::Message: {

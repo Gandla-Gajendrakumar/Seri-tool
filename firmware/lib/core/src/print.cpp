@@ -47,7 +47,7 @@ std::string volts(int32_t mv) {
 std::string printEventLine(const Event& e, Language l) {
   const bool ok = e.edge != Edge::Start;
   const int ti = static_cast<int>(e.type);
-  std::string label = l == Language::English ? (ok ? kEnOk[ti] : kEnStart[ti]) : eventPhrase(e.type, ok, l);
+  std::string label = l == Language::English ? (ok ? kEnOk[ti] : kEnStart[ti]) : shortEventPhrase(e.type, ok, l);
   std::string line = stamp(e.time) + " " + label;
   if (e.type == EventType::TempHigh || e.type == EventType::TempLow) line += " " + temp(e.value);
   else if (e.type == EventType::RhHigh || e.type == EventType::RhLow) line += " " + rh(e.value);

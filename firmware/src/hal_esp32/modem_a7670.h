@@ -19,6 +19,7 @@ class A7670Modem : public seri::hal::Modem {
   bool networkTime(int64_t& utc) override;
   bool dataReady() override;
   bool mqttPublish(const std::string& topic, const std::string& payload) override;
+  bool lastKnownRegistered() const { return reg_; }  // for the screen; no AT traffic
 
  private:
   bool readLine(String& line, uint32_t deadline);

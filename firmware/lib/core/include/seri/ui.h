@@ -33,6 +33,8 @@ class Ui {
  public:
   explicit Ui(Monitor& m) : m_(m) {}
   void press(Button b, int64_t now);
+  // `now` for press/tick is a wall-clock seconds counter (millis()/1000 on the device), not the
+  // device clock, which runs 60x fast in simulation.
   void tick(int64_t now);  // returns to the home screen after 60 s without a press
   Screen render(const UiStatus& st) const;
   Language lang() const { return m_.settings().lang[0]; }

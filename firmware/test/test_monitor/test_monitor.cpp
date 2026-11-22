@@ -177,7 +177,7 @@ static void test_paper_out_queues_lines_and_prints_them_later() {
   r.printer.paper = false;
   r.sensor.t = 31.0f;
   r.run(7 * 60);
-  TEST_ASSERT_EQUAL(1, r.smsContaining("Printer paper finished"));
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Paper out, refill printer"));
   TEST_ASSERT_TRUE(r.m->printBacklog() >= 1);
   r.printer.paper = true;
   r.run(10);
