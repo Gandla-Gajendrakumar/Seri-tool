@@ -1,18 +1,36 @@
-Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
+Phase 1 gate run: 2026-11-22T04:32:25Z  commit 7064dd3
 
 == 1. Native unit tests (pio test -e native)
-  test/test_alerts/test_alerts.cpp:187: test_start_texts_every_registered_number_once	[PASSED]
-  test/test_alerts/test_alerts.cpp:188: test_repeat_every_30_minutes_while_active	[PASSED]
-  test/test_alerts/test_alerts.cpp:189: test_repeat_cap_then_one_limit_message_then_silence	[PASSED]
-  test/test_alerts/test_alerts.cpp:190: test_recovery_is_sent_even_after_cap	[PASSED]
-  test/test_alerts/test_alerts.cpp:191: test_cap_resets_at_ist_midnight	[PASSED]
-  test/test_alerts/test_alerts.cpp:192: test_mains_fail_has_no_repeats_but_has_power_back_text	[PASSED]
-  test/test_alerts/test_alerts.cpp:193: test_paper_out_texts_once_and_no_recovery_text	[PASSED]
-  test/test_alerts/test_alerts.cpp:194: test_silent_clear_sends_nothing_and_stops_repeats	[PASSED]
-  test/test_alerts/test_alerts.cpp:195: test_recurrence_within_hour_counts_against_cap	[PASSED]
-  test/test_alerts/test_alerts.cpp:196: test_flapping_all_day_never_exceeds_hard_cap_and_recoveries_match	[PASSED]
-  test/test_alerts/test_alerts.cpp:197: test_state_survives_reboot_so_cap_is_not_reset	[PASSED]
-  test/test_alerts/test_alerts.cpp:198: test_number_added_mid_event_gets_repeats_and_recovery_only_if_told	[PASSED]
+  test/test_monitor/test_monitor.cpp:262: test_normal_day_sends_no_sms_and_samples_every_30s	[PASSED]
+  test/test_monitor/test_monitor.cpp:263: test_heat_spike_alerts_prints_logs_buzzes_then_recovers	[PASSED]
+  test/test_monitor/test_monitor.cpp:264: test_cold_night_low_temperature_alert	[PASSED]
+  test/test_monitor/test_monitor.cpp:265: test_power_cut_alerts_after_debounce_and_returns	[PASSED]
+  test/test_monitor/test_monitor.cpp:266: test_on_battery_uploads_every_15_minutes_instead_of_5	[PASSED]
+  test/test_monitor/test_monitor.cpp:267: test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring	[PASSED]
+  test/test_monitor/test_monitor.cpp:268: test_sms_given_up_after_an_hour_is_printed	[PASSED]
+  test/test_monitor/test_monitor.cpp:269: test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram	[PASSED]
+  test/test_monitor/test_monitor.cpp:270: test_sensor_unplugged_alerts_and_recovers	[PASSED]
+  test/test_monitor/test_monitor.cpp:271: test_paper_out_queues_lines_and_prints_them_later	[PASSED]
+  test/test_monitor/test_monitor.cpp:272: test_sms_command_changes_stage_replies_prints_and_persists	[PASSED]
+  test/test_monitor/test_monitor.cpp:273: test_stranger_sms_is_ignored	[PASSED]
+  test/test_monitor/test_monitor.cpp:274: test_reboot_keeps_sms_cap_and_settings	[PASSED]
+  test/test_monitor/test_monitor.cpp:275: test_clock_corrected_from_network_only_when_off_by_more_than_2s	[PASSED]
+  test/test_monitor/test_monitor.cpp:276: test_daily_summary_printed_at_6am	[PASSED]
+  test/test_monitor/test_monitor.cpp:277: test_upload_record_contains_samples	[PASSED]
+  test/test_monitor/test_monitor.cpp:278: test_wifi_preferred_over_cellular_for_upload	[PASSED]
+  test/test_alerts/test_alerts.cpp:204: test_start_texts_every_registered_number_once	[PASSED]
+  test/test_alerts/test_alerts.cpp:205: test_repeat_every_30_minutes_while_active	[PASSED]
+  test/test_alerts/test_alerts.cpp:206: test_repeat_cap_then_one_limit_message_then_silence	[PASSED]
+  test/test_alerts/test_alerts.cpp:207: test_recovery_is_sent_even_after_cap	[PASSED]
+  test/test_alerts/test_alerts.cpp:208: test_cap_resets_at_ist_midnight	[PASSED]
+  test/test_alerts/test_alerts.cpp:209: test_mains_fail_has_no_repeats_but_has_power_back_text	[PASSED]
+  test/test_alerts/test_alerts.cpp:210: test_paper_out_texts_once_and_no_recovery_text	[PASSED]
+  test/test_alerts/test_alerts.cpp:211: test_silent_clear_sends_nothing_and_stops_repeats	[PASSED]
+  test/test_alerts/test_alerts.cpp:212: test_recurrence_within_hour_counts_against_cap	[PASSED]
+  test/test_alerts/test_alerts.cpp:213: test_flapping_all_day_never_exceeds_hard_cap_and_recoveries_match	[PASSED]
+  test/test_alerts/test_alerts.cpp:214: test_state_survives_reboot_so_cap_is_not_reset	[PASSED]
+  test/test_alerts/test_alerts.cpp:215: test_number_added_mid_event_gets_repeats_and_recovery_only_if_told	[PASSED]
+  test/test_alerts/test_alerts.cpp:216: test_start_for_already_active_episode_sends_nothing_reboot_loop_guard	[PASSED]
   test/test_sample/test_sample.cpp:56: test_median_of_five_good_reads	[PASSED]
   test/test_sample/test_sample.cpp:57: test_median_rejects_a_spike	[PASSED]
   test/test_sample/test_sample.cpp:58: test_failed_and_impossible_reads_are_discarded	[PASSED]
@@ -34,11 +52,12 @@ Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
   test/test_sms/test_sms.cpp:152: test_indian_language_messages_are_not_english	[PASSED]
   test/test_sms/test_sms.cpp:153: test_every_stage_and_language_has_a_name	[PASSED]
   test/test_sms/test_sms.cpp:154: test_device_name_rules	[PASSED]
-  test/test_time/test_time.cpp:62: test_utc_midnight_is_0530_ist_same_day	[PASSED]
-  test/test_time/test_time.cpp:63: test_late_utc_evening_rolls_to_next_ist_day	[PASSED]
-  test/test_time/test_time.cpp:64: test_leap_day_and_year_end	[PASSED]
-  test/test_time/test_time.cpp:65: test_from_ist_matches_known_epoch	[PASSED]
-  test/test_time/test_time.cpp:66: test_ist_day_changes_exactly_at_ist_midnight	[PASSED]
+  test/test_time/test_time.cpp:70: test_utc_midnight_is_0530_ist_same_day	[PASSED]
+  test/test_time/test_time.cpp:71: test_late_utc_evening_rolls_to_next_ist_day	[PASSED]
+  test/test_time/test_time.cpp:72: test_leap_day_and_year_end	[PASSED]
+  test/test_time/test_time.cpp:73: test_from_ist_matches_known_epoch	[PASSED]
+  test/test_time/test_time.cpp:74: test_ist_day_changes_exactly_at_ist_midnight	[PASSED]
+  test/test_time/test_time.cpp:75: test_utc_calendar_conversion_round_trip	[PASSED]
   test/test_profiles/test_profiles.cpp:78: test_every_stage_has_a_profile_with_a_source	[PASSED]
   test/test_profiles/test_profiles.cpp:79: test_approved_values_are_loaded	[PASSED]
   test/test_profiles/test_profiles.cpp:80: test_band_widens_target_range_by_tolerance	[PASSED]
@@ -58,6 +77,29 @@ Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
   test/test_commands/test_commands.cpp:189: test_bad_code_from_member_gets_help_reply_in_their_language	[PASSED]
   test/test_commands/test_commands.cpp:190: test_status_reply	[PASSED]
   test/test_commands/test_commands.cpp:191: test_every_reply_fits_one_sms_in_every_language	[PASSED]
+  test/test_ui/test_ui.cpp:266: test_home_screen_shows_reading_stage_status_power	[PASSED]
+  test/test_ui/test_ui.cpp:267: test_home_shows_active_alarm_and_ok_silences_buzzer	[PASSED]
+  test/test_ui/test_ui.cpp:268: test_menu_navigation_and_stage_change	[PASSED]
+  test/test_ui/test_ui.cpp:269: test_menu_scrolls_beyond_four_lines	[PASSED]
+  test/test_ui/test_ui.cpp:270: test_language_change_switches_the_whole_ui	[PASSED]
+  test/test_ui/test_ui.cpp:271: test_range_edit_changes_tolerance	[PASSED]
+  test/test_ui/test_ui.cpp:272: test_range_limits_are_enforced	[PASSED]
+  test/test_ui/test_ui.cpp:273: test_add_phone_number_with_digit_editor	[PASSED]
+  test/test_ui/test_ui.cpp:274: test_remove_extra_number_but_owner_cannot_be_removed	[PASSED]
+  test/test_ui/test_ui.cpp:275: test_buzzer_toggle_and_print_test	[PASSED]
+  test/test_ui/test_ui.cpp:276: test_idle_returns_home	[PASSED]
+  test/test_ui/test_ui.cpp:277: test_every_ui_text_exists_in_every_language	[PASSED]
+  test/test_ui/test_ui.cpp:278: test_indian_language_home_uses_large_mode_and_rotates	[PASSED]
+  test/test_ui/test_ui.cpp:279: test_indian_language_menu_shows_one_large_item_with_position	[PASSED]
+  test/test_ui/test_ui.cpp:280: test_english_keeps_four_line_mode	[PASSED]
+  test/test_ui/test_ui.cpp:281: test_phone_editor_stays_small_in_every_language	[PASSED]
+  test/test_text_render/test_text_render.cpp:121: test_ascii_renders_at_both_sizes	[PASSED]
+  test/test_text_render/test_text_render.cpp:122: test_unknown_word_is_reported	[PASSED]
+  test/test_text_render/test_text_render.cpp:123: test_padding_for_printer	[PASSED]
+  test/test_text_render/test_text_render.cpp:124: test_every_oled_text_exists_and_fits_128px	[PASSED]
+  test/test_text_render/test_text_render.cpp:125: test_every_printed_line_exists_and_fits_384_dots	[PASSED]
+  test/test_text_render/test_text_render.cpp:126: test_wrap_splits_at_spaces	[PASSED]
+  test/test_text_render/test_text_render.cpp:127: test_every_large_mode_text_fits_two_rows_of_128px	[PASSED]
   test/test_print/test_print.cpp:161: test_event_lines_english_exact	[PASSED]
   test/test_print/test_print.cpp:162: test_every_english_event_line_fits_32_columns	[PASSED]
   test/test_print/test_print.cpp:163: test_indian_language_event_line_uses_local_words_and_western_digits	[PASSED]
@@ -69,6 +111,11 @@ Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
   test/test_print/test_print.cpp:169: test_summary_has_lines_in_every_language	[PASSED]
   test/test_print/test_print.cpp:170: test_scheduler_prints_once_at_6am	[PASSED]
   test/test_print/test_print.cpp:171: test_scheduler_holds_summary_on_battery_and_prints_late	[PASSED]
+  test/test_persist/test_persist.cpp:83: test_crc32_known_value	[PASSED]
+  test/test_persist/test_persist.cpp:84: test_settings_round_trip	[PASSED]
+  test/test_persist/test_persist.cpp:85: test_corrupt_or_foreign_blob_is_rejected_and_output_untouched	[PASSED]
+  test/test_persist/test_persist.cpp:86: test_out_of_range_values_are_rejected	[PASSED]
+  test/test_persist/test_persist.cpp:87: test_alert_state_round_trip	[PASSED]
   test/test_events/test_events.cpp:214: test_temp_high_starts_after_exactly_5_minutes_out	[PASSED]
   test/test_events/test_events.cpp:215: test_value_on_band_edge_is_not_out_of_band	[PASSED]
   test/test_events/test_events.cpp:216: test_one_in_band_sample_restarts_the_5_minute_timer	[PASSED]
@@ -85,24 +132,28 @@ Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
   test/test_events/test_events.cpp:227: test_stage_change_silently_clears_event_now_in_band	[PASSED]
   test/test_events/test_events.cpp:228: test_stage_change_keeps_event_still_out_of_band	[PASSED]
   test/test_events/test_events.cpp:229: test_stage_change_restarts_pending_onset_timer	[PASSED]
-  native         test_alerts    PASSED    00:00:00.770
-  native         test_sample    PASSED    00:00:00.412
-  native         test_power     PASSED    00:00:00.459
-  native         test_sms       PASSED    00:00:00.565
-  native         test_time      PASSED    00:00:00.407
-  native         test_profiles  PASSED    00:00:00.420
-  native         test_commands  PASSED    00:00:00.481
-  native         test_print     PASSED    00:00:00.426
-  native         test_events    PASSED    00:00:00.446
-  ================= 84 test cases: 84 succeeded in 00:00:04.384 =================
+  native         test_monitor      PASSED    00:00:00.507
+  native         test_alerts       PASSED    00:00:00.447
+  native         test_sample       PASSED    00:00:00.494
+  native         test_power        PASSED    00:00:00.452
+  native         test_sms          PASSED    00:00:00.646
+  native         test_time         PASSED    00:00:00.650
+  native         test_profiles     PASSED    00:00:00.454
+  native         test_commands     PASSED    00:00:00.474
+  native         test_ui           PASSED    00:00:00.454
+  native         test_text_render  PASSED    00:00:00.473
+  native         test_print        PASSED    00:00:00.458
+  native         test_persist      PASSED    00:00:00.466
+  native         test_events       PASSED    00:00:00.497
+  ================ 131 test cases: 131 succeeded in 00:00:06.472 ================
 
 == 2. lib/core contains no Arduino / ESP-IDF headers
   PASS
 
 == 3. ESP32 cross-compile with lib/core linked
-  RAM:   [=         ]   6.7% (used 22116 bytes from 327680 bytes)
-  Flash: [==        ]  21.4% (used 280136 bytes from 1310720 bytes)
-  ========================= [SUCCESS] Took 3.99 seconds =========================
-  esp32          SUCCESS   00:00:03.995
+  RAM:   [==        ]  15.7% (used 51508 bytes from 327680 bytes)
+  Flash: [======    ]  63.3% (used 1243977 bytes from 1966080 bytes)
+  ========================= [SUCCESS] Took 2.25 seconds =========================
+  esp32          SUCCESS   00:00:02.245
 
 GATE: PASSED

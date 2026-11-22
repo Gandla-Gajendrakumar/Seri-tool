@@ -125,7 +125,10 @@ void Monitor::handle(const std::vector<Event>& evs, int64_t now) {
 }
 
 void Monitor::enqueueJobs(const std::vector<SmsJob>& jobs, int64_t now) {
+  static const char* const kKind[] = {"Start", "Repeat", "Recovery", "LimitReached"};
   for (const SmsJob& j : jobs) {
+    logLine("Q," + std::to_string(now) + "," + kKind[static_cast<int>(j.kind)] + "," +
+            kTypeName[static_cast<int>(j.type)] + "," + std::to_string(j.recipient));
     const std::string& number = settings_.phone[j.recipient];
     if (number.empty()) continue;
     const bool temp = j.type == EventType::TempHigh || j.type == EventType::TempLow;

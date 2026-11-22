@@ -21,5 +21,6 @@ fail=0
   (cd firmware && pio run -e esp32 >/dev/null 2>&1) || fail=1
   echo
   if [ $fail -eq 0 ]; then echo "GATE: PASSED"; else echo "GATE: FAILED"; fi
+  exit $fail
 } 2>&1 | tee "$out"
-exit $fail
+exit ${PIPESTATUS[0]}

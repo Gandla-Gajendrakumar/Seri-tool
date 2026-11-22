@@ -67,6 +67,7 @@ static void test_heat_spike_alerts_prints_logs_buzzes_then_recovers() {
   TEST_ASSERT_TRUE(r.modem.sent[0].text.find("Temp HIGH 31.0C") != std::string::npos);
   TEST_ASSERT_EQUAL(1, r.printer.count("TEMP HIGH 31.0C"));
   TEST_ASSERT_EQUAL(1, r.storage.count("TempHigh,Start"));
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.storage.count(",Start,TempHigh,0"), "policy decision logged: Q,<t>,Start,TempHigh,<slot>");
   TEST_ASSERT_TRUE(r.ind.buzz);
   TEST_ASSERT_TRUE(r.ind.r);
   r.m->silenceBuzzer();

@@ -30,4 +30,5 @@ cd firmware && pio test -e native
 
 - Phase 0 (setup): approved 2026-11-21.
 - Phase 1 (logic): approved 2026-11-22.
-- Phase 2 (firmware on virtual hardware): gate passed 2026-11-22, all 8 Wokwi scenarios. Evidence: `docs/evidence/phase2-gate.md`. Awaiting review. Run `tools/phase1_gate.sh`; latest output in `docs/evidence/phase1-gate.txt`.
+- Phase 2 (firmware on virtual hardware): gate passed 2026-11-22, all 8 Wokwi scenarios. Evidence: `docs/evidence/phase2-gate.md`. Approved 2026-11-22.
+- Phase 3 (whole-cycle replay): gate passed. Run `tools/phase3_gate.sh`; evidence in `docs/evidence/phase3-gate.md`. Awaiting review. Run `tools/phase1_gate.sh`; latest output in `docs/evidence/phase1-gate.txt`.

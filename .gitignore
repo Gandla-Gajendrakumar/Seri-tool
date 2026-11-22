@@ -9,3 +9,4 @@ build/
 out/
 *.chip.wasm
 sim/wokwi/logs/
+sim/replay/out/

@@ -38,6 +38,8 @@ jobs:
         run: tools/phase1_gate.sh
       - name: Scenario checker tests
         run: python3 -m unittest tools/test_check_scenario.py
+      - name: Phase 3 whole-cycle replay (38 days vs independent oracle)
+        run: tools/phase3_gate.sh
       - name: Custom chip tests (host) and WebAssembly build
         run: tools/test_chips.sh
 
