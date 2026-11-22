@@ -69,9 +69,12 @@ def mm(v):
     return pcbnew.FromMM(v)
 
 
+LOCAL_FP = os.path.join(HERE, "..", "lib", "seri.pretty")
+
+
 def load(fp):
     lib, name = fp.split(":")
-    m = pcbnew.FootprintLoad(FPDIR + lib + ".pretty", name)
+    m = pcbnew.FootprintLoad(LOCAL_FP if lib == "seri" else FPDIR + lib + ".pretty", name)
     if m is None:
         raise FileNotFoundError(fp)
     return m

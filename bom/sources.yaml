@@ -78,11 +78,50 @@
     evidence: search-index 2026-11-22
     note: PRICE NOT FOUND. Same LM39302 V1.1 board. Quartz's red-PCB variant (sima7670c-4g-gsm-breakout-board-red-pcb) takes
       3.4-4.2 V input directly and has no 5 V regulator.
-  concerns: Pinout not confirmed from listings. The ADIY V1.1 board has an LM39302 regulator (wide VIN, typically 5 V or more)
-    and UART level conversion per Hubtronics, so the ESP32's 3.3 V UART should work, but check which logic level the TX/RX
-    header uses. Plan for 2 A peaks on the supply. Robocraze's ADIY breakout (a7670c-gsm-4g-breakout-board-adiy) and DNA Tech's
-    are out of stock, and Robocraze's LM39302 V1.1 page showed 0 in stock. Check the module suffix (A7670C-LASS/LANS; LASS
-    adds GNSS on some boards).
+  - supplier: Quartz Components
+    country: IN
+    url: https://quartzcomponents.com/products/sima7670c-4g-gsm-breakout-board-red-pcb
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND (the site is blocked from here and the snippets carry no price). The listing confirms 'Input Voltage
+      3.4V - 4.2V DC'. Header order, VDD_EXT, UART level, PWRKEY and antenna connector were not found in any searchable text;
+      they are probably only in the product images. For reference, Quartz's sister SIMA7670E board is Rs 1,145 ex GST, with
+      an IPEX antenna connector, UART, GPIO and a SIM slot.
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/a7670c-gsm-4g-breakout-board-adiy
+    pack_qty: 1
+    pack_price_inr: 1234.0
+    gst_included: true
+    in_stock: false
+    evidence: search-index 2026-11-22
+    note: ADIY board. VBAT 3.4-4.2 V, 3.8 V recommended. Sold out at the time of the search snapshot (MRP Rs 1,499). The same
+      ADIY board is also sold by The Engineer Store (https://www.theengineerstore.in/products/a7670c-gsm-4g-breakout-board-adiy),
+      which says it runs 'directly from a 3.7V LiPo battery'; price not found there.
+    selected: true
+    why_selected: ADIY board with VBAT 3.4-4.2 V input confirmed in the listing (regulator-less); sold out at research time
+  - supplier: Vishaworld
+    country: IN
+    url: https://vishaworld.com/products/gsm-sima7670c-4g-breakout-board-ver-1-1
+    pack_qty: 1
+    pack_price_inr: 1700.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Ver 1.1, Rs 1,440.68 + 18% GST. The listing names the pins PWRKEY, RST, NET, DTR, RI, TXD and RXD. Supply range
+      was not stated in the snippet.
+  concerns: 'The board must take VBAT 3.4-4.2 V directly (the design feeds the modem from the cells, fixed decision). ADIY
+    boards with the LM39302 regulator need ~5 V and would leave the modem below 3.4 V on battery. The pinout was NOT verified
+    for any of these boards. Nothing searchable confirms the header order, whether VDD_EXT (1.8 V) is brought out, or whether
+    the UART is at the module''s native 1.8 V or level-shifted. Robocraze''s own A7670C blog says to use ''level shifting
+    if required''. A UFL/IPEX antenna connector is mentioned only for a similar third-party SIM7670C board. Assume a 1.8 V
+    UART until the silkscreen or schematic shows otherwise, and plan level shifting (for example a TXB0104 or a MOSFET shifter
+    referenced to VDD_EXT). The module draws 2-3 A peaks (DNA Tech listing), so the VBAT supply needs a cell or capacitor
+    bank that can deliver bursts. Alternative with an onboard regulator (not wanted): Quartz ''SIM A7670C ... with LM39302
+    power IC V1.1''.'
 - item: SHT31 probe, 2 m cable
   description: Sensirion SHT3x in a weatherproof mesh/sintered probe on a shielded I2C cable, about 2 m
   manufacturer: generic (Taidacent / Probots), or DFRobot SEN0385
@@ -115,6 +154,31 @@
     in_stock: null
     evidence: search-index 2026-11-22
     note: Stainless-steel SHT31 'soil' probe, free shipping, cable length not stated
+  - supplier: Fruugo India
+    country: IN
+    url: https://www.fruugoindia.com/x-soil-digital-temperature-humidity-sensor-probe-waterproof-stainless-steel-case-sht31/p-444767862
+    pack_qty: 1
+    pack_price_inr: 2449.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Titled 'Soil Digital Temperature & Humidity Sensor Probe Waterproof Stainless Steel Case (SHT31)'. Unbranded marketplace
+      seller (likely cross-border); free shipping. The description mentions 'FS304', so the actual sensor and output (I2C
+      or RS485?) are unclear. Cable length not stated.
+  - supplier: DigiKey (US)
+    country: US
+    url: https://www.digikey.com/en/products/detail/dfrobot/SEN0385/13590873
+    pack_qty: 1
+    pack_price_inr: 1671.6
+    gst_included: false
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: DFRobot SEN0385, US$19.90 x 84 = Rs 1,671.6 before import duty/shipping; 705 in stock (search snippet). Genuine
+      SHT31, I2C, about 1 m cable (Farnell datasheet), PE plastic housing (not for >80 °C, not submersible). No Indian retailer
+      found. Try ordering via digikey.in (the same DigiKey part 13590873 should be orderable) or the element14 India part
+      3879710 (not confirmed on in.element14.com).
+    selected: true
+    why_selected: 'product-owner decision: genuine SHT31 probe (DFRobot SEN0385, ~1 m) extended to 2 m; import, duty not included'
   concerns: No Indian listing found with a 2 m SHT31 cable. The options are 0.5-1 m, or SHT30 (±2% RH typical versus ±2% RH
     and ±0.2 °C for SHT31, so a small accuracy loss). Plan to extend to 2 m with shielded twisted pair, lower the I2C clock
     (10-50 kHz) and use stronger pull-ups, or put a P82B715 or similar I2C extender at the far end. Probots notes 3-5 m works
@@ -135,8 +199,6 @@
     evidence: search-index 2026-11-22
     note: Rs 2,700 + GST = Rs 3,186, out of stock (SKU 2423). Another DNA Tech CSN-A2L listing (thermal-printer-ttl-rs232-uart-interface.html)
       is Rs 6,726.01 + GST with 2 in stock.
-    selected: true
-    why_selected: 'product-owner decision: CSN-A2 class with TX status line'
   - supplier: Robocraze
     country: IN
     url: https://robocraze.com/products/rp203-58mm-panel-thermal-printer
@@ -156,6 +218,17 @@
     in_stock: null
     evidence: search-index 2026-11-22
     note: QR204 TTL/USB panel printer, Rs 2,056.78 + GST. Needs a stable 5 V supply.
+  - supplier: DNA Technology (older page)
+    country: IN
+    url: https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html
+    pack_qty: 1
+    pack_price_inr: 2076.8
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: 'Rs 1,760 + GST, "Stock: 4"; the index does not show whether this or the Rs 3,186 page is current.'
+    selected: true
+    why_selected: 'product-owner decision: CSN-A2 class with TX status line; in-stock listing'
   concerns: The CSN-A2 manual shows the TTL connector with GND (pins 1 and 4), VH 5-9 V (pin 3), RXD (pin 5) and TXD (pin
     6), so a TX line exists and ESC/POS status queries (DLE EOT / GS r) can report paper-out. DTR/busy support varies by firmware.
     The printer needs 5-9 V at 1.5 A or more (peaks around 2 A); at 12 V it would need its own rail from the XL4015. Baud
@@ -254,6 +327,36 @@
     in_stock: false
     evidence: search-index 2026-11-22
     note: BIS certified with a 2-year warranty, but the plug is 5.5x2.5 mm and it is sold out
+  - supplier: Industrybuying
+    country: IN
+    url: https://www.industrybuying.com/power-adapter-cp-plus-ITS.POW.243832620
+    pack_qty: 1
+    pack_price_inr: null
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: PRICE NOT FOUND. CP Plus CP-YPS-PA24B-12DT, 12 VDC, 2 A, 24 W, BIS listed among its certifications, made in India.
+      The R-number and plug size were not shown.
+  - supplier: Zebronics (official store)
+    country: IN
+    url: https://zebronics.com/products/zeb-pa122a
+    pack_qty: 1
+    pack_price_inr: 699.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'ZEB-PA122A CCTV adapter: 12.2 V, 2 A (24 W), SC/OL/OV protection, made in India. Plug is ''DC5525'', meaning 5.5
+      x 2.5 mm, NOT 2.1 mm. No BIS or R-number mentioned in the indexed text.'
+  - supplier: Supreme India
+    country: IN
+    url: https://supremeindia.com/hikvision-ds-2fa120k-dw-in-cctv-power-supply
+    pack_qty: 1
+    pack_price_inr: 1524.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Hikvision DS-2FA120K-DW-IN, listed as 'BIS Approved'. Output current and plug size were not captured; check before
+      buying.
   concerns: No reputable electronics store listing found that combines BIS registration, 12 V 3 A and a 5.5x2.1 mm plug. Many
     adapters have 5.5x2.5 mm plugs, which fit a 2.1 mm jack loosely. Check the R-number on the BIS CRS portal (crsbis.in)
     before buying in volume. CCTV-grade adapters from known brands (e.g. CP Plus, Hikvision) are often BIS-marked with 2.1
@@ -327,6 +430,35 @@
     evidence: search-index 2026-11-22
     note: SX1308 adjustable module, '2 A max' with about 1.2 A recommended continuous. Not enough for 2 A at 5 V from one
       cell.
+  - supplier: Robocraze
+    country: IN
+    url: https://robocraze.com/products/tps61023-3-7a-5v-output-mini-boost-converter-breakout-board-7semi
+    pack_qty: 1
+    pack_price_inr: 79.0
+    gst_included: true
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: TI TPS61023. Snapshot showed 'only 51 left in stock'. Advertised as '3.7A' with 1.5-5.5 V input. 3.7 A is the IC's
+      switch-current limit, not the output current.
+  - supplier: Hubtronics
+    country: IN
+    url: https://hubtronics.in/development-boards/peripheral-modules/tps61023-5v-boost
+    pack_qty: 1
+    pack_price_inr: 86.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Same 7Semi board, Rs 72.88 + GST.
+  - supplier: Flyrobo
+    country: IN
+    url: https://www.flyrobo.in/5v-2a-type-c-usb-battery-charging-discharging-boost-module
+    pack_qty: 1
+    pack_price_inr: 108.0
+    gst_included: null
+    in_stock: true
+    evidence: search-index 2026-11-22
+    note: '''5V 2A Type-C USB Battery Charging Discharging Boost Module''. Chip not identified (charger+boost combo, likely
+      an IP53xx-class SoC). Rated 2 A, but continuous rating unverified.'
   concerns: No Indian listing found that names an FP6277 or FP6298 module. The TPS61088A module is the only one that clearly
     meets 2 A or more at 5 V from 3.0 V, and it is out of stock. FlyRobo sells a '5V 3A lithium charging boost module' for
     Rs 114 (flyrobo.in/5v-2.4v-3a-lithium-battery-charging-boosting-module) with the chip unstated, probably an IP5306 or
@@ -337,6 +469,37 @@
   manufacturer: SanDisk (Western Digital)
   mpn: SDSDQAF3-016G-I
   sources:
+  - supplier: Amazon.in (via pricebefore.com tracker)
+    country: IN
+    url: https://www.pricebefore.com/sandisk-32gb-high-endurance-video-microsdhc-card-adapter-dash-cam-p704308.html
+    pack_qty: 1
+    pack_price_inr: 2439.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: A price tracker reports the Amazon.in current price of SDSQQNR-032G-GN6IA as Rs 2,439 (lowest recorded Rs 2,269);
+      the crawl date is unknown. The Amazon product URL itself was not found. Reliance Digital lists 'SanDisk 32 GB High Endurance
+      UHS-I' with MRP Rs 6,400 and '62% off'; its sale price is not shown (https://www.reliancedigital.in/product/sandisk-32-gb-high-endurance-uhs-i-memory-card-mqkvb8-10198830).
+  - supplier: Tanotis
+    country: IN
+    url: https://www.tanotis.com/products/kingston-32gb-high-endurance-microsdhc-card
+    pack_qty: 1
+    pack_price_inr: 2215.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Kingston 32 GB High Endurance microSDHC (SDCE/32GB). The price includes GST and import duty.
+  - supplier: Tanotis
+    country: IN
+    url: https://www.tanotis.com/products/samsung-32gb-pro-endurance-uhs-i-microsdhc-memory-card-with-sd-adapter
+    pack_qty: 1
+    pack_price_inr: 2205.0
+    gst_included: true
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Samsung PRO Endurance 32 GB (MB-MJ32GA) with SD adapter. The price includes GST and import duty.
+    selected: true
+    why_selected: 'product-owner decision: high-endurance grade (Samsung PRO Endurance 32 GB)'
   - supplier: Mouser India
     country: IN
     url: https://www.mouser.in/c/semiconductors/memory-ics/memory-modules-memory-cards/memory-cards/?m=SanDisk
@@ -357,9 +520,10 @@
     in_stock: false
     evidence: search-index 2026-11-22
     note: Consumer SanDisk Ultra 16 GB fallback. Rs 309, sold out at index time.
-  concerns: The industrial card costs about 6x a consumer card, but MLC lasts much longer under constant logging in a humid
+  concerns: 'The industrial card costs about 6x a consumer card, but MLC lasts much longer under constant logging in a humid
     shed. A cheaper middle option is SanDisk High Endurance or Kingston Industrial (not priced here). No Indian 8 GB industrial
-    price was found.
+    price was found. Product-owner decision 2026-11-22: high-endurance consumer grade. Indexed prices for 32 GB high-endurance
+    cards are Rs 2,200-2,450, above the Rs 400-700 estimate given at decision time.'
 - item: CR2032 coin cell
   description: CR2032 3 V lithium coin cell, Panasonic
   manufacturer: Panasonic
@@ -845,11 +1009,35 @@
     note: PTTC SMD1812P150TF/24, $0.1175 at the 5-49 break (1 USD = 84 INR). 1,335 in stock.
   concerns: Meets the spec (24 V >= 16 V). Check the trip time and resistance (R1max about 0.15 ohm) against the voltage-drop
     budget at the expected current.
-- item: 18650 PCB holder, single cell, THT [Keystone 1042 or equivalent]
-  description: Single 18650 cell holder, PCB through-hole pins
-  manufacturer: generic / Keystone
-  mpn: generic 18650 PCB holder / Keystone 1043 (THT version)
+- item: 18650 PCB holder, single cell, THT [Keystone 1043]
+  description: Keystone 1043 single-cell 18650 holder, PC pins, leaf springs both ends. Body 77.1 x 20.7 x 18.0 mm. Contact
+    pins 71.6 mm apart; 2 locating posts Ø3.7 mm. Drawing and footprint notes in keystone1043.md
+  manufacturer: Keystone Electronics
+  mpn: '1043'
   sources:
+  - supplier: DigiKey India
+    country: IN
+    url: https://www.digikey.in/en/products/detail/keystone-electronics/1043/2745669
+    pack_qty: 1
+    pack_price_inr: 278.0
+    gst_included: null
+    in_stock: null
+    evidence: prior research (caller); search-index 2026-11-22 shows only the 2500-pc tier
+    note: 'The Rs 278 single-unit price comes from the caller''s earlier research and was not re-verified here. Today''s search
+      snippet shows only Rs 150.03/pc at 2,500 pcs and a 26-week manufacturer lead time. The 1043P (polarized, same footprint)
+      is Rs 323.63 at 1 pc with 9,462 in stock: https://www.digikey.in/en/products/detail/keystone-electronics/1043P/4499388'
+    selected: true
+    why_selected: 'product-owner decision 2026-11-22: genuine Keystone 1043 (THT) for the 20 mOhm battery-path budget'
+  - supplier: LCSC
+    country: CN
+    url: https://www.lcsc.com/product-detail/Battery-Connectors_Keystone-1043_C5355143.html
+    pack_qty: 1
+    pack_price_inr: 317.8
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: C5355143, $3.7828 at 1+ (search snippet) x 84 INR/USD. When fetched 2026-11-22 the product page returned 'Page Not
+      Found', so the part may be delisted. The datasheet is still downloadable.
   - supplier: Quartz Components
     country: IN
     url: https://quartzcomponents.com/products/18650-li-ion-battery-cell-holder-case-single-cell
@@ -869,23 +1057,9 @@
     in_stock: true
     evidence: search-index 2026-11-22
     note: TH PCB-mount 18650 holder, Rs 59.40 + GST, stock 100 (another page on the same site showed a different price).
-  - supplier: DigiKey India
-    country: IN
-    url: https://www.digikey.in/en/products/detail/keystone-electronics/1043/2745669
-    pack_qty: 1
-    pack_price_inr: 278.63
-    gst_included: null
-    in_stock: true
-    evidence: search-index 2026-11-22
-    note: Genuine Keystone 1043 (PC pin), Rs 241.35 at 10 pcs, 19.8k in stock. Plus Rs 1,200 DigiKey shipping below Rs 7,000.
-    selected: true
-    why_selected: 'product-owner decision 2026-11-22: genuine Keystone 1043 for the 20 mOhm path budget'
-  concerns: 'IMPORTANT: Keystone 1042 is the SMT-tab version (DigiKey: ''SMD (SMT) Tab''), not THT. The THT version is the
-    Keystone 1043/1043P, which has a different footprint, so check its drawing before assuming 79.38 mm. Generic Indian/Chinese
-    THT holders have no standard pin pitch. Pin spacing is often around 70-78 mm, and some have 2 pins per end. Pin spacing
-    could not be confirmed for the Quartz or DNA parts. Buy samples first and draw the footprint from the actual part, or
-    use slotted pads to fit several holders. Robu/Robocraze cheap holders are SMT, not THT. LCSC: TE BAT-HLD-001-THM (C22417572,
-    $0.7031 at 10+ = Rs 59) is out of stock.'
+  concerns: The drawing gives the pin as Ø1.57 mm but the recommended hole as Ø1.19 mm, which is inconsistent. Check against
+    a sample before fixing the footprint. The drawing marks no polarity; the 1043 is symmetric, so the cell can go in reversed.
+    Use the 1043P if you need mechanical polarization.
 - item: CR2032 PCB holder [Keystone 3002 or equivalent]
   description: 20 mm coin cell holder for CR2032
   manufacturer: Keystone / generic
@@ -1713,3 +1887,41 @@
   concerns: 'No firm quote obtained for any fab. At 190 x 152 mm the board is ~2.9x the 100 x 100 promo area, so JLCPCB will
     not be USD 2; get live quotes by uploading Gerbers to Lion Circuits, PCB Power, Circuitwala and JLCPCB (India address)
     before budgeting. Rough budget from the Rs 0.65/cm2 Indian rate: Rs 1,000-2,000 for 5-10 boards plus GST/shipping.'
+- item: Shielded twisted-pair cable, 2-pair 24 AWG (per metre)
+  description: 2-pair 24 AWG, overall shield (foil/braid), for I2C/RS485 over 2 m
+  manufacturer: generic / Lapp / Belden
+  mpn: 2 pair 24 AWG STP (RS-485 type)
+  sources:
+  - supplier: IndiaMART (seller listing)
+    country: IN
+    url: https://m.indiamart.com/impcat/twisted-pair-cables.html
+    pack_qty: 1
+    pack_price_inr: 110.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: '''2 Pair 24 Awg Rs-485 Cable, Cat 6, STP'', Rs 110 per metre. Category page, not a product page. The seller''s
+      MOQ is likely to be a full roll, so confirm.'
+  - supplier: element14 India
+    country: IN
+    url: https://in.element14.com/c/cable-wire-cable-assemblies/multipair-cable/prl/results
+    pack_qty: 1
+    pack_price_inr: 820.6
+    gst_included: false
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: Screened 2-pair 24 AWG (0.2 mm²) multipair cable, Rs 820.60/m at 1 m (Rs 711.19 at 50+). Category listing; exact
+      part number not captured. Sold by the metre, so 2-5 m is possible.
+  - supplier: IndiaMART (Belden CAT6 STP box)
+    country: IN
+    url: https://m.indiamart.com/impcat/networking-cable.html
+    pack_qty: 305
+    pack_price_inr: 7950.0
+    gst_included: null
+    in_stock: null
+    evidence: search-index 2026-11-22
+    note: 'Fallback: Belden 4-pair CAT6 STP, 305 m box (about Rs 26/m). Only worthwhile if bought locally by the metre, which
+      electrical shops commonly do.'
+  concerns: 'No small-quantity (5 m) retail listing with a price was found at hobby stores. Practical options: buy 2-5 m of
+    CAT6 STP/FTP by the metre from a local network-cable shop (one twisted pair for SDA+GND, one for SCL+VCC), or order element14
+    by the metre. For I2C over 2 m, keep the pull-ups strong (2.2 kΩ) or use an I2C extender (P82B715/PCA9615).'

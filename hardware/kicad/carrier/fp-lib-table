@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "seri")(type "KiCad")(uri "${KIPRJMOD}/../lib/seri.pretty")(options "")(descr "Seri-tool project footprints"))
+)

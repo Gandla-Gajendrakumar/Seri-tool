@@ -29,7 +29,7 @@ LED3 = "LED_THT:LED_D3.0mm"
 HDR = "Connector_PinHeader_2.54mm:PinHeader_1x{n:02d}_P2.54mm_Vertical"
 SKT = "Connector_PinSocket_2.54mm:PinSocket_1x{n:02d}_P2.54mm_Vertical"
 XH = "Connector_JST:JST_XH_B{n}B-XH-A_1x{n:02d}_P2.50mm_Vertical"
-CELL = "Battery:BatteryHolder_Keystone_1042_1x18650"
+CELL = "seri:BatteryHolder_Keystone_1043_1x18650"   # product-owner decision 2026-11-22 (THT, genuine Keystone)
 
 PARTS = []  # (lib, symbol, ref, value, footprint, nets, fields)
 

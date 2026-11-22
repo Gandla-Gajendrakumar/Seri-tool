@@ -42,7 +42,7 @@ ITEM_BY_PART = {
     ("AP2112K-3.3", None): "AP2112K-3.3 [SOT-23-5]",
     ("DS3231SN", None): "DS3231SN [SOIC-16 wide]",
     ("Polyfuse", None): "Polyfuse 1.5 A hold [1812]",
-    ("Battery_Cell", "18650"): "18650 PCB holder, single cell, THT [Keystone 1042 or equivalent]",
+    ("Battery_Cell", "18650"): "18650 PCB holder, single cell, THT [Keystone 1043]",
     ("Battery_Cell", "CR2032"): "CR2032 PCB holder [Keystone 3002 or equivalent]",
     ("Micro_SD_Card_Det_Hirose_DM3AT", None): "microSD socket [Hirose DM3AT-SF-PEJM5 or equivalent push-push with card detect]",
     ("Barrel_Jack_Switch", None): "DC barrel jack 5.5x2.1 mm, PCB horizontal with switch pin",
@@ -65,7 +65,8 @@ ITEM_BY_FOOTPRINT = {
 OFFBOARD = [
     ("ESP32-DevKitC V4 (WROOM-32E)", 1, "plugs into J2/J3"),
     ("A7670C 4G LTE Cat-1 breakout", 1, "plugs into J10 (match pin order before ordering PCBs)"),
-    ("SHT31 probe, 2 m cable", 1, "to J11"),
+    ("SHT31 probe, 2 m cable", 1, "to J11; ~1 m probe extended to 2 m (D-052)"),
+    ("Shielded twisted-pair cable, 2-pair 24 AWG (per metre)", 2, "probe extension, metres"),
     ("58 mm TTL thermal printer with status TX", 1, "to J8/J9"),
     ("1.3 inch OLED SH1106 I2C 128x64", 1, "plugs into J14"),
     ("18650 Li-ion cell 2500-3000 mAh (genuine brand)", 2, "BT1, BT2 (footprints for 4)"),

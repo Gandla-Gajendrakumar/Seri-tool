@@ -6076,7 +6076,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Battery:BatteryHolder_Keystone_1042_1x18650"
+    (property "Footprint" "seri:BatteryHolder_Keystone_1043_1x18650"
       (at 439.42 111.76 0)
       (effects
         (font
@@ -6130,7 +6130,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Battery:BatteryHolder_Keystone_1042_1x18650"
+    (property "Footprint" "seri:BatteryHolder_Keystone_1043_1x18650"
       (at 482.6 111.76 0)
       (effects
         (font
@@ -6184,7 +6184,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Battery:BatteryHolder_Keystone_1042_1x18650"
+    (property "Footprint" "seri:BatteryHolder_Keystone_1043_1x18650"
       (at 528.32 111.76 0)
       (effects
         (font
@@ -6238,7 +6238,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Battery:BatteryHolder_Keystone_1042_1x18650"
+    (property "Footprint" "seri:BatteryHolder_Keystone_1043_1x18650"
       (at 43.18 142.24 0)
       (effects
         (font
@@ -9191,7 +9191,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Value" "4.7k"
+    (property "Value" "2.2k"
       (at 180.8 272.24 0)
       (effects
         (font
@@ -9245,7 +9245,7 @@
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Value" "4.7k"
+    (property "Value" "2.2k"
       (at 223.98 272.24 0)
       (effects
         (font

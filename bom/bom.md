@@ -1,7 +1,7 @@
 # Bill of materials: Seri-tool v1 pilot
 
 **Status: NOT FINAL**
-* 2 chosen source(s) out of stock at research time: 58 mm TTL thermal printer with status TX; 5 V boost module >= 2 A from 3.0-4.2 V
+* 2 chosen source(s) out of stock at research time: A7670C 4G LTE Cat-1 breakout; 5 V boost module >= 2 A from 3.0-4.2 V
 
 Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD). Most come from a web-search index on 2026-11-22, not a live checkout: confirm before ordering. Shipping not included. Sources and links: `bom/sources.yaml`.
 
@@ -21,7 +21,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | Male header strip 1x40 2.54 mm + jumper shunt | BUCK OUT 5V | 1 | J5 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | Capacitor 1206 X5R 22uF 10V | 22uF 10V | 1 | C4 | GRM31CR71A226KE15L (Murata 10V X7R) / CL31A226KAHNNNE (Samsung 25V X5R, LCSC C12891) | [Lion Circuits](https://lioncircuits.com/parts/GRM31CR71A226KE15L) | ₹35.57 | ₹35.57 | ₹426.80 |
 | TP4056 [SOP-8 with exposed pad, ESOP-8] | TP4056 | 1 | U2 | TP4056 (UMW) / TP4056-42-ESOP8 (Top Power) | [Evelta](https://evelta.com/tp4056-1a-linear-lithium-ion-battery-charger-ic-esop-8) | ₹13.05 | ₹13.05 | ₹130.50 |
-| Resistor 0805 1% (per value) | 2.2k | 1 | R3 | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹0.37 | ₹366.00 |
+| Resistor 0805 1% (per value) | 2.2k | 3 | R3 R22 R23 | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹1.10 | ₹366.00 |
 | Capacitor 1206 X5R 10uF 16V | 10uF | 4 | C5 C6 C17 C24 | CL31A106KBHNNNE (50V X5R, LCSC C13585) | [LCSC](https://www.lcsc.com/product-detail/C13585.html) | ₹10.15 | ₹40.62 | ₹406.20 |
 | Resistor 0805 1% (per value) | 10k | 10 | R16 R18 R19 R27 R28 R29 R30 R31 R37 R38 (DNP: R4) | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹3.66 | ₹366.00 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | 10k B3950 | 0 |  (DNP: TH1) | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | — | — | — |
@@ -30,7 +30,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | DW01A [SOT-23-6] | DW01A | 1 | U3 | DW01A | [LCSC](https://www.lcsc.com/product-detail/C351410.html) | ₹2.10 | ₹2.10 | ₹21.00 |
 | Resistor 0805 1% (per value) | 100 | 3 | R6 R24 R25 | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹1.10 | ₹366.00 |
 | FS8205A [TSSOP-8] | FS8205A | 3 | Q1 Q2 Q11 | FS8205A (TSSOP-8) | [Hubtronics](https://hubtronics.in/8205a-tssop8?tag=FS8205A) | ₹5.90 | ₹17.70 | ₹177.00 |
-| 18650 PCB holder, single cell, THT [Keystone 1042 or equivalent] | 18650 | 2 | BT1 BT2 (DNP: BT3 BT4) | generic 18650 PCB holder / Keystone 1043 (THT version) | [DigiKey India](https://www.digikey.in/en/products/detail/keystone-electronics/1043/2745669) | ₹278.63 | ₹557.26 | ₹5,572.60 |
+| 18650 PCB holder, single cell, THT [Keystone 1043] | 18650 | 2 | BT1 BT2 (DNP: BT3 BT4) | 1043 | [DigiKey India](https://www.digikey.in/en/products/detail/keystone-electronics/1043/2745669) | ₹278.00 | ₹556.00 | ₹5,560.00 |
 | AO3401A [SOT-23] | AO3401A | 3 | Q3 Q12 Q4 | AO3401A | [LCSC](https://www.lcsc.com/product-detail/C15127.html) | ₹6.95 | ₹20.85 | ₹208.50 |
 | Electrolytic 100uF 10V radial 6.3 mm, 2.5 mm pitch | 100uF 10V | 2 | C8 C19 | ECE-A1AKA101 (Panasonic KA, 6.3 x 7 mm, 2.5 mm) | [Robu.in](https://robu.in/product/100-uf-10v-through-hole-electrolytic-capacitor-pack-of-20/) | ₹1.95 | ₹3.90 | ₹39.00 |
 | Electrolytic 1000uF 6.3V LOW-ESR radial 10 mm, 5 mm pitch | 1000uF 6.3V low-ESR | 2 | C9 C26 | 10ZLH1000MEFC10X12.5 (Rubycon ZLH, 10 V) or EEU-FM0J102 (Panasonic FM, 6.3 V) | [Tanotis](https://www.tanotis.com/products/rubycon-10zlh1000mefc10x12-5-electrolytic-capacitor-miniature-1000-micro-f-10-v-zlh-series-plusmn-20-radial-leaded-10-mm) | ₹71.31 | ₹142.62 | ₹1,426.20 |
@@ -42,7 +42,7 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | Capacitor 0805 X5R 4.7uF 10V | 4.7uF | 1 | C16 | CL21A475KAQNNNE (25V X5R, LCSC C1779) | [LCSC](https://www.lcsc.com/product-detail/C1779.html) | ₹2.91 | ₹2.91 | ₹58.10 |
 | Male header strip 1x40 2.54 mm + jumper shunt | 3V3 to DevKitC: REMOVE before USB | 1 | JP2 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | MMBT3904 [SOT-23] | MMBT3904 | 6 | Q5 Q6 Q7 Q8 Q9 Q10 | MMBT3904 | [LCSC](https://www.lcsc.com/product-detail/C20526.html) | ₹0.87 | ₹5.24 | ₹87.36 |
-| Resistor 0805 1% (per value) | 4.7k | 9 | R12 R15 R17 R20 R22 R23 R26 R34 R36 | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹3.29 | ₹366.00 |
+| Resistor 0805 1% (per value) | 4.7k | 7 | R12 R15 R17 R20 R26 R34 R36 | 0805W8F1002T5E (10k; LCSC C17414) - series 0805W8F____T5E for the other values | [Quartz Components (assortment kit)](https://quartzcomponents.com/products/30-sets-resistor-kit-805-smd-with-1-tolerance-from-1-ohm-to-3-3m-ohm-600pcs-copy) | ₹0.37 | ₹2.56 | ₹366.00 |
 | Male header strip 1x40 2.54 mm + jumper shunt | BOOST IN | 1 | J6 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | Male header strip 1x40 2.54 mm + jumper shunt | BOOST OUT 5V | 1 | J7 | generic | [Hubtronics](https://hubtronics.in/misc-connectors/1752) | ₹2.95 | ₹2.95 | ₹29.50 |
 | Electrolytic 470uF 10V radial 8 mm, 3.5 mm pitch | 470uF 10V | 1 | C20 | 10YXF470MFFC8X11.5 (Robu) / 10YXG470MEFCT78X11.5 (LCSC C2940709) | [LCSC](https://www.lcsc.com/product-detail/C2940709.html) | ₹7.63 | ₹7.63 | ₹76.30 |
@@ -67,32 +67,33 @@ Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD).
 | 1N4148W [SOD-123] | 1N4148W | 1 | D7 | 1N4148W | [Evelta](https://evelta.com/switching-diode-100v-150ma-sod-123/) | ₹1.84 | ₹1.84 | ₹18.40 |
 | JST XH 2.54/2.50 mm headers + housings + crimp (2, 3, 4 pin) | RELAY (VSYS, IN, GND) | 1 | J15 | B2B-XH-A(LF)(SN), B3B-XH-A(LF)(SN), B4B-XH-A(LF)(SN) | [Lion Circuits](https://lioncircuits.com/parts/B2B-XH-A) | ₹10.67 | ₹10.67 | ₹106.70 |
 
-Subtotal: **₹1,795.15 per unit**, ₹21,456.46 for 10 units (whole packs)
+Subtotal: **₹1,793.89 per unit**, ₹21,443.86 for 10 units (whole packs)
 
 ## Off-board parts
 
 | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
 |---|---|---|---|---|---|---|---|---|
 | ESP32-DevKitC V4 (WROOM-32E) |  | 1 | plugs into J2/J3 | ESP32-DevKitC-32E | [Robu.in](https://st.robu.in/product/espressif-esp32-devkitc-esp32-wroom-3-2e-development-board) | ₹799.00 | ₹799.00 | ₹7,990.00 |
-| A7670C 4G LTE Cat-1 breakout |  | 1 | plugs into J10 (match pin order before ordering PCBs) | SIMA7670C V1.1 (LM39302) | [Hubtronics](https://hubtronics.in/microcontroller-development-boards/adiy-sima7670c-4g-board) | ₹1,345.00 | ₹1,345.00 | ₹13,450.00 |
-| SHT31 probe, 2 m cable |  | 1 | to J11 | SHT31 cable probe (seller model) | [Probots](https://probots.co.in/sht30-temperature-humidity-sensor-module-probe-cable-waterproof-digital-capacitance-sensors-i2c-output.html) | ₹899.00 | ₹899.00 | ₹8,990.00 |
-| 58 mm TTL thermal printer with status TX |  | 1 | to J8/J9 | CSN-A2L TTL | [DNA Technology (dnatechindia.com)](https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html) | ₹3,186.00 | ₹3,186.00 | ₹31,860.00 |
+| A7670C 4G LTE Cat-1 breakout |  | 1 | plugs into J10 (match pin order before ordering PCBs) | SIMA7670C V1.1 (LM39302) | [Robocraze](https://robocraze.com/products/a7670c-gsm-4g-breakout-board-adiy) | ₹1,234.00 | ₹1,234.00 | ₹12,340.00 |
+| SHT31 probe, 2 m cable |  | 1 | to J11; ~1 m probe extended to 2 m (D-052) | SHT31 cable probe (seller model) | [DigiKey (US)](https://www.digikey.com/en/products/detail/dfrobot/SEN0385/13590873) | ₹1,671.60 | ₹1,671.60 | ₹16,716.00 |
+| Shielded twisted-pair cable, 2-pair 24 AWG (per metre) |  | 2 | probe extension, metres | 2 pair 24 AWG STP (RS-485 type) | [IndiaMART (Belden CAT6 STP box)](https://m.indiamart.com/impcat/networking-cable.html) | ₹26.07 | ₹52.13 | ₹7,950.00 |
+| 58 mm TTL thermal printer with status TX |  | 1 | to J8/J9 | CSN-A2L TTL | [DNA Technology (older page)](https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html) | ₹2,076.80 | ₹2,076.80 | ₹20,768.00 |
 | 1.3 inch OLED SH1106 I2C 128x64 |  | 1 | plugs into J14 | 1.3in OLED SH1106 I2C 4-pin | [Probots](https://probots.co.in/1-3-inch-128x64-oled-blue-display-sh1106-i2c.html) | ₹329.00 | ₹329.00 | ₹3,290.00 |
 | 18650 Li-ion cell 2500-3000 mAh (genuine brand) |  | 2 | BT1, BT2 (footprints for 4) | INR18650-25R | [Robu.in](https://robu.in/?p=63398) | ₹418.00 | ₹836.00 | ₹8,360.00 |
 | 12 V 3 A DC adapter, BIS registered |  | 1 | to J1 | FEDUS 12V 3A adapter | [Aajjo (FEDUS, New Delhi)](https://www.aajjo.com/product/fedus-12v-3a-dc-power-supply-adapter-for-lcd-tv-cctv-dvr-led-light-router-60-hz-in-new-delhi-fedus-india) | ₹299.00 | ₹299.00 | ₹2,990.00 |
 | XL4015 buck module 5 A |  | 1 | wired to J4/J5 | XL4015 5A buck module with heatsink | [Hubtronics](https://hubtronics.in/power-converter-modules/dc-dc-power-converter-modules/xl4015-module) | ₹87.00 | ₹87.00 | ₹870.00 |
 | 5 V boost module >= 2 A from 3.0-4.2 V |  | 1 | wired to J6/J7 | TPS61088A single-cell boost module (Probots) / TPS61023 breakout (7Semi) | [Probots](https://probots.co.in/tps61088a-single-cell-lithium-battery-boost-power-module.html) | ₹181.00 | ₹181.00 | ₹1,810.00 |
-| microSD card 8-16 GB (industrial or reputable) |  | 1 | J13 | SDSDQAF3-016G-I | [Mouser India](https://www.mouser.in/c/semiconductors/memory-ics/memory-modules-memory-cards/memory-cards/?m=SanDisk) | ₹1,990.85 | ₹1,990.85 | ₹19,908.50 |
+| microSD card 8-16 GB (industrial or reputable) |  | 1 | J13 | SDSDQAF3-016G-I | [Tanotis](https://www.tanotis.com/products/samsung-32gb-pro-endurance-uhs-i-microsdhc-memory-card-with-sd-adapter) | ₹2,205.00 | ₹2,205.00 | ₹22,050.00 |
 | CR2032 coin cell |  | 1 | BT5 | CR2032 | [Flipkart](https://www.flipkart.com/panasonic-cr2032-pack-10-battery/p/itm82db323a41035) | ₹42.30 | ₹42.30 | ₹423.00 |
 | 57 mm thermal paper roll |  | 2 | consumable: first two rolls | 57mm x 7m thermal roll | [IndiaMART (various)](https://m.indiamart.com/impcat/thermal-paper-rolls.html) | ₹12.00 | ₹24.00 | ₹240.00 |
 | PCB fabrication: 2-layer, 190 x 152 mm, 1.6 mm FR4, 1 oz, HASL, qty 5 and qty 10 |  | 1 | one board | n/a | [Secure Circuits (IndiaMART)](https://m.indiamart.com/secure-circuits/double-layer-pcb.html) | ₹187.70 | ₹187.70 | ₹1,877.00 |
 
-Subtotal: **₹10,205.85 per unit**, ₹102,058.50 for 10 units (whole packs)
+Subtotal: **₹10,024.53 per unit**, ₹107,674.00 for 10 units (whole packs)
 
 ## Total
 
-* Per unit (parts only): **₹12,001.00**
-* Pilot batch of 10 (whole packs, so leftover stock): **₹123,514.96** (₹12,351.50 per unit)
+* Per unit (parts only): **₹11,818.42**
+* Pilot batch of 10 (whole packs, so leftover stock): **₹129,117.86** (₹12,911.79 per unit)
 
 Not costed here: IoT/M2M SIM (Airtel or Vi) (recurring operator charge, not hardware); Enclosure (phase 6 (CadQuery); cost added then)
 
