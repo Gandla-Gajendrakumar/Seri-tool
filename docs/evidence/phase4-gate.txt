@@ -1,4 +1,4 @@
-Phase 4 gate run: 2026-11-22T16:00:35Z  commit 157d5b4
+Phase 4 gate run: 2026-11-22T23:00:17Z  commit f4d6850
 == 1. Unit tests
   PASS hardware/power_budget/test_budget.py (Ran 7 tests)
   PASS hardware/spice/test_sweep.py (Ran 3 tests)
@@ -21,7 +21,7 @@ Phase 4 gate run: 2026-11-22T16:00:35Z  commit 157d5b4
   DRC warnings (cosmetic, reported only): {'silk_overlap': 3, 'silk_over_copper': 8, 'silk_edge_clearance': 3}
   board 190 x 152 mm, 2 layers, 120 footprints, 85 nets, 1108 track/via items
 == 6. Firmware
-  ================ 153 test cases: 153 succeeded in 00:00:07.314 ================
+  ================ 153 test cases: 153 succeeded in 00:00:06.300 ================
   esp32 build: SUCCESS
 
 GATE: PASSED

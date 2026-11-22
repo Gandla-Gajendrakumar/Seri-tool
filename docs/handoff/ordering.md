@@ -5,9 +5,9 @@ Prices are from 2026-11-22, mostly from search-engine snapshots of the stores' p
 
 ## Before ordering (blocking items)
 
-1. **5 V boost module, >= 2 A from one cell** (TPS61088 class). The chosen source was out of stock (B-26).
-2. **A7670C breakout that takes VBAT 3.4-4.2 V directly** (no on-board regulator, D-054). Ask the seller for
-   a photo of the pin labels: you need VBAT, GND, TXD, RXD, PWRKEY and ideally VDD_EXT (1.8 V).
+1. **5 V boost module:** 7Semi TPS61023 module (Robocraze), chosen on the TI datasheet limits (D-062).
+2. **A7670C breakout:** A7670C-LANS from Sharvi Technologies (IndiaMART). **Ask the seller to confirm there is no on-board
+   regulator** (VBAT 3.4-4.2 V input, D-054) and for a photo of the pin labels: VBAT, GND, TXD, RXD, PWRKEY, ideally VDD_EXT.
 3. Fit-check one **Keystone 1043** holder against the footprint drawing (B-20) before ordering boards.
 4. Run `tools/phase5_gate.sh` after updating `bom/sources.yaml`: it must report FINAL.
 

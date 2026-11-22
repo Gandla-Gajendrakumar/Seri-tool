@@ -1,7 +1,6 @@
 # Bill of materials: Seri-tool v1 pilot
 
-**Status: NOT FINAL**
-* 2 chosen source(s) out of stock at research time: A7670C 4G LTE Cat-1 breakout; 5 V boost module >= 2 A from 3.0-4.2 V
+**Status: FINAL (every line priced and in stock at research time)**
 
 Prices in INR from Indian suppliers where found (LCSC otherwise, at 84 INR/USD). Most come from a web-search index on 2026-11-22, not a live checkout: confirm before ordering. Shipping not included. Sources and links: `bom/sources.yaml`.
 
@@ -74,7 +73,7 @@ Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
 |---|---|---|---|---|---|---|---|---|
 | ESP32-DevKitC V4 (WROOM-32E) |  | 1 | plugs into J2/J3 | ESP32-DevKitC-32E | [Robu.in](https://st.robu.in/product/espressif-esp32-devkitc-esp32-wroom-3-2e-development-board) | ₹799.00 | ₹799.00 | ₹7,990.00 |
-| A7670C 4G LTE Cat-1 breakout |  | 1 | plugs into J10 (match pin order before ordering PCBs) | SIMA7670C V1.1 (LM39302) | [Robocraze](https://robocraze.com/products/a7670c-gsm-4g-breakout-board-adiy) | ₹1,234.00 | ₹1,234.00 | ₹12,340.00 |
+| A7670C 4G LTE Cat-1 breakout |  | 1 | plugs into J10 (match pin order before ordering PCBs) | SIMA7670C V1.1 (LM39302) | [Sharvi Technologies (IndiaMART, Bengaluru)](https://www.indiamart.com/proddetail/a7670c-lans-simcom-4g-lte-cat-1-module-breakout-board-2856405650597.html) | ₹975.00 | ₹975.00 | ₹9,750.00 |
 | SHT31 probe, 2 m cable |  | 1 | to J11; ~1 m probe extended to 2 m (D-052) | SHT31 cable probe (seller model) | [DigiKey (US)](https://www.digikey.com/en/products/detail/dfrobot/SEN0385/13590873) | ₹1,671.60 | ₹1,671.60 | ₹16,716.00 |
 | Shielded twisted-pair cable, 2-pair 24 AWG (per metre) |  | 2 | probe extension, metres | 2 pair 24 AWG STP (RS-485 type) | [IndiaMART (Belden CAT6 STP box)](https://m.indiamart.com/impcat/networking-cable.html) | ₹26.07 | ₹52.13 | ₹7,950.00 |
 | 58 mm TTL thermal printer with status TX |  | 1 | to J8/J9 | CSN-A2L TTL | [DNA Technology (older page)](https://www.dnatechindia.com/industrial-electronics-products/thermal-printer/CSN-A2-2-inch-micro-panel-thermal-printer-ttl-interface.html) | ₹2,076.80 | ₹2,076.80 | ₹20,768.00 |
@@ -82,7 +81,7 @@ Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 | 18650 Li-ion cell 2500-3000 mAh (genuine brand) |  | 2 | BT1, BT2 (footprints for 4) | INR18650-25R | [Robu.in](https://robu.in/?p=63398) | ₹418.00 | ₹836.00 | ₹8,360.00 |
 | 12 V 3 A DC adapter, BIS registered |  | 1 | to J1 | FEDUS 12V 3A adapter | [Aajjo (FEDUS, New Delhi)](https://www.aajjo.com/product/fedus-12v-3a-dc-power-supply-adapter-for-lcd-tv-cctv-dvr-led-light-router-60-hz-in-new-delhi-fedus-india) | ₹299.00 | ₹299.00 | ₹2,990.00 |
 | XL4015 buck module 5 A |  | 1 | wired to J4/J5 | XL4015 5A buck module with heatsink | [Hubtronics](https://hubtronics.in/power-converter-modules/dc-dc-power-converter-modules/xl4015-module) | ₹87.00 | ₹87.00 | ₹870.00 |
-| 5 V boost module >= 2 A from 3.0-4.2 V |  | 1 | wired to J6/J7 | TPS61088A single-cell boost module (Probots) / TPS61023 breakout (7Semi) | [Probots](https://probots.co.in/tps61088a-single-cell-lithium-battery-boost-power-module.html) | ₹181.00 | ₹181.00 | ₹1,810.00 |
+| 5 V boost module >= 2 A from 3.0-4.2 V |  | 1 | wired to J6/J7 | TPS61088A single-cell boost module (Probots) / TPS61023 breakout (7Semi) | [Robocraze](https://robocraze.com/products/tps61023-3-7a-5v-output-mini-boost-converter-breakout-board-7semi) | ₹79.00 | ₹79.00 | ₹790.00 |
 | microSD card 8-16 GB (industrial or reputable) |  | 1 | J13 | SDSDQAF3-016G-I | [Tanotis](https://www.tanotis.com/products/samsung-32gb-pro-endurance-uhs-i-microsdhc-memory-card-with-sd-adapter) | ₹2,205.00 | ₹2,205.00 | ₹22,050.00 |
 | CR2032 coin cell |  | 1 | BT5 | CR2032 | [Flipkart](https://www.flipkart.com/panasonic-cr2032-pack-10-battery/p/itm82db323a41035) | ₹42.30 | ₹42.30 | ₹423.00 |
 | 57 mm thermal paper roll |  | 2 | consumable: first two rolls | 57mm x 7m thermal roll | [IndiaMART (various)](https://m.indiamart.com/impcat/thermal-paper-rolls.html) | ₹12.00 | ₹24.00 | ₹240.00 |
@@ -98,12 +97,12 @@ Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
 | Dupont jumper cable female-female, 8-wire, 10 cm |  | 8 | wires: modem breakout to J10 (D-057) | 10CM Female to Female Breadboard Jumper DuPont 2.54MM 1P-1P Cable 40 Pcs | [Zbotic](https://zbotic.in/product/10cm-female-to-female-breadboard-jumper-wires-2-54mm/) | ₹0.95 | ₹7.60 | ₹76.00 |
 | 3M VHB double-sided tape 12-25 mm |  | 0.012 | rolls (0.3 m of a 25 m roll): modem, buck, boost on the floor | VHB 5915 (12 mm x 25 m x 0.4 mm) | [Moglix](https://www.moglix.com/3m-vhb-5915-double-sided-tape-12mmx25mx04mm/mp/msn2r27xtmxyll) | ₹1,061.00 | ₹12.73 | ₹1,061.00 |
 
-Subtotal: **₹11,066.50 per unit**, ₹119,198.60 for 10 units (whole packs)
+Subtotal: **₹10,705.50 per unit**, ₹115,588.60 for 10 units (whole packs)
 
 ## Total
 
-* Per unit (parts only): **₹12,848.28**
-* Pilot batch of 10 (whole packs, so leftover stock): **₹140,521.46** (₹14,052.15 per unit)
+* Per unit (parts only): **₹12,487.28**
+* Pilot batch of 10 (whole packs, so leftover stock): **₹136,911.46** (₹13,691.15 per unit)
 
 Not costed here: IoT/M2M SIM (Airtel or Vi) (recurring operator charge, not hardware); 3D printing labour / service (own printer assumed; a print service costs about Rs 3-10 per gram, i.e. Rs 1,700-5,700 per enclosure)
 

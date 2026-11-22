@@ -1,14 +1,13 @@
-Phase 5 gate run: 2026-11-22T16:01:15Z  commit 157d5b4
+Phase 5 gate run: 2026-11-22T23:01:33Z  commit f4d6850
 == 1. Unit tests
   PASS bom/test_bom.py (Ran 9 tests)
 == 2-3. BOM
-  **Status: NOT FINAL**
-  * 2 chosen source(s) out of stock at research time: A7670C 4G LTE Cat-1 breakout; 5 V boost module >= 2 A from 3.0-4.2 V
+  **Status: FINAL (every line priced and in stock at research time)**
   | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
   Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
   | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
-  Subtotal: **₹11,066.50 per unit**, ₹119,198.60 for 10 units (whole packs)
-  * Per unit (parts only): **₹12,848.28**
-  * Pilot batch of 10 (whole packs, so leftover stock): **₹140,521.46** (₹14,052.15 per unit)
+  Subtotal: **₹10,705.50 per unit**, ₹115,588.60 for 10 units (whole packs)
+  * Per unit (parts only): **₹12,487.28**
+  * Pilot batch of 10 (whole packs, so leftover stock): **₹136,911.46** (₹13,691.15 per unit)
 
-GATE: NOT PASSED (see status above)
+GATE: PASSED

@@ -1,4 +1,4 @@
-Phase 1 gate run: 2026-11-22T15:59:44Z  commit 157d5b4
+Phase 1 gate run: 2026-11-22T22:59:27Z  commit f4d6850
 
 == 1. Native unit tests (pio test -e native)
   test/test_monitor/test_monitor.cpp:404: test_provisioning_files_are_imported_saved_and_deleted	[PASSED]
@@ -154,21 +154,21 @@ Phase 1 gate run: 2026-11-22T15:59:44Z  commit 157d5b4
   test/test_events/test_events.cpp:227: test_stage_change_silently_clears_event_now_in_band	[PASSED]
   test/test_events/test_events.cpp:228: test_stage_change_keeps_event_still_out_of_band	[PASSED]
   test/test_events/test_events.cpp:229: test_stage_change_restarts_pending_onset_timer	[PASSED]
-  native         test_monitor      PASSED    00:00:00.637
-  native         test_alerts       PASSED    00:00:00.444
-  native         test_sample       PASSED    00:00:00.476
-  native         test_power        PASSED    00:00:00.393
-  native         test_sms          PASSED    00:00:00.525
-  native         test_time         PASSED    00:00:00.424
-  native         test_provision    PASSED    00:00:00.460
-  native         test_profiles     PASSED    00:00:00.405
-  native         test_commands     PASSED    00:00:00.466
-  native         test_ui           PASSED    00:00:00.484
-  native         test_text_render  PASSED    00:00:00.502
-  native         test_print        PASSED    00:00:00.527
-  native         test_persist      PASSED    00:00:00.543
-  native         test_events       PASSED    00:00:00.555
-  ================ 153 test cases: 153 succeeded in 00:00:06.840 ================
+  native         test_monitor      PASSED    00:00:04.736
+  native         test_alerts       PASSED    00:00:00.671
+  native         test_sample       PASSED    00:00:00.395
+  native         test_power        PASSED    00:00:00.378
+  native         test_sms          PASSED    00:00:00.468
+  native         test_time         PASSED    00:00:00.418
+  native         test_provision    PASSED    00:00:00.435
+  native         test_profiles     PASSED    00:00:00.368
+  native         test_commands     PASSED    00:00:00.436
+  native         test_ui           PASSED    00:00:00.542
+  native         test_text_render  PASSED    00:00:00.473
+  native         test_print        PASSED    00:00:00.556
+  native         test_persist      PASSED    00:00:00.386
+  native         test_events       PASSED    00:00:00.422
+  ================ 153 test cases: 153 succeeded in 00:00:10.682 ================
 
 == 2. lib/core contains no Arduino / ESP-IDF headers
   PASS
@@ -176,7 +176,7 @@ Phase 1 gate run: 2026-11-22T15:59:44Z  commit 157d5b4
 == 3. ESP32 cross-compile with lib/core linked
   RAM:   [==        ]  15.8% (used 51772 bytes from 327680 bytes)
   Flash: [======    ]  64.0% (used 1258313 bytes from 1966080 bytes)
-  ========================= [SUCCESS] Took 13.96 seconds =========================
-  esp32          SUCCESS   00:00:13.960
+  ========================= [SUCCESS] Took 8.84 seconds =========================
+  esp32          SUCCESS   00:00:08.839
 
 GATE: PASSED

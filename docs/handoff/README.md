@@ -30,13 +30,13 @@ What software could not prove is listed in the bench test plan.
 | 2 Firmware on virtual hardware (Wokwi) | manual GitHub Actions workflow (D-036); last full run 8/8 | `docs/evidence/phase2-gate.md`; re-run pending (B-27) |
 | 3 Whole-cycle replay | `tools/phase3_gate.sh` | `docs/evidence/phase3-gate.txt` |
 | 4 Electronics | `tools/phase4_gate.sh` | `docs/evidence/phase4-gate.txt` |
-| 5 BOM | `tools/phase5_gate.sh` | `docs/evidence/phase5-gate.txt` (NOT FINAL until two parts are in stock) |
+| 5 BOM | `tools/phase5_gate.sh` | `docs/evidence/phase5-gate.txt` (FINAL since D-062) |
 | 6 Enclosure | `tools/phase6_gate.sh` | `docs/evidence/phase6-gate.txt` |
 | 7 Hand-off | `tools/phase7_gate.sh` | `docs/evidence/phase7-gate.txt` |
 
 ## Open items (must be closed before or during the pilot)
 
-1. **Two parts out of stock at research time:** a 2 A 5 V boost module and an A7670C breakout that takes VBAT directly (B-26).
+1. **Two former stock problems solved** (D-062): TPS61023 boost module (Robocraze) and A7670C-LANS breakout (Sharvi, IndiaMART). Confirm with Sharvi that the board has no regulator before paying.
 2. **HiveMQ Cloud chosen** (D-061): create the cluster and the device credentials, see [hivemq/README.md](hivemq/README.md).
    Confirm 4G (A7670C TLS + SNI) and Wi-Fi uploads on the bench (B-28).
 3. **Signed firmware updates deferred** beyond v1 (D-034).
