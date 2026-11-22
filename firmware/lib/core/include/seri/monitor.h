@@ -55,6 +55,8 @@ class Monitor {
 
   // Local UI hooks (buttons / OLED).
   void silenceBuzzer();
+  bool buzzing() const { return buzzerOn_; }
+  void printText(const std::string& line);  // e.g. printer test from the menu, owner's language
   const Settings& settings() const { return settings_; }
   void changeSettings(const Settings& s);  // validated; re-applies the band if stage/tolerance changed
   const Sample& lastSample() const { return last_; }
