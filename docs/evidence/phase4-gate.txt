@@ -1,4 +1,4 @@
-Phase 4 gate run: 2026-11-22T14:20:04Z  commit 85e060f
+Phase 4 gate run: 2026-11-22T15:03:32Z  commit a9763d5
 == 1. Unit tests
   PASS hardware/power_budget/test_budget.py (Ran 7 tests)
   PASS hardware/spice/test_sweep.py (Ran 3 tests)
@@ -18,10 +18,10 @@ Phase 4 gate run: 2026-11-22T14:20:04Z  commit 85e060f
   Target (P-02 / Q-8: >= 24 h on the fitted 2-cell pack): >= 24 h on 5000 mAh. Result 36 h -> **PASS**
 == 5. PCB DRC + schematic parity
   DRC errors: 0; unconnected: 0; schematic parity issues: 0
-  DRC warnings (cosmetic, reported only): {'silk_overlap': 3, 'silk_edge_clearance': 3}
-  board 190 x 152 mm, 2 layers, 120 footprints, 85 nets, 1142 track/via items
+  DRC warnings (cosmetic, reported only): {'silk_overlap': 3, 'silk_over_copper': 8, 'silk_edge_clearance': 3}
+  board 190 x 152 mm, 2 layers, 120 footprints, 85 nets, 1108 track/via items
 == 6. Firmware
-  ================ 140 test cases: 140 succeeded in 00:00:05.962 ================
+  ================ 140 test cases: 140 succeeded in 00:00:06.947 ================
   esp32 build: SUCCESS
 
 GATE: PASSED
