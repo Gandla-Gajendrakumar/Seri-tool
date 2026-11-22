@@ -37,6 +37,7 @@ static void test_indian_language_event_line_uses_local_words_and_western_digits(
 }
 
 static void test_stage_change_line() {
+  TEST_ASSERT_EQUAL_STRING("21/11 09:00 STAGE -> Spinning", printStageLine(ist(21, 9, 0), Stage::Spinning, Language::English).c_str());
   TEST_ASSERT_EQUAL_STRING("21/11 09:00 STAGE -> Instar 4", printStageLine(ist(21, 9, 0), Stage::Instar4, Language::English).c_str());
 }
 

@@ -29,4 +29,4 @@ cd firmware && pio test -e native
 ## Status
 
 - Phase 0 (setup): approved 2026-11-21.
-- Phase 1 (logic): gate passed, awaiting review. Run `tools/phase1_gate.sh`; latest output in `docs/evidence/phase1-gate.txt`.
+- Phase 1 (logic): approved 2026-11-22. Run `tools/phase1_gate.sh`; latest output in `docs/evidence/phase1-gate.txt`.

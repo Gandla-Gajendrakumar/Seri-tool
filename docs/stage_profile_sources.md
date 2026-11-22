@@ -19,7 +19,10 @@ read from the fetched page text (not from search snippets) on that date.
 
 **Result: all five brief values are confirmed. No value change.**
 
-## Differences found (NOT applied, waiting for product-owner decision)
+## Differences found. Decided by product owner 2026-11-22: all three recommendations accepted
+
+Applied: (1) incubation RH target widened to **70-80 %**; (2) new **Spinning** stage **24-28 C, 60-70 %** covering both sources; (3) **no moult mode** in V1, because no source gives a figure.
+
 
 1. **Incubation humidity.** [CSB-BELGAUM] says "Incubation eggs Maintain temperature of 25 ± 1˚C,
    relative humidity of 75 ± 5%, 16 hours of light and 8 hours darkness." That gives a target of

@@ -1,4 +1,4 @@
-Phase 1 gate run: 2026-11-21T16:14:59Z  commit aaf6534
+Phase 1 gate run: 2026-11-22T00:23:24Z  commit fc453de
 
 == 1. Native unit tests (pio test -e native)
   test/test_alerts/test_alerts.cpp:187: test_start_texts_every_registered_number_once	[PASSED]
@@ -39,36 +39,36 @@ Phase 1 gate run: 2026-11-21T16:14:59Z  commit aaf6534
   test/test_time/test_time.cpp:64: test_leap_day_and_year_end	[PASSED]
   test/test_time/test_time.cpp:65: test_from_ist_matches_known_epoch	[PASSED]
   test/test_time/test_time.cpp:66: test_ist_day_changes_exactly_at_ist_midnight	[PASSED]
-  test/test_profiles/test_profiles.cpp:74: test_every_stage_has_a_profile_with_a_source	[PASSED]
-  test/test_profiles/test_profiles.cpp:75: test_brief_values_are_loaded	[PASSED]
-  test/test_profiles/test_profiles.cpp:76: test_band_widens_target_range_by_tolerance	[PASSED]
-  test/test_profiles/test_profiles.cpp:77: test_band_uses_custom_tolerance	[PASSED]
-  test/test_profiles/test_profiles.cpp:78: test_band_rh_never_exceeds_100_percent	[PASSED]
-  test/test_profiles/test_profiles.cpp:79: test_tolerance_limits	[PASSED]
-  test/test_commands/test_commands.cpp:178: test_normalize_indian_numbers	[PASSED]
-  test/test_commands/test_commands.cpp:179: test_parse_commands	[PASSED]
-  test/test_commands/test_commands.cpp:180: test_parse_rejects_bad_input	[PASSED]
-  test/test_commands/test_commands.cpp:181: test_stranger_is_ignored_silently	[PASSED]
-  test/test_commands/test_commands.cpp:182: test_member_sets_stage_and_gets_confirmation	[PASSED]
-  test/test_commands/test_commands.cpp:183: test_tolerance_and_buzzer	[PASSED]
-  test/test_commands/test_commands.cpp:184: test_only_owner_manages_numbers_and_wifi	[PASSED]
-  test/test_commands/test_commands.cpp:185: test_adding_existing_number_is_not_duplicated	[PASSED]
-  test/test_commands/test_commands.cpp:186: test_language_is_per_number	[PASSED]
-  test/test_commands/test_commands.cpp:187: test_owner_claim_with_pin_and_lockout	[PASSED]
-  test/test_commands/test_commands.cpp:188: test_bad_code_from_member_gets_help_reply_in_their_language	[PASSED]
-  test/test_commands/test_commands.cpp:189: test_status_reply	[PASSED]
-  test/test_commands/test_commands.cpp:190: test_every_reply_fits_one_sms_in_every_language	[PASSED]
-  test/test_print/test_print.cpp:160: test_event_lines_english_exact	[PASSED]
-  test/test_print/test_print.cpp:161: test_every_english_event_line_fits_32_columns	[PASSED]
-  test/test_print/test_print.cpp:162: test_indian_language_event_line_uses_local_words_and_western_digits	[PASSED]
-  test/test_print/test_print.cpp:163: test_stage_change_line	[PASSED]
-  test/test_print/test_print.cpp:164: test_summary_min_max_and_out_of_range_time	[PASSED]
-  test/test_print/test_print.cpp:165: test_gap_in_samples_is_capped_at_60_seconds	[PASSED]
-  test/test_print/test_print.cpp:166: test_summary_print_english_exact_and_fits	[PASSED]
-  test/test_print/test_print.cpp:167: test_summary_without_data_says_so_and_skips_optional_lines	[PASSED]
-  test/test_print/test_print.cpp:168: test_summary_has_lines_in_every_language	[PASSED]
-  test/test_print/test_print.cpp:169: test_scheduler_prints_once_at_6am	[PASSED]
-  test/test_print/test_print.cpp:170: test_scheduler_holds_summary_on_battery_and_prints_late	[PASSED]
+  test/test_profiles/test_profiles.cpp:78: test_every_stage_has_a_profile_with_a_source	[PASSED]
+  test/test_profiles/test_profiles.cpp:79: test_approved_values_are_loaded	[PASSED]
+  test/test_profiles/test_profiles.cpp:80: test_band_widens_target_range_by_tolerance	[PASSED]
+  test/test_profiles/test_profiles.cpp:81: test_band_uses_custom_tolerance	[PASSED]
+  test/test_profiles/test_profiles.cpp:82: test_band_rh_never_exceeds_100_percent	[PASSED]
+  test/test_profiles/test_profiles.cpp:83: test_tolerance_limits	[PASSED]
+  test/test_commands/test_commands.cpp:179: test_normalize_indian_numbers	[PASSED]
+  test/test_commands/test_commands.cpp:180: test_parse_commands	[PASSED]
+  test/test_commands/test_commands.cpp:181: test_parse_rejects_bad_input	[PASSED]
+  test/test_commands/test_commands.cpp:182: test_stranger_is_ignored_silently	[PASSED]
+  test/test_commands/test_commands.cpp:183: test_member_sets_stage_and_gets_confirmation	[PASSED]
+  test/test_commands/test_commands.cpp:184: test_tolerance_and_buzzer	[PASSED]
+  test/test_commands/test_commands.cpp:185: test_only_owner_manages_numbers_and_wifi	[PASSED]
+  test/test_commands/test_commands.cpp:186: test_adding_existing_number_is_not_duplicated	[PASSED]
+  test/test_commands/test_commands.cpp:187: test_language_is_per_number	[PASSED]
+  test/test_commands/test_commands.cpp:188: test_owner_claim_with_pin_and_lockout	[PASSED]
+  test/test_commands/test_commands.cpp:189: test_bad_code_from_member_gets_help_reply_in_their_language	[PASSED]
+  test/test_commands/test_commands.cpp:190: test_status_reply	[PASSED]
+  test/test_commands/test_commands.cpp:191: test_every_reply_fits_one_sms_in_every_language	[PASSED]
+  test/test_print/test_print.cpp:161: test_event_lines_english_exact	[PASSED]
+  test/test_print/test_print.cpp:162: test_every_english_event_line_fits_32_columns	[PASSED]
+  test/test_print/test_print.cpp:163: test_indian_language_event_line_uses_local_words_and_western_digits	[PASSED]
+  test/test_print/test_print.cpp:164: test_stage_change_line	[PASSED]
+  test/test_print/test_print.cpp:165: test_summary_min_max_and_out_of_range_time	[PASSED]
+  test/test_print/test_print.cpp:166: test_gap_in_samples_is_capped_at_60_seconds	[PASSED]
+  test/test_print/test_print.cpp:167: test_summary_print_english_exact_and_fits	[PASSED]
+  test/test_print/test_print.cpp:168: test_summary_without_data_says_so_and_skips_optional_lines	[PASSED]
+  test/test_print/test_print.cpp:169: test_summary_has_lines_in_every_language	[PASSED]
+  test/test_print/test_print.cpp:170: test_scheduler_prints_once_at_6am	[PASSED]
+  test/test_print/test_print.cpp:171: test_scheduler_holds_summary_on_battery_and_prints_late	[PASSED]
   test/test_events/test_events.cpp:214: test_temp_high_starts_after_exactly_5_minutes_out	[PASSED]
   test/test_events/test_events.cpp:215: test_value_on_band_edge_is_not_out_of_band	[PASSED]
   test/test_events/test_events.cpp:216: test_one_in_band_sample_restarts_the_5_minute_timer	[PASSED]
@@ -85,24 +85,24 @@ Phase 1 gate run: 2026-11-21T16:14:59Z  commit aaf6534
   test/test_events/test_events.cpp:227: test_stage_change_silently_clears_event_now_in_band	[PASSED]
   test/test_events/test_events.cpp:228: test_stage_change_keeps_event_still_out_of_band	[PASSED]
   test/test_events/test_events.cpp:229: test_stage_change_restarts_pending_onset_timer	[PASSED]
-  native         test_alerts    PASSED    00:00:00.568
-  native         test_sample    PASSED    00:00:00.478
-  native         test_power     PASSED    00:00:00.414
-  native         test_sms       PASSED    00:00:00.534
-  native         test_time      PASSED    00:00:00.474
-  native         test_profiles  PASSED    00:00:00.399
-  native         test_commands  PASSED    00:00:00.450
-  native         test_print     PASSED    00:00:00.480
-  native         test_events    PASSED    00:00:00.468
-  ================= 84 test cases: 84 succeeded in 00:00:04.265 =================
+  native         test_alerts    PASSED    00:00:00.770
+  native         test_sample    PASSED    00:00:00.412
+  native         test_power     PASSED    00:00:00.459
+  native         test_sms       PASSED    00:00:00.565
+  native         test_time      PASSED    00:00:00.407
+  native         test_profiles  PASSED    00:00:00.420
+  native         test_commands  PASSED    00:00:00.481
+  native         test_print     PASSED    00:00:00.426
+  native         test_events    PASSED    00:00:00.446
+  ================= 84 test cases: 84 succeeded in 00:00:04.384 =================
 
 == 2. lib/core contains no Arduino / ESP-IDF headers
   PASS
 
 == 3. ESP32 cross-compile with lib/core linked
   RAM:   [=         ]   6.7% (used 22116 bytes from 327680 bytes)
-  Flash: [==        ]  21.4% (used 279860 bytes from 1310720 bytes)
-  ========================= [SUCCESS] Took 1.10 seconds =========================
-  esp32          SUCCESS   00:00:01.096
+  Flash: [==        ]  21.4% (used 280136 bytes from 1310720 bytes)
+  ========================= [SUCCESS] Took 3.99 seconds =========================
+  esp32          SUCCESS   00:00:03.995
 
 GATE: PASSED

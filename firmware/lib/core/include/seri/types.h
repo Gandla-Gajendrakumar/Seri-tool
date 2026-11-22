@@ -8,7 +8,7 @@ namespace seri {
 using Deci = int32_t;
 constexpr Deci deci(double v) { return static_cast<Deci>(v * 10.0 + (v >= 0 ? 0.5 : -0.5)); }
 
-enum class Stage : uint8_t { Incubation = 0, Chawki, Instar3, Instar4, Instar5, Count };
+enum class Stage : uint8_t { Incubation = 0, Chawki, Instar3, Instar4, Instar5, Spinning, Count };
 constexpr int kStageCount = static_cast<int>(Stage::Count);
 
 enum class Language : uint8_t { English = 0, Hindi, Telugu, Kannada, Count };

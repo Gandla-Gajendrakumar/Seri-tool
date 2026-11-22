@@ -62,6 +62,9 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 | Instar III | 26 | 80 |
 | Instar IV | 25 | 70 |
 | Instar V | 24 | 70 |
+| Spinning (added 2026-11-22) | 24–28 | 60–70 |
+
+Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No moult mode in V1 (Q-13 closed: no numeric source).
 
 | ID | Requirement | Verified by |
 |---|---|---|

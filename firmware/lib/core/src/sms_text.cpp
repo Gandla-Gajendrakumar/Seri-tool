@@ -53,10 +53,10 @@ const char* const kText[kLanguageCount][kTextCount] = {
 };
 
 const char* const kStage[kLanguageCount][kStageCount] = {
-    {"Incubation", "Chawki", "Instar 3", "Instar 4", "Instar 5"},
-    {"अंडे", "चॉकी", "अवस्था 3", "अवस्था 4", "अवस्था 5"},
-    {"గుడ్లు", "చాకీ", "దశ 3", "దశ 4", "దశ 5"},
-    {"ಮೊಟ್ಟೆ", "ಚಾಕಿ", "ಹಂತ 3", "ಹಂತ 4", "ಹಂತ 5"},
+    {"Incubation", "Chawki", "Instar 3", "Instar 4", "Instar 5", "Spinning"},
+    {"अंडे", "चॉकी", "अवस्था 3", "अवस्था 4", "अवस्था 5", "कोया"},
+    {"గుడ్లు", "చాకీ", "దశ 3", "దశ 4", "దశ 5", "గూడు"},
+    {"ಮೊಟ್ಟೆ", "ಚಾಕಿ", "ಹಂತ 3", "ಹಂತ 4", "ಹಂತ 5", "ಗೂಡು"},
 };
 const char* const kLangName[kLanguageCount] = {"English", "हिंदी", "తెలుగు", "ಕನ್ನಡ"};
 

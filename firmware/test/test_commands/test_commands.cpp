@@ -40,6 +40,7 @@ static void test_parse_commands() {
   TEST_ASSERT_EQUAL(15, c.a);
   TEST_ASSERT_EQUAL(3, c.b);
   TEST_ASSERT_EQUAL(CmdType::Status, parseCommand("20").type);
+  TEST_ASSERT_EQUAL(6, parseCommand("11 6").a);  // 6 = spinning
   c = parseCommand("21 +91 91234 56780");
   TEST_ASSERT_EQUAL(CmdType::AddNumber, c.type);
   TEST_ASSERT_EQUAL_STRING("9123456780", c.s1.c_str());
@@ -53,7 +54,7 @@ static void test_parse_commands() {
 }
 
 static void test_parse_rejects_bad_input() {
-  const char* bad[] = {"", "hello", "11", "11 6", "11 0", "11 x", "11 3 4", "12 5", "13 4 5", "13 10 16",
+  const char* bad[] = {"", "hello", "11", "11 7", "11 0", "11 x", "11 3 4", "12 5", "13 4 5", "13 10 16",
                        "13 10", "22 0", "22 3", "41 2", "99", "21 12345", "30", "30 onlyname", "10 12345"};
   for (const char* b : bad) TEST_ASSERT_EQUAL_MESSAGE(CmdType::Invalid, parseCommand(b).type, b);
 }

@@ -20,12 +20,12 @@ static void test_every_stage_has_a_profile_with_a_source() {
   }
 }
 
-static void test_brief_values_are_loaded() {
-  // Values from the product brief. If the source review changes them, this test changes
-  // in the same commit, after product-owner approval.
+static void test_approved_values_are_loaded() {
+  // Brief values, confirmed against CSB/CSRTI; incubation RH widened and Spinning added on
+  // product-owner approval 2026-11-22 (docs/stage_profile_sources.md).
   const Profile& inc = profileFor(Stage::Incubation);
   TEST_ASSERT_EQUAL(250, inc.tMin); TEST_ASSERT_EQUAL(260, inc.tMax);
-  TEST_ASSERT_EQUAL(800, inc.rhMin); TEST_ASSERT_EQUAL(800, inc.rhMax);
+  TEST_ASSERT_EQUAL(700, inc.rhMin); TEST_ASSERT_EQUAL(800, inc.rhMax);
   const Profile& ch = profileFor(Stage::Chawki);
   TEST_ASSERT_EQUAL(270, ch.tMin); TEST_ASSERT_EQUAL(280, ch.tMax);
   TEST_ASSERT_EQUAL(800, ch.rhMin); TEST_ASSERT_EQUAL(900, ch.rhMax);
@@ -35,6 +35,10 @@ static void test_brief_values_are_loaded() {
   TEST_ASSERT_EQUAL(700, profileFor(Stage::Instar4).rhMin);
   TEST_ASSERT_EQUAL(240, profileFor(Stage::Instar5).tMin);
   TEST_ASSERT_EQUAL(700, profileFor(Stage::Instar5).rhMax);
+  const Profile& sp = profileFor(Stage::Spinning);
+  TEST_ASSERT_EQUAL(240, sp.tMin); TEST_ASSERT_EQUAL(280, sp.tMax);
+  TEST_ASSERT_EQUAL(600, sp.rhMin); TEST_ASSERT_EQUAL(700, sp.rhMax);
+  TEST_ASSERT_EQUAL(6, kStageCount);
 }
 
 static void test_band_widens_target_range_by_tolerance() {
@@ -72,7 +76,7 @@ static void test_tolerance_limits() {
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_every_stage_has_a_profile_with_a_source);
-  RUN_TEST(test_brief_values_are_loaded);
+  RUN_TEST(test_approved_values_are_loaded);
   RUN_TEST(test_band_widens_target_range_by_tolerance);
   RUN_TEST(test_band_uses_custom_tolerance);
   RUN_TEST(test_band_rh_never_exceeds_100_percent);

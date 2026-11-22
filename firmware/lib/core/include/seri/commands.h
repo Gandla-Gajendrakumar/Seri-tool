@@ -2,7 +2,7 @@
 // SMS configuration commands (F-SMS-07, Q-6 answered: digits only, no English needed).
 //
 //   10 <PIN>            make this phone the owner (PIN printed on the device label)
-//   11 <1-5>            stage: 1 eggs, 2 chawki, 3 instar III, 4 instar IV, 5 instar V
+//   11 <1-6>            stage: 1 eggs, 2 chawki, 3 instar III, 4 instar IV, 5 instar V, 6 spinning
 //   12 <1-4>            my SMS language: 1 English, 2 Hindi, 3 Telugu, 4 Kannada
 //   13 <t> <r>          tolerance: t in tenths of a degree (5-30), r in % (2-15). "13 10 5" = +/-1.0 C, +/-5 %
 //   20                  send status now
