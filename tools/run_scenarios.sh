@@ -32,7 +32,9 @@ for n in "${names[@]}"; do
   python3 tools/check_scenario.py $proj/scenarios/$n.expect "$log" > $proj/logs/$n.check
   cat $proj/logs/$n.check | tee -a "$summary"
   if grep -q "^PASS" $proj/logs/$n.check; then
-    echo "  ($n ran in ${secs}s)" >> "$summary"
+    echo "  ($n ran in ${secs}s)" | tee -a "$summary"
+    # evidence: what the farmer received and what was printed
+    grep -E "SMS to |PRINTER\||Expected text matched|expect-pin" "$log" | grep -v "PRINTER|   " | sed 's/^/    /' | tee -a "$summary"
   else
     fail=1
     echo "---- $n: events and messages (sample lines omitted)"; grep -v "^LOG S," "$log" | tail -60 | sed 's/^/    /'
