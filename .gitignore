@@ -20,3 +20,5 @@ hardware/kicad/carrier/*.kicad_prl
 hardware/kicad/carrier/drc.json
 hardware/kicad/carrier/erc.json
 provision/
+mechanical/viewer/site/*.json
+mechanical/viewer/site/schematic.svg

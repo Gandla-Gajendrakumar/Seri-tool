@@ -1,0 +1,737 @@
+<title>Seri-tool in 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: an instrument bench. Big viewport on the left, a control strip on the right that reads like the device's own front panel. */
+:root {
+  --bg: #eef2f0; --panel: #ffffff; --ink: #14201c; --muted: #5b6b66; --line: #d3ddd9;
+  --accent: #8a2c63;            /* mulberry: the silkworm's food plant */
+  --copper: #b5652a; --mains: #d9951a; --battery: #2c6db0; --data: #8a2c63; --ok: #23864b; --alarm: #c73a2e;
+  --oled-bg: #05080a; --oled-fg: #8fd3ff;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --scene-bg: #e6ecea;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1513; --panel: #151e1b; --ink: #e4ece9; --muted: #93a39e; --line: #2a3733;
+  --accent: #d673ab; --copper: #d98a4f; --mains: #f0b03c; --battery: #5c9be0; --data: #d673ab; --ok: #49b673; --alarm: #ef6a5d;
+  --scene-bg: #121a18; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e1513; --panel: #151e1b; --ink: #e4ece9; --muted: #93a39e; --line: #2a3733;
+  --accent: #d673ab; --copper: #d98a4f; --mains: #f0b03c; --battery: #5c9be0; --data: #d673ab; --ok: #49b673; --alarm: #ef6a5d;
+  --scene-bg: #121a18; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 18px 32px }
+.wrap { max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.1rem); margin: 0; letter-spacing: -0.01em; text-wrap: balance }
+.sub { color: var(--muted); margin: 2px 0 0; max-width: 70ch }
+.sub b { color: var(--ink); font-weight: 600 }
+nav.tabs { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 4px }
+nav.tabs a { font-family: var(--font-display); font-weight: 600; text-decoration: none; color: var(--muted); padding: 7px 14px; border-radius: 7px }
+nav.tabs a[aria-current="page"] { background: var(--accent); color: #fff }
+nav.tabs a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+
+.view { display: none } .view.active { display: block }
+.bench { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 14px; align-items: start }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0, 1fr) } }
+.stage { position: relative; background: var(--scene-bg); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  height: min(74vh, 760px); min-height: 420px }
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: none }
+.hud { position: absolute; left: 12px; top: 12px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; max-width: calc(100% - 24px) }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 99px; background: var(--panel); border: 1px solid var(--line); color: var(--muted) }
+.chip.on { color: #fff; border-color: transparent }
+.chip.mains.on { background: var(--mains) } .chip.battery.on { background: var(--battery) } .chip.data.on { background: var(--data) } .chip.alarm.on { background: var(--alarm) }
+.loading { position: absolute; right: 12px; bottom: 12px; font: 500 12px var(--font-mono); color: var(--muted); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 4px 9px }
+.label3d { font: 600 11px var(--font-body); color: var(--ink); background: color-mix(in srgb, var(--panel) 88%, transparent);
+  border: 1px solid var(--line); padding: 2px 7px; border-radius: 6px; white-space: nowrap; pointer-events: none }
+
+aside.panel { display: flex; flex-direction: column; gap: 12px; min-width: 0 }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 9px }
+.card h2 { font-family: var(--font-display); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 }
+.scen { display: grid; grid-template-columns: 1fr 1fr; gap: 6px }
+button { font: 600 13px var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; cursor: pointer; text-align: left }
+button:hover { border-color: var(--accent) }
+button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent) }
+.scen button span { display: block; font-weight: 400; font-size: 11.5px; opacity: 0.8 }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+.row label { font-size: 12.5px; color: var(--muted); min-width: 84px }
+input[type=range] { flex: 1; accent-color: var(--accent); min-width: 120px }
+.val { font: 600 12.5px var(--font-mono); font-variant-numeric: tabular-nums; min-width: 54px; text-align: right }
+.seg { display: flex; gap: 4px; flex-wrap: wrap } .seg button { padding: 5px 9px; font-size: 12px }
+
+.device { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center }
+.oled { background: var(--oled-bg); color: var(--oled-fg); font: 600 13px/1.35 var(--font-mono); padding: 9px 11px; border-radius: 6px; border: 2px solid #1e2a33; min-height: 92px }
+.oled .big { font-size: 17px }
+.leds { display: flex; flex-direction: column; gap: 8px; align-items: center; font-size: 11px; color: var(--muted) }
+.led { width: 16px; height: 16px; border-radius: 50%; background: #3a4440; box-shadow: inset 0 0 0 2px rgba(0,0,0,.25) }
+.led.green.on { background: #2fe06d; box-shadow: 0 0 12px #2fe06d } .led.red.on { background: #ff4b3e; box-shadow: 0 0 12px #ff4b3e }
+.bz { font: 600 11px var(--font-mono) } .bz.on { color: var(--alarm) }
+.info .ref { font: 700 18px var(--font-display) } .info .kv { font-size: 12.5px; color: var(--muted) }
+.info p { margin: 0 }
+.log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 210px; overflow: auto }
+.log li { font-size: 12.5px; border-left: 3px solid var(--line); padding: 2px 0 2px 8px }
+.log li.sms { border-color: var(--data) } .log li.print { border-color: var(--copper) } .log li.power { border-color: var(--battery) } .log li.alarm { border-color: var(--alarm) }
+.log time { font: 600 11px var(--font-mono); color: var(--muted); margin-right: 6px }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted) }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px }
+.note { font-size: 12px; color: var(--muted) }
+
+/* circuit diagram */
+.diagram-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; overflow-x: auto }
+.diagram-wrap svg { display: block; min-width: 980px; width: 100%; height: auto }
+.blk rect { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; rx: 8 }
+.blk text { fill: var(--ink); font-family: var(--font-body); font-size: 13px }
+.blk .t { font-family: var(--font-display); font-weight: 600; font-size: 14px }
+.blk .r { fill: var(--muted); font-family: var(--font-mono); font-size: 11px }
+.blk.hot rect { stroke-width: 2.5 }
+.blk.mains.hot rect { stroke: var(--mains) } .blk.battery.hot rect { stroke: var(--battery) } .blk.data.hot rect { stroke: var(--data) } .blk.alarm.hot rect { stroke: var(--alarm) }
+.wire { fill: none; stroke: var(--line); stroke-width: 2.5 }
+.wire.mains { stroke: var(--mains) } .wire.battery { stroke: var(--battery) } .wire.v33 { stroke: var(--ok) } .wire.data { stroke: var(--data) } .wire.prn { stroke: var(--copper) }
+.wire.dim { opacity: 0.18 }
+.wire.flow { stroke-dasharray: 8 7; animation: flow 1s linear infinite }
+@keyframes flow { to { stroke-dashoffset: -30 } }
+@media (prefers-reduced-motion: reduce) { .wire.flow { animation: none } }
+.wl { fill: var(--muted); font: 600 11px var(--font-mono) }
+.cap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 12px }
+.cap .card p { margin: 0; color: var(--muted); font-size: 13px }
+
+/* schematic */
+.sch { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 12px; height: min(76vh, 780px); min-height: 420px; overflow: hidden; touch-action: none; cursor: grab }
+.sch img { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; user-select: none; -webkit-user-drag: none }
+.sch .tools { position: absolute; right: 10px; top: 10px; display: flex; gap: 6px }
+.sch .tools button { background: #fff; color: #14201c; border-color: #ccd5d2 }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Seri-tool in 3D</h1>
+      <p class="sub">The silkworm-shed climate monitor as designed: <b>120-part carrier board</b>, ESP32, 4G modem, thermal printer, two 18650 cells and the 3D-printed enclosure, built from the real KiCad and CadQuery files.</p>
+    </div>
+    <nav class="tabs" aria-label="Views">
+      <a href="#model" data-view="model">3D model</a>
+      <a href="#circuit" data-view="circuit">Circuit diagram</a>
+      <a href="#schematic" data-view="schematic">Schematic</a>
+    </nav>
+  </header>
+
+  <!-- ============ 3D MODEL ============ -->
+  <section class="view" id="view-model">
+    <div class="bench">
+      <div class="stage" id="stage">
+        <div class="hud" aria-live="polite">
+          <span class="chip mains" id="chip-mains">12 V mains</span>
+          <span class="chip battery" id="chip-battery">Battery</span>
+          <span class="chip data" id="chip-data">Modem</span>
+          <span class="chip alarm" id="chip-alarm">Alarm</span>
+        </div>
+        <div class="loading" id="loading">Loading board copper…</div>
+      </div>
+
+      <aside class="panel">
+        <div class="card">
+          <h2>See it working</h2>
+          <div class="scen" role="group" aria-label="Scenarios">
+            <button id="sc-mains" data-sc="mains" aria-pressed="true">Mains power<span>normal day, charging</span></button>
+            <button id="sc-cut" data-sc="cut" aria-pressed="false">Power cut<span>cells take over</span></button>
+            <button id="sc-alarm" data-sc="alarm" aria-pressed="false">Temperature alarm<span>buzzer, SMS, print</span></button>
+            <button id="sc-upload" data-sc="upload" aria-pressed="false">Upload<span>4G to HiveMQ</span></button>
+          </div>
+          <div class="row"><label for="temp">Shed temp</label><input id="temp" type="range" min="22" max="34" step="0.1" value="27.5"><span class="val" id="temp-v">27.5 °C</span></div>
+          <div class="row"><label for="rh">Humidity</label><input id="rh" type="range" min="50" max="99" step="1" value="85"><span class="val" id="rh-v">85 %</span></div>
+          <p class="note">Chawki stage: alarm outside 26–29 °C and 70–100 % RH (band ± tolerance). Behaviour mirrors the tested firmware; numbers here are a demo.</p>
+        </div>
+
+        <div class="card">
+          <h2>Device front panel</h2>
+          <div class="device">
+            <div class="oled" id="oled" aria-label="OLED screen"></div>
+            <div class="leds">
+              <div class="led green" id="led-g" title="Green LED"></div>
+              <div class="led red" id="led-r" title="Red LED"></div>
+              <div class="bz" id="bz">BUZZER</div>
+            </div>
+          </div>
+          <button id="ok-btn">Press OK (silence buzzer)</button>
+        </div>
+
+        <div class="card">
+          <h2>View</h2>
+          <div class="row"><label for="explode">Explode</label><input id="explode" type="range" min="0" max="1" step="0.01" value="0"><span class="val" id="explode-v">0 %</span></div>
+          <div class="row"><label>Lid</label>
+            <div class="seg" role="group" aria-label="Lid">
+              <button data-lid="1" aria-pressed="false">On</button><button data-lid="0.3" aria-pressed="true">Glass</button><button data-lid="0" aria-pressed="false">Off</button>
+            </div></div>
+          <div class="row"><label>Box</label>
+            <div class="seg" role="group" aria-label="Enclosure">
+              <button data-box="1" aria-pressed="true">Show</button><button data-box="0" aria-pressed="false">Hide</button>
+            </div></div>
+          <div class="row"><label>Camera</label>
+            <div class="seg">
+              <button data-cam="front">Front</button><button data-cam="iso">Angle</button><button data-cam="board">Board</button><button data-cam="side">Side</button>
+            </div></div>
+          <div class="row"><label for="labels">Labels</label><input id="labels" type="checkbox" checked></div>
+          <div class="legend"><span><i style="background:var(--mains)"></i>12 V / 5 V mains</span><span><i style="background:var(--battery)"></i>battery</span><span><i style="background:var(--data)"></i>modem data</span><span><i style="background:var(--alarm)"></i>alarm</span></div>
+        </div>
+
+        <div class="card info" id="info">
+          <h2>Part</h2>
+          <p class="ref" id="info-ref">Click any part</p>
+          <p id="info-role">Every component on the board is clickable: its reference, value and job are shown here.</p>
+          <p class="kv" id="info-kv"></p>
+        </div>
+
+        <div class="card">
+          <h2>What the device did</h2>
+          <ul class="log" id="log"></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ CIRCUIT DIAGRAM ============ -->
+  <section class="view" id="view-circuit">
+    <div class="diagram-wrap">
+      <svg id="diagram" viewBox="0 0 1260 640" role="img" aria-label="Block diagram of the Seri-tool power path and signals">
+        <g id="wires">
+          <path class="wire mains" data-w="mains" d="M160,75 H200"/>
+          <path class="wire mains" data-w="mains" d="M370,75 H410"/>
+          <path class="wire mains" data-w="mains" d="M580,75 H640"/>
+          <path class="wire mains" data-w="vsys" d="M810,75 H870"/>
+          <path class="wire v33" data-w="v33" d="M1040,75 H1080"/>
+          <path class="wire mains" data-w="charge" d="M495,110 V200"/>
+          <path class="wire battery" data-w="charge" d="M580,235 H640"/>
+          <path class="wire battery" data-w="battery" d="M725,200 V110"/>
+          <path class="wire battery" data-w="modem" d="M725,280 V360"/>
+          <path class="wire mains" data-w="printer" d="M840,75 V235 H870"/>
+          <path class="wire mains" data-w="printer" d="M955,270 V330"/>
+          <path class="wire prn" data-w="printer" d="M955,400 V460"/>
+          <path class="wire data" data-w="sense" d="M285,110 V200"/>
+          <path class="wire data" data-w="i2c" d="M1160,120 V200"/>
+          <path class="wire data" data-w="i2c" d="M1160,280 V310"/>
+          <path class="wire data" data-w="ui" d="M1160,370 V400"/>
+          <path class="wire data" data-w="modem" d="M1090,120 V610 H725 V430"/>
+          <path class="wire prn" data-w="printer" d="M1105,120 V495 H1040"/>
+        </g>
+        <g class="blk mains" data-b="mains"><rect x="20" y="40" width="140" height="70"/><text class="t" x="34" y="66">12 V adapter</text><text class="r" x="34" y="86">J1 · BIS, 3 A</text></g>
+        <g class="blk mains" data-b="mains"><rect x="200" y="40" width="170" height="70"/><text class="t" x="214" y="66">Input protection</text><text class="r" x="214" y="86">F1 fuse · D1 reverse</text><text class="r" x="214" y="101">D2 surge clamp</text></g>
+        <g class="blk mains" data-b="mains"><rect x="410" y="40" width="170" height="70"/><text class="t" x="424" y="66">Buck 12 V to 5 V</text><text class="r" x="424" y="86">XL4015 module</text><text class="r" x="424" y="101">J4 in · J5 out</text></g>
+        <g class="blk mains" data-b="vsys"><rect x="640" y="40" width="170" height="70"/><text class="t" x="654" y="66">Power path</text><text class="r" x="654" y="86">D4 from mains</text><text class="r" x="654" y="101">Q3 Q12 from cells</text></g>
+        <g class="blk mains" data-b="v33"><rect x="870" y="40" width="170" height="70"/><text class="t" x="884" y="66">3.3 V regulator</text><text class="r" x="884" y="86">U4 AP2112K 600 mA</text><text class="r" x="884" y="101">JP2: off for USB</text></g>
+        <g class="blk data" data-b="esp"><rect x="1080" y="40" width="165" height="80"/><text class="t" x="1094" y="66">ESP32 DevKitC</text><text class="r" x="1094" y="86">J2 / J3 sockets</text><text class="r" x="1094" y="101">firmware v0.3.1</text></g>
+        <g class="blk battery" data-b="charge"><rect x="410" y="200" width="170" height="70"/><text class="t" x="424" y="226">Charger</text><text class="r" x="424" y="246">U2 TP4056 500 mA</text><text class="r" x="424" y="261">D3 charging LED</text></g>
+        <g class="blk battery" data-b="battery"><rect x="640" y="200" width="170" height="80"/><text class="t" x="654" y="226">2 × 18650 cells</text><text class="r" x="654" y="246">BT1 BT2 (+2 spare)</text><text class="r" x="654" y="261">U3 + 3× FS8205A</text><text class="r" x="654" y="275">short-circuit cut</text></g>
+        <g class="blk data" data-b="modem"><rect x="640" y="360" width="170" height="70"/><text class="t" x="654" y="386">4G modem</text><text class="r" x="654" y="406">A7670C · J10 harness</text><text class="r" x="654" y="421">2 × 1000 µF bursts</text></g>
+        <g class="blk mains" data-b="printer"><rect x="870" y="200" width="170" height="70"/><text class="t" x="884" y="226">Printer switch</text><text class="r" x="884" y="246">Q4 + Q5, GPIO26</text><text class="r" x="884" y="261">off between prints</text></g>
+        <g class="blk mains" data-b="printer"><rect x="870" y="330" width="170" height="70"/><text class="t" x="884" y="356">Boost to 5 V</text><text class="r" x="884" y="376">TPS61023 module</text><text class="r" x="884" y="391">J6 in · J7 out</text></g>
+        <g class="blk data" data-b="printer"><rect x="870" y="460" width="170" height="70"/><text class="t" x="884" y="486">Thermal printer</text><text class="r" x="884" y="506">CSN-A2 58 mm</text><text class="r" x="884" y="521">J8 power · J9 data</text></g>
+        <g class="blk data" data-b="sense"><rect x="200" y="200" width="170" height="70"/><text class="t" x="214" y="226">Power sensing</text><text class="r" x="214" y="246">mains → GPIO35</text><text class="r" x="214" y="261">battery → GPIO36</text></g>
+        <g class="blk data" data-b="i2c"><rect x="1080" y="200" width="165" height="80"/><text class="t" x="1094" y="226">I²C bus, 50 kHz</text><text class="r" x="1094" y="246">SHT31 probe J11</text><text class="r" x="1094" y="261">DS3231 clock U5</text><text class="r" x="1094" y="275">OLED via J14</text></g>
+        <g class="blk data" data-b="i2c"><rect x="1080" y="310" width="165" height="60"/><text class="t" x="1094" y="336">microSD (SPI)</text><text class="r" x="1094" y="356">J13 log + queue</text></g>
+        <g class="blk data" data-b="ui"><rect x="1080" y="400" width="165" height="70"/><text class="t" x="1094" y="426">Front panel</text><text class="r" x="1094" y="446">SW1-3 · D5 D6</text><text class="r" x="1094" y="461">BZ1 buzzer</text></g>
+        <text class="wl" x="166" y="68">12 V</text><text class="wl" x="376" y="68">12 V</text><text class="wl" x="584" y="68">5 V</text>
+        <text class="wl" x="814" y="68">VSYS</text><text class="wl" x="1044" y="68">3.3 V</text><text class="wl" x="501" y="160">5 V</text>
+        <text class="wl" x="731" y="160">BAT_P</text><text class="wl" x="731" y="325">BAT_P direct</text><text class="wl" x="961" y="300">BOOST_IN</text>
+        <text class="wl" x="961" y="435">+5V_PRN</text><text class="wl" x="900" y="628">modem UART 115200 (level shifted Q6 Q7)</text><text class="wl" x="1112" y="488">printer UART</text>
+      </svg>
+    </div>
+    <div class="cap">
+      <div class="card"><h2>Mains</h2><p>The 12 V adapter feeds a buck module that makes 5 V. That 5 V charges the cells and, through diode D4, runs the whole system rail VSYS.</p></div>
+      <div class="card"><h2>Power cut</h2><p>When 12 V disappears, switches Q3/Q12 connect the cells to VSYS with no break, so nothing restarts. The modem always runs straight from the cells (its 2 A bursts need them).</p></div>
+      <div class="card"><h2>Brain and signals</h2><p>The ESP32 reads the SHT31 probe every 30 s on the I²C bus, keeps time with the DS3231, logs to microSD, talks to the modem through a level shifter and drives the printer, LEDs and buzzer.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ SCHEMATIC ============ -->
+  <section class="view" id="view-schematic">
+    <div class="sch" id="sch">
+      <img id="sch-img" src="schematic.svg" alt="KiCad schematic of the Seri-tool carrier board, 120 parts">
+      <div class="tools"><button id="z-in" aria-label="Zoom in">+</button><button id="z-out" aria-label="Zoom out">−</button><button id="z-fit">Fit</button></div>
+    </div>
+    <p class="note">Full KiCad schematic of the carrier board: 120 parts, 67 nets, electrical rule check clean. Drag to pan, scroll or pinch to zoom.</p>
+  </section>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+/* ---------------- tabs (hash routing) ---------------- */
+const views = ["model", "circuit", "schematic"];
+function route() {
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : "model";
+  for (const n of views) document.getElementById("view-" + n).classList.toggle("active", n === v);
+  document.querySelectorAll("nav.tabs a").forEach(a => a.setAttribute("aria-current", a.dataset.view === v ? "page" : "false"));
+  if (v === "model") resize();
+  if (v === "schematic") schFit();
+}
+window.addEventListener("hashchange", route);
+
+/* ---------------- scene setup ---------------- */
+const css = getComputedStyle(document.documentElement);
+const tok = n => css.getPropertyValue(n).trim();
+const stage = document.getElementById("stage");
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+stage.prepend(renderer.domElement);
+const labelR = new CSS2DRenderer();
+labelR.domElement.style.position = "absolute"; labelR.domElement.style.inset = "0"; labelR.domElement.style.pointerEvents = "none";
+stage.appendChild(labelR.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x445555, 0.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(120, 260, 380); scene.add(sun);
+
+const camera = new THREE.PerspectiveCamera(32, 1, 1, 6000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+
+const root = new THREE.Group(); scene.add(root);          // everything, in the enclosure frame (mm)
+const layers = { base: new THREE.Group(), pcb: new THREE.Group(), parts: new THREE.Group(), esp: new THREE.Group(),
+  lid: new THREE.Group(), floor: new THREE.Group(), outside: new THREE.Group() };
+Object.values(layers).forEach(g => root.add(g));
+
+const M = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0.05, ...o });
+const MAT = {
+  black: () => M(0x1d2022, { roughness: 0.45 }), body: () => M(0x2a2d30), tan: () => M(0xc9a676, { roughness: 0.7 }),
+  silver: () => M(0xc9ced2, { metalness: 0.85, roughness: 0.3 }), gold: () => M(0xd4a640, { metalness: 0.9, roughness: 0.3 }),
+  cream: () => M(0xeae3cf), blue: () => M(0x1f4f9a), purple: () => M(0x5b2d86), green: () => M(0x1c6b3e),
+  ecap: () => M(0x1b2b4a, { roughness: 0.35 }), cell: () => M(0x2e8a57, { roughness: 0.35 }), plastic: () => M(0xd9dfdc, { roughness: 0.75 }),
+};
+const pickables = [];
+const glowables = [];        // {mat, group, base}
+let scn = null;
+
+function addMesh(parent, geo, mat, x, y, z, meta) {
+  const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); parent.add(m);
+  if (meta) { m.userData = meta; pickables.push(m); }
+  if (meta && meta.group) glowables.push({ mat, group: meta.group, base: mat.emissive.clone() });
+  return m;
+}
+const box = (w, h, d) => new THREE.BoxGeometry(Math.max(w, 0.2), Math.max(h, 0.2), Math.max(d, 0.2));
+const cylZ = (r, h, seg = 28) => new THREE.CylinderGeometry(r, r, h, seg).rotateX(Math.PI / 2);   // axis along z
+
+/* --------------- board parts from scene.json --------------- */
+function buildPart(p, z0) {
+  const [x0, y0, x1, y1] = p.box, w = x1 - x0, d = y1 - y0, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, h = p.h;
+  const meta = { ref: p.ref, role: p.role, value: p.value, kind: p.kind, group: p.group };
+  const g = layers.parts;
+  const ghost = p.dnp ? { transparent: true, opacity: 0.25 } : {};
+  switch (p.kind) {
+    case "resistor": addMesh(g, box(w * 0.55, d * 0.55, 0.55), M(0x202326, ghost), cx, cy, z0 + 0.28, meta); break;
+    case "mlcc": addMesh(g, box(w * 0.55, d * 0.55, 0.9), M(0xc9a676, ghost), cx, cy, z0 + 0.45, meta); break;
+    case "sot": case "ic": case "diode": {
+      const t = p.kind === "ic" ? Math.min(h, 2.0) : 1.1;
+      addMesh(g, box(w * 0.62, d * 0.62, t), MAT.black(), cx, cy, z0 + t / 2, meta); break; }
+    case "fuse": addMesh(g, box(w * 0.6, d * 0.6, 1.4), M(0xd9b23b), cx, cy, z0 + 0.7, meta); break;
+    case "jumper": addMesh(g, box(w * 0.7, d * 0.6, 0.1), MAT.gold(), cx, cy, z0 + 0.05, meta); break;
+    case "ecap": {
+      const r = (p.dia || 6.3) / 2, ch = h - 1;
+      addMesh(g, cylZ(r, ch), MAT.ecap(), p.center[0], p.center[1], z0 + 1 + ch / 2, meta);
+      addMesh(g, cylZ(r * 0.92, 0.3), MAT.silver(), p.center[0], p.center[1], z0 + 1 + ch + 0.15);
+      break; }
+    case "led": {
+      const on = p.ref === "D5" ? 0x22d266 : 0xff3b30;
+      const mat = M(on, { transparent: true, opacity: 0.85, roughness: 0.2, emissive: new THREE.Color(0x000000) });
+      const m = addMesh(g, cylZ(1.5, 4), mat, p.center[0], p.center[1], z0 + 3, meta);
+      addMesh(g, new THREE.SphereGeometry(1.5, 18, 12), mat, p.center[0], p.center[1], z0 + 5);
+      ledMats[p.ref] = { mat, color: new THREE.Color(on) };
+      break; }
+    case "switch": {
+      addMesh(g, box(6, 6, 3.4), MAT.black(), cx, cy, z0 + 1.7, meta);
+      addMesh(g, cylZ(1.75, h - 3.4), M(0x3b3f43), cx, cy, z0 + 3.4 + (h - 3.4) / 2, meta);
+      break; }
+    case "buzzer": { const m = addMesh(g, cylZ(6, h), MAT.black(), p.center[0], p.center[1], z0 + h / 2, meta); buzzerMesh = m;
+      addMesh(g, cylZ(1, 0.3), M(0x111111), p.center[0], p.center[1], z0 + h + 0.15); break; }
+    case "jack": addMesh(g, box(w * 0.75, d * 0.8, 11), MAT.black(), cx - 1, cy, z0 + 5.5, meta); break;
+    case "sd": addMesh(g, box(12, 15, 1.9), MAT.silver(), cx, cy, z0 + 0.95, meta); break;
+    case "coin": addMesh(g, cylZ(10, 3.2, 36), MAT.silver(), cx, cy, z0 + 3.4, meta); addMesh(g, box(w * 0.85, d * 0.6, 1.5), MAT.black(), cx, cy, z0 + 0.75); break;
+    case "holder": {
+      addMesh(g, box(w - 1, d - 1, 4), M(0x232628, ghost), cx, cy, z0 + 2, meta);
+      const wallH = 15;
+      for (const s of [-1, 1]) addMesh(g, box(w - 1, 3, wallH), M(0x232628, ghost), cx, cy + s * (d / 2 - 2), z0 + wallH / 2);
+      if (!p.dnp) {
+        const cell = new THREE.CylinderGeometry(9.2, 9.2, 65, 36);     // axis along y (the holder runs vertically)
+        addMesh(g, cell, MAT.cell(), cx, cy, z0 + 4 + 9.2, meta);
+        addMesh(g, new THREE.CylinderGeometry(3, 3, 1.2, 20), MAT.silver(), cx, cy + 33, z0 + 4 + 9.2);
+      }
+      break; }
+    case "header": case "socket": case "jst": {
+      const base = p.kind === "jst" ? 7 : (p.kind === "socket" ? 8.5 : 2.5);
+      const mat = p.kind === "jst" ? MAT.cream() : MAT.black();
+      addMesh(g, box(w * 0.82, d * 0.82, base), mat, cx, cy, z0 + base / 2, meta);
+      if (p.kind !== "socket") for (const [px, py] of p.pads) addMesh(g, box(0.64, 0.64, p.kind === "jst" ? 6 : 8.5), MAT.gold(), px, py, z0 + (p.kind === "jst" ? 3.5 : 4.25));
+      break; }
+    default: addMesh(g, box(w * 0.7, d * 0.7, Math.max(h, 0.8)), MAT.body(), cx, cy, z0 + Math.max(h, 0.8) / 2, meta);
+  }
+}
+const ledMats = {}; let buzzerMesh = null;
+
+/* --------------- off-board bodies --------------- */
+let oledTex, oledCanvas, paper, paperMax = 46, printerFront;
+function boxFrom(b) { return { cx: (b[0] + b[3]) / 2, cy: (b[1] + b[4]) / 2, cz: (b[2] + b[5]) / 2, w: b[3] - b[0], h: b[4] - b[1], d: b[5] - b[2] }; }
+function buildOffboard(off) {
+  // ESP32 DevKitC: black board, WROOM module with silver can, antenna strip beyond pin 1
+  { const b = boxFrom(off.devkitc.box), meta = { ref: "DevKitC", role: off.devkitc.role, value: "ESP32-WROOM-32E", group: "esp" };
+    addMesh(layers.esp, box(b.w - 6, b.h, 1.6), M(0x16181a), b.cx - 3, b.cy, off.devkitc.box[2] + 0.8, meta);
+    addMesh(layers.esp, box(18, 25.5, 0.8), M(0x1f6b3a), off.devkitc.box[3] - 13, b.cy, off.devkitc.box[2] + 2.0, meta);
+    addMesh(layers.esp, box(17, 18, 3.0), MAT.silver(), off.devkitc.box[3] - 16, b.cy, off.devkitc.box[2] + 3.5, meta);
+    addMesh(layers.esp, box(7, 7, 2.0), MAT.black(), b.cx - 18, b.cy, off.devkitc.box[2] + 2.6, meta);
+    addMesh(layers.esp, box(8, 6, 3.0), MAT.silver(), off.devkitc.box[0] + 4, b.cy, off.devkitc.box[2] + 3.0, meta); }   // micro-USB
+  // floor modules
+  const mod = (k, pcbColor, extra) => { const o = off[k], b = boxFrom(o.box), meta = { ref: k.split(":")[1], role: o.role, group: k === "module:modem" ? "modem" : (k === "module:buck" ? "mains" : "printer") };
+    addMesh(layers.floor, box(b.w, b.h, 1.6), M(pcbColor), b.cx, b.cy, 0.8 + 2, meta); extra(b, meta); };
+  mod("module:modem", 0x1d3f7a, (b, meta) => { addMesh(layers.floor, box(24, 24, 2.4), MAT.silver(), b.cx, b.cy, 5, meta);
+    addMesh(layers.floor, box(15, 26, 1.6), M(0x111111), b.cx - 14, b.cy, 4.4, meta); });           // SIM holder
+  mod("module:buck", 0x1d3f7a, (b, meta) => { addMesh(layers.floor, cylZ(6, 7), M(0x333333), b.cx - 8, b.cy, 7.2, meta);
+    addMesh(layers.floor, cylZ(4, 9), MAT.ecap(), b.cx + 12, b.cy + 5, 8.2, meta); addMesh(layers.floor, box(8, 6, 2.5), MAT.black(), b.cx + 3, b.cy - 6, 4.8, meta); });
+  mod("module:boost", 0x4b2a78, (b, meta) => { addMesh(layers.floor, box(6, 6, 3), M(0x333333), b.cx, b.cy, 5.1, meta); addMesh(layers.floor, box(3, 3, 1), MAT.black(), b.cx + 7, b.cy, 4.1, meta); });
+  // printer: body hanging behind the lid, bezel on the lid face, paper roll and a paper strip that grows
+  { const b = boxFrom(off.printer.box), bz = boxFrom(off.printer.bezel), meta = { ref: "Printer", role: off.printer.role, value: "CSN-A2 58 mm", group: "printer" };
+    addMesh(layers.lid, box(b.w, b.h, b.d), M(0x3a3e42), b.cx, b.cy, b.cz, meta);
+    printerFront = addMesh(layers.lid, box(bz.w, bz.h, bz.d), M(0x2b2e31), bz.cx, bz.cy, bz.cz, meta);
+    addMesh(layers.lid, new THREE.CylinderGeometry(19, 19, 58, 32).rotateZ(Math.PI / 2), M(0xf3f1ea), b.cx, b.cy, b.cz + 4);
+    addMesh(layers.lid, box(62, 3, 0.6), M(0x111111), bz.cx, bz.cy + 18, off.printer.bezel[5] + 0.3);           // paper slot
+    addMesh(layers.lid, box(9, 6, 1), M(0x55595e), bz.cx + 38, bz.cy - 20, off.printer.bezel[5] + 0.5);       // feed button
+    paper = new THREE.Mesh(new THREE.PlaneGeometry(57, 1), M(0xfbfbf6, { side: THREE.DoubleSide, roughness: 0.9 }));
+    paper.position.set(bz.cx, bz.cy + 18, off.printer.bezel[5] + 0.7); paper.rotation.x = -0.25; layers.lid.add(paper); paper.userData.len = 0; }
+  // OLED on the lid with a live screen
+  { const o = boxFrom(off.oled.box), meta = { ref: "OLED", role: off.oled.role, value: "SH1106 128×64", group: "ui" };
+    addMesh(layers.lid, box(o.w, o.h, o.d), M(0x1d4b8f), o.cx, o.cy, o.cz, meta);
+    oledCanvas = document.createElement("canvas"); oledCanvas.width = 256; oledCanvas.height = 128;
+    oledTex = new THREE.CanvasTexture(oledCanvas); oledTex.colorSpace = THREE.SRGBColorSpace;
+    const glass = new THREE.Mesh(new THREE.PlaneGeometry(29.4, 14.7), new THREE.MeshBasicMaterial({ map: oledTex }));
+    const win = scn.enclosure.window; glass.position.set(win[0], win[1], off.oled.box[5] + 0.9); layers.lid.add(glass);
+    addMesh(layers.lid, box(34.5, 23, 1.4), M(0x050607, { roughness: 0.15 }), win[0], win[1] + 1, off.oled.box[5] + 0.2, meta);
+    const c = boxFrom(off.oled_cable.box); addMesh(layers.lid, box(c.w, c.h, c.d), MAT.black(), c.cx, c.cy, c.cz); }
+  // probe: cable out of the gland, down to a white sensor head
+  { const [gx, gy, gz] = scn.enclosure.gland, meta = { ref: "Probe", role: "SHT31 temperature and humidity probe on a 2 m cable (shown short)", value: "SHT31", group: "sensor" };
+    const pts = [new THREE.Vector3(gx, gy + 6, gz + 10), new THREE.Vector3(gx, gy - 4, gz), new THREE.Vector3(gx + 4, gy - 60, gz + 10), new THREE.Vector3(gx + 10, gy - 120, gz + 30)];
+    addMesh(layers.outside, new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, 2.2, 10), M(0x222222), 0, 0, 0, meta);
+    addMesh(layers.outside, new THREE.CylinderGeometry(7, 7, 40, 24), M(0xf2f2f0), gx + 10, gy - 142, gz + 30, meta);
+    addMesh(layers.outside, new THREE.CylinderGeometry(7.3, 7.3, 14, 24), M(0x9aa3a8, { metalness: 0.5 }), gx + 10, gy - 168, gz + 30, meta);
+    addMesh(layers.outside, cylZ(6.5, 14), M(0x111111), gx, gy - 1, gz, { ref: "Gland", role: "PG7 cable gland: seals the probe cable entry" }); }
+}
+
+/* --------------- cables between board and modules --------------- */
+function cable(a, b, color, lift = 18, layer = layers.parts, r = 1.4) {
+  const mid1 = new THREE.Vector3(a.x, a.y, a.z + lift), mid2 = new THREE.Vector3(b.x, b.y, b.z + lift);
+  const curve = new THREE.CatmullRomCurve3([a, mid1, mid2, b]);
+  const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 48, r, 8), M(color)); layer.add(m); return m;
+}
+
+/* --------------- enclosure + PCB files --------------- */
+const shellMat = M(0xdfe5e2, { roughness: 0.8, side: THREE.DoubleSide, flatShading: true });
+const lidMat = M(0xdfe5e2, { roughness: 0.6, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false, flatShading: true });
+const plungerMat = M(0x8a2c63, { roughness: 0.5, flatShading: true });
+// Meshes ship as compact JSON (the artifact host serves .json, not .stl/.glb): int16 positions in 0.01 mm, uint32 indices.
+function b64(str, Type) { const bin = atob(str), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new Type(u8.buffer); }
+function decode(m, q) {
+  const qi = b64(m.pos, Int16Array), pos = new Float32Array(qi.length);
+  for (let i = 0; i < qi.length; i++) pos[i] = qi[i] / q;
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setIndex(new THREE.BufferAttribute(b64(m.idx, Uint32Array), 1));
+  return g;
+}
+async function loadFiles() {
+  const enc = await (await fetch("enclosure.json")).json();
+  for (const m of enc.meshes) {
+    const geo = decode(m, enc.q);
+    if (m.name === "base") layers.base.add(new THREE.Mesh(geo, shellMat));
+    else if (m.name === "lid") { const lm = new THREE.Mesh(geo, lidMat); lm.renderOrder = 2; layers.lid.add(lm); }
+    else { const pm = new THREE.Mesh(geo, plungerMat); pm.userData = { ref: "Plungers", role: "Printed button plungers: press the switches SW1-3 through the lid" }; pickables.push(pm); layers.lid.add(pm); }
+  }
+  setLid(lidMat.opacity);
+}
+let pcbPlaceholder;
+function loadBoard() {
+  const p = scn.pcb;
+  pcbPlaceholder = new THREE.Mesh(box(p.w, p.h, p.t), M(0x1e6a3c, { roughness: 0.5 }));
+  pcbPlaceholder.position.set(p.w / 2, -p.h / 2, p.z + p.t / 2); layers.pcb.add(pcbPlaceholder);
+  pcbPlaceholder.userData = { ref: "PCB", role: "Carrier board: 190 × 152 mm, 2 layers, hand-solderable" }; pickables.push(pcbPlaceholder);
+  const el = document.getElementById("loading");
+  fetch("board.json").then(r => r.json()).then(bd => {
+    const grp = new THREE.Group();
+    for (const m of bd.meshes) {
+      const mat = new THREE.MeshStandardMaterial({ color: m.color, roughness: 0.45, metalness: m.color === "#b39c00" ? 0.6 : 0.1,
+        transparent: m.opacity < 1, opacity: m.opacity, flatShading: true, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1 });
+      const mesh = new THREE.Mesh(decode(m, bd.q), mat); mesh.userData = pcbPlaceholder.userData; pickables.push(mesh); grp.add(mesh);
+    }
+    layers.pcb.add(grp); el.hidden = true;
+  }).catch(() => { el.textContent = "Board copper layer did not load: showing a plain board"; });
+}
+/* --------------- labels --------------- */
+const labelObjs = [];
+function label(text, x, y, z, layer = root) {
+  const d = document.createElement("div"); d.className = "label3d"; d.textContent = text;
+  const o = new CSS2DObject(d); o.position.set(x, y, z); layer.add(o); labelObjs.push(o); return o;
+}
+
+/* --------------- simulation (mirrors the firmware's behaviour) --------------- */
+const S = { mains: true, temp: 27.5, rh: 85, batt: 92, buzz: false, alarm: false, silenced: false, scen: "mains", flash: {}, clock: 14 * 60 + 5 };
+const BAND = { tLo: 26, tHi: 29, rLo: 70 };
+const logEl = document.getElementById("log");
+function hhmm(m) { return String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+function logEvent(kind, text) {
+  const li = document.createElement("li"); li.className = kind;
+  li.innerHTML = `<time>${hhmm(S.clock)}</time>`; li.append(text); logEl.prepend(li);
+  while (logEl.children.length > 30) logEl.lastChild.remove();
+}
+function flash(group, ms = 2600) { S.flash[group] = performance.now() + ms; }
+function printLine(text) { flash("printer", 3000); paperFeed(18); logEvent("print", "Printed: " + text); }
+function sendSms(text) { flash("modem", 2500); logEvent("sms", "SMS to owner: " + text); }
+function paperFeed(mm) { if (paper) paper.userData.target = Math.min(paperMax, (paper.userData.target || paper.userData.len) + mm); }
+
+function setScenario(sc) {
+  S.scen = sc;
+  document.querySelectorAll(".scen button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sc === sc ? "true" : "false"));
+  if (sc === "mains") {
+    if (!S.mains) { S.mains = true; logEvent("power", "Mains back: charging the cells"); sendSms("Mains power restored. Shed-1"); printLine(`${hhmm(S.clock)} MAINS RETURN`); }
+    setTemp(27.5, 85);
+  } else if (sc === "cut") {
+    if (S.mains) { S.mains = false; logEvent("power", "12 V gone: cells take over, no restart");
+      setTimeout(() => { S.clock += 2; sendSms("Power cut at " + hhmm(S.clock - 2) + ". Running on battery. Shed-1"); printLine(`${hhmm(S.clock)} POWER CUT`); render(); }, 900); }
+  } else if (sc === "alarm") {
+    setTemp(30.8, S.rh);
+  } else if (sc === "upload") {
+    flash("modem", 3200); logEvent("sms", "Uploaded 10 readings to HiveMQ: seri/seri-0001/data");
+  }
+  render();
+}
+function setTemp(t, rh) {
+  document.getElementById("temp").value = t; document.getElementById("rh").value = rh; onSensor();
+}
+function onSensor() {
+  S.temp = +document.getElementById("temp").value; S.rh = +document.getElementById("rh").value;
+  document.getElementById("temp-v").textContent = S.temp.toFixed(1) + " °C";
+  document.getElementById("rh-v").textContent = S.rh + " %";
+  const out = S.temp > BAND.tHi || S.temp < BAND.tLo || S.rh < BAND.rLo;
+  if (out && !S.alarm) {
+    S.alarm = true; S.buzz = true; S.silenced = false;
+    const what = S.temp > BAND.tHi ? `Temp HIGH ${S.temp.toFixed(1)}C` : S.temp < BAND.tLo ? `Temp LOW ${S.temp.toFixed(1)}C` : `Humidity LOW ${S.rh}%`;
+    logEvent("alarm", what + " (band 26-29 C)"); sendSms(`${what}. Chawki band 26-29 C. Shed-1`); printLine(`${hhmm(S.clock)} ${what.toUpperCase()}`);
+    if (S.scen !== "alarm") document.querySelectorAll(".scen button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sc === "alarm" ? "true" : "false"));
+  } else if (!out && S.alarm) {
+    S.alarm = false; S.buzz = false; logEvent("alarm", "Back in band: recovery"); sendSms(`OK again: ${S.temp.toFixed(1)}C ${S.rh}%. Shed-1`); printLine(`${hhmm(S.clock)} RECOVERED`);
+  }
+  render();
+}
+function okPressed() {
+  if (S.buzz) { S.buzz = false; S.silenced = true; logEvent("alarm", "OK pressed: buzzer silenced (alarm stays until back in band)"); }
+  render();
+}
+function activeGroups() {
+  const g = new Set(["esp", "sensor", "store", "rail3v3"]);
+  if (S.mains) { g.add("mains"); g.add("charge"); } else g.add("battery");
+  if (S.alarm) g.add("ui");
+  const now = performance.now();
+  for (const [k, t] of Object.entries(S.flash)) if (t > now) g.add(k);
+  return g;
+}
+const GCOL = () => ({ mains: tok("--mains"), charge: tok("--mains"), battery: tok("--battery"), rail3v3: tok("--ok"), modem: tok("--data"),
+  printer: tok("--copper"), sensor: tok("--data"), esp: tok("--data"), ui: tok("--alarm"), store: tok("--data") });
+function drawOled() {
+  const lines = [`${S.temp.toFixed(1)}C ${S.rh}%`, `Chawki 4G`, S.alarm ? (S.temp > BAND.tHi ? "Temp HIGH" : S.temp < BAND.tLo ? "Temp LOW" : "RH LOW") : "All OK",
+    S.mains ? `Mains ${hhmm(S.clock)}` : `Battery ${S.batt}% ${hhmm(S.clock)}`];
+  const el = document.getElementById("oled");
+  el.innerHTML = `<div class="big">${lines[0]}</div><div>${lines[1]}</div><div>${lines[2]}</div><div>${lines[3]}</div>`;
+  if (!oledCanvas) return;
+  const c = oledCanvas.getContext("2d"); c.fillStyle = "#03060a"; c.fillRect(0, 0, 256, 128);
+  c.fillStyle = "#8fd3ff"; c.font = "bold 34px monospace"; c.fillText(lines[0], 8, 38);
+  c.font = "bold 22px monospace"; c.fillText(lines[1], 8, 66); c.fillStyle = S.alarm ? "#ff8a80" : "#8fd3ff"; c.fillText(lines[2], 8, 92);
+  c.fillStyle = "#8fd3ff"; c.fillText(lines[3], 8, 118); oledTex.needsUpdate = true;
+}
+function render() {
+  drawOled();
+  document.getElementById("led-g").classList.toggle("on", !S.alarm);
+  document.getElementById("led-r").classList.toggle("on", S.alarm);
+  const bz = document.getElementById("bz"); bz.classList.toggle("on", S.buzz); bz.textContent = S.buzz ? "BUZZER ON" : "buzzer off";
+  const g = activeGroups();
+  document.getElementById("chip-mains").classList.toggle("on", S.mains);
+  document.getElementById("chip-battery").classList.toggle("on", !S.mains);
+  document.getElementById("chip-data").classList.toggle("on", g.has("modem"));
+  document.getElementById("chip-alarm").classList.toggle("on", S.alarm);
+  renderDiagram(g);
+}
+
+/* --------------- diagram sync --------------- */
+function renderDiagram(g) {
+  const on = {
+    mains: S.mains, charge: S.mains, battery: !S.mains, vsys: true, v33: true, data: true, i2c: true, sense: true,
+    modem: g.has("modem"), printer: g.has("printer"), ui: S.alarm, esp: true, vsys: true,
+  };
+  document.querySelectorAll("#wires .wire").forEach(w => {
+    const k = w.dataset.w; const lit = on[k];
+    w.classList.toggle("dim", !lit); w.classList.toggle("flow", !!lit && (k === "mains" || k === "battery" || k === "modem" || k === "printer" || k === "charge"));
+  });
+  document.querySelectorAll("#diagram .blk").forEach(b => b.classList.toggle("hot", !!on[b.dataset.b] && (b.dataset.b !== "vsys" || true)));
+}
+
+/* --------------- picking --------------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+let picked = null, pickedEm = null, downAt = null;
+renderer.domElement.addEventListener("pointerdown", e => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener("pointerup", e => {
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const vis = pickables.filter(m => { let o = m; while (o) { if (!o.visible) return false; o = o.parent; } return true; });
+  const hit = ray.intersectObjects(vis, false).find(h => !(h.object.material.transparent && h.object.material.opacity < 0.5 && h.object.userData.ref === undefined));
+  if (!hit) return;
+  const m = hit.object, u = m.userData;
+  if (picked) picked.material.emissive.copy(pickedEm);
+  picked = m; pickedEm = m.material.emissive.clone(); m.material.emissive.set(tok("--accent")).multiplyScalar(0.6);
+  document.getElementById("info-ref").textContent = u.ref || "Part";
+  document.getElementById("info-role").textContent = u.role || "";
+  document.getElementById("info-kv").textContent = [u.value && `Value: ${u.value}`, u.kind && `Type: ${u.kind}`, u.group && `Subsystem: ${u.group}`].filter(Boolean).join(" · ");
+  if (u.ref === "SW2") okPressed();
+});
+
+/* --------------- view controls --------------- */
+let explode = 0, boxShown = true;
+const lidPos0 = new THREE.Vector3();
+function applyExplode() {
+  layers.lid.position.z = explode * 150;
+  layers.esp.position.z = explode * 70;
+  layers.parts.position.z = explode * 40;
+  layers.pcb.position.z = explode * 40;
+  layers.esp.position.z += explode * 40;
+  layers.floor.position.z = 0;
+  layers.outside.position.y = -explode * 30;
+  document.getElementById("explode-v").textContent = Math.round(explode * 100) + " %";
+}
+function setLid(op) {
+  lidMat.opacity = op; lidMat.transparent = op < 1; lidMat.depthWrite = op >= 1;
+  layers.lid.children.forEach(c => { if (c.material === lidMat) c.visible = op > 0; });
+  document.querySelectorAll("[data-lid]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.lid === op ? "true" : "false"));
+}
+function setBox(show) {
+  boxShown = show; layers.base.visible = show;
+  document.querySelectorAll("[data-box]").forEach(b => b.setAttribute("aria-pressed", (b.dataset.box === "1") === show ? "true" : "false"));
+}
+const CENTER = new THREE.Vector3(97, -45, 30);
+function setCam(kind) {
+  const c = CENTER, d = { front: [0, 0, 620], iso: [-330, -260, 430], board: [0, -60, 300], side: [520, 40, 260] }[kind];
+  const target = kind === "board" ? new THREE.Vector3(95, -76, 32) : c;
+  camera.position.set(target.x + d[0], target.y + d[1], target.z + d[2]); controls.target.copy(target); controls.update();
+}
+
+/* --------------- resize + loop --------------- */
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
+  renderer.setSize(w, h, false); labelR.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+window.addEventListener("resize", resize);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let last = 0, minuteAcc = 0;
+function loop(t) {
+  requestAnimationFrame(loop);
+  const dt = Math.min(0.1, (t - last) / 1000); last = t;
+  controls.update();
+  const g = activeGroups(), col = GCOL(), pulse = reduce ? 0.55 : 0.4 + 0.25 * Math.sin(t / 260);
+  for (const e of glowables) {
+    if (picked && e.mat === picked.material) continue;
+    if (g.has(e.group)) e.mat.emissive.set(col[e.group] || "#000").multiplyScalar(pulse * 0.6); else e.mat.emissive.copy(e.base);
+  }
+  for (const [ref, l] of Object.entries(ledMats)) {
+    const on = ref === "D5" ? !S.alarm : S.alarm; l.mat.emissive.copy(l.color).multiplyScalar(on ? 1.4 : 0); l.mat.opacity = on ? 0.95 : 0.55;
+  }
+  if (buzzerMesh) { const s = S.buzz && !reduce ? 1 + 0.06 * Math.sin(t / 40) : 1; buzzerMesh.scale.set(s, s, 1); }
+  if (paper) {
+    const tgt = paper.userData.target ?? paper.userData.len;
+    if (paper.userData.len < tgt) paper.userData.len = Math.min(tgt, paper.userData.len + dt * 25);
+    const L = Math.max(0.5, paper.userData.len); paper.scale.y = L; paper.position.y = paper.userData.y0 + L / 2 * Math.cos(0.25);
+    paper.position.z = paper.userData.z0 + L / 2 * Math.sin(0.25);
+  }
+  if (!S.mains) { minuteAcc += dt; if (minuteAcc > 6) { minuteAcc = 0; S.clock += 1; if (S.batt > 41) S.batt -= 1; drawOled(); } }
+  renderer.render(scene, camera); labelR.render(scene, camera);
+}
+
+/* --------------- schematic pan/zoom --------------- */
+const sch = document.getElementById("sch"), img = document.getElementById("sch-img");
+let sx = 0, sy = 0, ss = 1, drag = null;
+function schApply() { img.style.transform = `translate(${sx}px,${sy}px) scale(${ss})`; }
+function schFit() {
+  if (!img.naturalWidth || !sch.clientWidth) return;
+  ss = Math.min(sch.clientWidth / img.naturalWidth, sch.clientHeight / img.naturalHeight);
+  sx = (sch.clientWidth - img.naturalWidth * ss) / 2; sy = (sch.clientHeight - img.naturalHeight * ss) / 2; schApply();
+}
+function schZoom(f, cx = sch.clientWidth / 2, cy = sch.clientHeight / 2) {
+  const ns = Math.min(12, Math.max(0.1, ss * f)); sx = cx - (cx - sx) * ns / ss; sy = cy - (cy - sy) * ns / ss; ss = ns; schApply();
+}
+img.addEventListener("load", schFit);
+sch.addEventListener("wheel", e => { e.preventDefault(); const r = sch.getBoundingClientRect(); schZoom(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+const pts = new Map();
+sch.addEventListener("pointerdown", e => { if (e.target.closest(".tools")) return; sch.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); drag = { x: e.clientX, y: e.clientY, d: null }; });
+sch.addEventListener("pointermove", e => {
+  if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
+  if (pts.size === 2) { const [a, b] = [...pts.values()], dist = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    if (drag.d) { const r = sch.getBoundingClientRect(); schZoom(dist / drag.d, (a[0] + b[0]) / 2 - r.left, (a[1] + b[1]) / 2 - r.top); } drag.d = dist; return; }
+  sx += e.clientX - drag.x; sy += e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; schApply();
+});
+const endPt = e => { pts.delete(e.pointerId); if (pts.size < 2 && drag) drag.d = null; };
+sch.addEventListener("pointerup", endPt); sch.addEventListener("pointercancel", endPt);
+document.getElementById("z-in").onclick = () => schZoom(1.3);
+document.getElementById("z-out").onclick = () => schZoom(1 / 1.3);
+document.getElementById("z-fit").onclick = schFit;
+
+/* --------------- wire up UI --------------- */
+document.querySelectorAll(".scen button").forEach(b => b.addEventListener("click", () => setScenario(b.dataset.sc)));
+document.getElementById("temp").addEventListener("input", onSensor);
+document.getElementById("rh").addEventListener("input", onSensor);
+document.getElementById("ok-btn").addEventListener("click", okPressed);
+document.getElementById("explode").addEventListener("input", e => { explode = +e.target.value; applyExplode(); });
+document.querySelectorAll("[data-lid]").forEach(b => b.addEventListener("click", () => setLid(+b.dataset.lid)));
+document.querySelectorAll("[data-box]").forEach(b => b.addEventListener("click", () => setBox(b.dataset.box === "1")));
+document.querySelectorAll("[data-cam]").forEach(b => b.addEventListener("click", () => setCam(b.dataset.cam)));
+document.getElementById("labels").addEventListener("change", e => labelObjs.forEach(o => o.visible = e.target.checked));
+
+/* --------------- boot --------------- */
+async function boot() {
+  route();
+  scn = await (await fetch("scene.json")).json();
+  const z0 = scn.pcb.z + scn.pcb.t;
+  for (const p of scn.parts) buildPart(p, z0);
+  buildOffboard(scn.offboard);
+  const P = r => scn.parts.find(p => p.ref === r).center;
+  const o = scn.offboard, cen = b => new THREE.Vector3((b[0] + b[3]) / 2, (b[1] + b[4]) / 2, (b[2] + b[5]) / 2);
+  const pr = cen(o.printer.box), om = cen(o.oled.box), md = cen(o["module:modem"].box), bk = cen(o["module:buck"].box), bs = cen(o["module:boost"].box);
+  cable(new THREE.Vector3(...P("J8"), z0 + 7), new THREE.Vector3(pr.x - 30, pr.y - 20, pr.z - 20), 0xb02a2a, 25, layers.parts);
+  cable(new THREE.Vector3(...P("J9"), z0 + 7), new THREE.Vector3(pr.x - 10, pr.y - 22, pr.z - 20), 0x2a7ab0, 22, layers.parts, 1.0);
+  cable(new THREE.Vector3(...P("J14"), z0 + 11), new THREE.Vector3(om.x, om.y + 14, om.z - 16), 0x6a3aa8, 8, layers.parts, 1.6);
+  cable(new THREE.Vector3(...P("J10"), z0 + 4), new THREE.Vector3(md.x + 20, md.y + 10, 5), 0x8a2c63, -20, layers.parts, 1.8);
+  cable(new THREE.Vector3(...P("J5"), z0 + 4), new THREE.Vector3(bk.x + 22, bk.y, 5), 0xd9951a, -18, layers.parts, 1.4);
+  cable(new THREE.Vector3(...P("J7"), z0 + 4), new THREE.Vector3(bs.x, bs.y + 12, 5), 0xd9951a, -18, layers.parts, 1.4);
+  if (paper) { paper.userData.y0 = paper.position.y; paper.userData.z0 = paper.position.z; }
+  const lz = scn.enclosure.depth + 12;
+  label("ESP32", 165, -70, lz - 14, layers.esp); label("4G modem (on the floor)", md.x, md.y, 22, layers.floor);
+  label("Thermal printer", pr.x, pr.y + 32, lz, layers.lid); label("OLED screen", om.x, om.y - 22, lz, layers.lid);
+  label("18650 cells", 54, -99, 60, layers.parts); label("Charger + protection", 70, -14, 45, layers.parts);
+  label("Buck 12→5 V", bk.x, bk.y, 22, layers.floor); label("Boost 5 V", bs.x, bs.y, 20, layers.floor);
+  label("12 V in", -12, -15, 40, layers.parts); label("Probe (2 m)", scn.enclosure.gland[0] + 26, scn.enclosure.gland[1] - 150, 50, layers.outside);
+  setCam("iso"); setLid(0.3); applyExplode(); resize(); render();
+  logEvent("power", "Running on mains. Reading the probe every 30 s.");
+  requestAnimationFrame(loop);
+  loadFiles().catch(() => { document.getElementById("loading").textContent = "Enclosure files did not load"; });
+  loadBoard();
+}
+boot();
+</script>
