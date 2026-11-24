@@ -29,13 +29,16 @@ void Monitor::begin() {
   summary_ = DailySummary(now);
   scheduler_ = SummaryScheduler(cfg_.summaryHourIst);
   onBattery_ = !hw_.power.mainsPresent();
-  batteryPct_ = batteryPercent(hw_.power.batteryMv());
+  batteryMv_ = hw_.power.batteryMv();
+  batteryPct_ = batteryPercent(batteryMv_);
+  hw_.printer.setLowPower(onBattery_);
   nextRaw_ = nextPower_ = nextPaper_ = nextSd_ = nextPoll_ = now + 1;
   nextAlertTick_ = now + 60;
   nextUpload_ = now + uploadIntervalSec(onBattery_);
   sdWasOk_ = hw_.storage.ok();
   lastDay_ = istDay(now);
   logLine("B," + std::to_string(now) + ",BOOT");
+  loadBroker();
   clockSync(now);
   begun_ = true;
   indicate();
@@ -56,7 +59,9 @@ void Monitor::tick() {
     nextPower_ = now + cfg_.powerCheckSec;
     const bool mains = hw_.power.mainsPresent();
     const int32_t mv = hw_.power.batteryMv();
+    if (onBattery_ != !mains) hw_.printer.setLowPower(!mains);  // D-039: lower printer peak current on battery
     onBattery_ = !mains;
+    batteryMv_ = mv;
     batteryPct_ = batteryPercent(mv);
     engine_.onMains(now, mains, ev);
     engine_.onBattery(now, mv, onBattery_, ev);
@@ -125,7 +130,10 @@ void Monitor::handle(const std::vector<Event>& evs, int64_t now) {
 }
 
 void Monitor::enqueueJobs(const std::vector<SmsJob>& jobs, int64_t now) {
+  static const char* const kKind[] = {"Start", "Repeat", "Recovery", "LimitReached"};
   for (const SmsJob& j : jobs) {
+    logLine("Q," + std::to_string(now) + "," + kKind[static_cast<int>(j.kind)] + "," +
+            kTypeName[static_cast<int>(j.type)] + "," + std::to_string(j.recipient));
     const std::string& number = settings_.phone[j.recipient];
     if (number.empty()) continue;
     const bool temp = j.type == EventType::TempHigh || j.type == EventType::TempLow;
@@ -135,8 +143,14 @@ void Monitor::enqueueJobs(const std::vector<SmsJob>& jobs, int64_t now) {
   }
 }
 
+bool Monitor::modemAllowed(int64_t now) const {
+  if (!onBattery_) return true;
+  if (batteryMv_ < cfg_.modemCutoffMv) return false;    // D-038
+  return now - lastPrintAt_ >= cfg_.printModemGapSec;  // D-039
+}
+
 void Monitor::sendStep(int64_t now) {
-  if (outbox_.empty() || now < outbox_.front().nextTry) return;
+  if (outbox_.empty() || now < outbox_.front().nextTry || !modemAllowed(now)) return;
   OutgoingSms& o = outbox_.front();
   if (hw_.modem.sendSms(o.number, o.text)) {
     logLine("M," + std::to_string(now) + ",sent," + o.number);
@@ -146,6 +160,9 @@ void Monitor::sendStep(int64_t now) {
   ++o.attempts;
   if (now - o.firstTry >= cfg_.smsGiveUpSec) {
     logLine("M," + std::to_string(now) + ",gave-up," + o.number);
+    auto& m = missed_[o.number];  // D-037: remembered for one summary when the network is back
+    if (m.first == 0) m.second = o.firstTry;
+    ++m.first;
     printOrQueue(fmt::ddmmHhmm(now) + " SMS NOT SENT", Language::English);
     outbox_.pop_front();
     return;
@@ -155,7 +172,10 @@ void Monitor::sendStep(int64_t now) {
 }
 
 void Monitor::printOrQueue(const std::string& line, Language l) {
-  if (backlog_.empty() && hw_.printer.paperPresent() && hw_.printer.printLine(line, l)) return;
+  if (backlog_.empty() && hw_.printer.paperPresent() && hw_.printer.printLine(line, l)) {
+    lastPrintAt_ = hw_.clock.nowUtc();
+    return;
+  }
   backlog_.push_back({line, l});
   if (backlog_.size() > cfg_.printBacklogMax) backlog_.pop_front();
 }
@@ -163,6 +183,7 @@ void Monitor::printOrQueue(const std::string& line, Language l) {
 void Monitor::printStep() {
   for (int n = 0; n < 20 && !backlog_.empty() && hw_.printer.paperPresent(); ++n) {
     if (!hw_.printer.printLine(backlog_.front().first, backlog_.front().second)) break;
+    lastPrintAt_ = hw_.clock.nowUtc();
     backlog_.pop_front();
   }
 }
@@ -209,10 +230,38 @@ void Monitor::uploadStep(int64_t now) {
   (void)now;
 }
 
+void Monitor::loadBroker() {
+  const std::string t = std::to_string(hw_.clock.nowUtc());
+  std::string cfg, pem, blob, err;
+  if (hw_.storage.readFile(kProvisionFile, cfg)) {
+    MqttConfig c = mqtt_;
+    if (!parseProvisioning(cfg, c, err)) {
+      logLine("C," + t + ",CFG mqtt rejected: " + err);
+    } else if (!hw_.storage.readFile(kCaFile, pem) || !validPem(pem)) {
+      logLine("C," + t + ",CFG mqtt rejected: ca.pem missing or not a PEM certificate");
+    } else {
+      c.caPem = pem;
+      if (hw_.persist.save("mqtt", encodeMqtt(c))) {
+        hw_.storage.removeFile(kProvisionFile);   // the password must not stay on a removable card
+        hw_.storage.removeFile(kCaFile);
+        logLine("C," + t + ",CFG mqtt imported host=" + c.host + " port=" + std::to_string(c.port));
+      }
+    }
+  }
+  MqttConfig saved;
+  if (hw_.persist.load("mqtt", blob) && decodeMqtt(blob, saved) && saved.valid()) {
+    mqtt_ = saved;
+    hw_.modem.configureMqtt(mqtt_);
+    hw_.wifi.configureMqtt(mqtt_);
+  }
+}
+
 void Monitor::flushQueue() {
+  if (!mqtt_.valid()) return;   // no broker yet (F-UP-04): records stay queued
   const bool wifi = hw_.wifi.connected();
-  if (!wifi && !hw_.modem.dataReady()) return;
-  const std::string topic = "seri/" + settings_.deviceName + "/data";
+  if (!wifi && (!modemAllowed(hw_.clock.nowUtc()) || !hw_.modem.dataReady())) return;
+  // unique client_id from provisioning (D-061); the farmer-facing device name is only a fallback
+  const std::string topic = "seri/" + (mqtt_.clientId.empty() ? settings_.deviceName : mqtt_.clientId) + "/data";
   auto publish = [&](const std::string& rec) {
     return wifi ? hw_.wifi.mqttPublish(topic, rec) : hw_.modem.mqttPublish(topic, rec);
   };
@@ -225,6 +274,17 @@ void Monitor::flushQueue() {
 }
 
 void Monitor::commandStep(int64_t now) {
+  if (!missed_.empty() && modemAllowed(now) && hw_.modem.registered()) {  // network is back: one summary per number (D-037)
+    for (const auto& kv : missed_) {
+      Language l = Language::English;
+      for (int i = 0; i < kMaxRecipients; ++i) if (settings_.phone[i] == kv.first) l = settings_.lang[i];
+      outbox_.push_front(OutgoingSms{kv.first, formatOfflineSummary(settings_.deviceName, l, kv.second.second, now,
+                                                                    kv.second.first, last_), now, now, 0});
+      ++offlineSummaries_;
+      logLine("O," + std::to_string(now) + ",offline-summary," + kv.first + "," + std::to_string(kv.second.first));
+    }
+    missed_.clear();
+  }
   std::string from, body;
   while (hw_.modem.pollSms(from, body)) {
     const Stage oldStage = settings_.stage;

@@ -93,6 +93,9 @@ int main(void) {
   CHECK(has("+CMQTTPUB: 0,11"), "publish fails without data");
   at("AT+BOGUS");
   CHECK(has("ERROR"), "unknown command -> ERROR");
+  host_out_len = 0;
+  at("AT+CCERTDELE=\"ca.pem\"");
+  CHECK(has("OK") && !logged("unknown command"), "CCERTDELE accepted");
   fprintf(stderr, "a7670c: %d passed, %d failed\n", passes, fails);
   return fails != 0;
 }

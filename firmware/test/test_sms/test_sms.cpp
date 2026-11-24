@@ -140,6 +140,20 @@ static void test_device_name_rules() {
   TEST_ASSERT_FALSE(deviceNameValid("शेड"));
 }
 
+static void test_offline_summary_text_and_fit() {
+  const int64_t from = fromIst(CivilTime{2026, 12, 22, 7, 0, 0}), to = fromIst(CivilTime{2026, 12, 22, 19, 0, 0});
+  TEST_ASSERT_EQUAL_STRING("Shed-1: No signal 07:00-19:00. 2 alerts not sent. Now 27.5C 85%",
+                           formatOfflineSummary("Shed-1", Language::English, from, to, 2, Sample{true, 275, 850}).c_str());
+  for (int l = 0; l < kLanguageCount; ++l) {
+    std::string m = formatOfflineSummary("ABCDEFGHIJ", static_cast<Language>(l), from, to, 99, Sample{true, -105, 1000});
+    TEST_ASSERT_EQUAL_MESSAGE(1, smsSegments(m).segments, m.c_str());
+    if (l > 0) TEST_ASSERT_TRUE_MESSAGE(smsSegments(m).ucs2, "local script");
+  }
+  // sensor not working at the moment: reading omitted
+  std::string m = formatOfflineSummary("Shed-1", Language::English, from, to, 1, Sample{false, 0, 0});
+  TEST_ASSERT_TRUE(m.find("Now") == std::string::npos);
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_english_start_message_exact);
@@ -152,5 +166,6 @@ int main() {
   RUN_TEST(test_indian_language_messages_are_not_english);
   RUN_TEST(test_every_stage_and_language_has_a_name);
   RUN_TEST(test_device_name_rules);
+  RUN_TEST(test_offline_summary_text_and_fit);
   return UNITY_END();
 }

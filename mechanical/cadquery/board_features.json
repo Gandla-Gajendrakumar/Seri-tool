@@ -1,0 +1,1931 @@
+{
+ "board": {
+  "h": 152.1,
+  "thickness": 1.6,
+  "w": 190.1,
+  "x0": -0.05,
+  "y0": -0.05
+ },
+ "parts": {
+  "BT1": {
+   "bbox": [
+    4.105,
+    59.905,
+    25.895,
+    138.095
+   ],
+   "center": [
+    16.6,
+    91.84
+   ],
+   "footprint": "BatteryHolder_Keystone_1043_1x18650",
+   "height": 21.0,
+   "height_basis": "DATASHEET 18.0 holder (Keystone M65 p27) + cell standing proud, ASSUMED +3",
+   "rotation": 90.0
+  },
+  "BT2": {
+   "bbox": [
+    30.105,
+    59.905,
+    51.895,
+    138.095
+   ],
+   "center": [
+    42.6,
+    91.84
+   ],
+   "footprint": "BatteryHolder_Keystone_1043_1x18650",
+   "height": 21.0,
+   "height_basis": "DATASHEET 18.0 holder (Keystone M65 p27) + cell standing proud, ASSUMED +3",
+   "rotation": 90.0
+  },
+  "BT3": {
+   "bbox": [
+    56.105,
+    59.905,
+    77.895,
+    138.095
+   ],
+   "center": [
+    68.6,
+    91.84
+   ],
+   "footprint": "BatteryHolder_Keystone_1043_1x18650",
+   "height": 21.0,
+   "height_basis": "DATASHEET 18.0 holder (Keystone M65 p27) + cell standing proud, ASSUMED +3",
+   "rotation": 90.0
+  },
+  "BT4": {
+   "bbox": [
+    82.105,
+    59.905,
+    103.895,
+    138.095
+   ],
+   "center": [
+    94.6,
+    91.84
+   ],
+   "footprint": "BatteryHolder_Keystone_1043_1x18650",
+   "height": 21.0,
+   "height_basis": "DATASHEET 18.0 holder (Keystone M65 p27) + cell standing proud, ASSUMED +3",
+   "rotation": 90.0
+  },
+  "BT5": {
+   "bbox": [
+    106.48,
+    125.483,
+    138.27,
+    147.218
+   ],
+   "center": [
+    122.375,
+    136.072
+   ],
+   "footprint": "BatteryHolder_Keystone_3002_1x2032",
+   "height": 6.5,
+   "height_basis": "ASSUMED CR2032 holder with cell",
+   "rotation": 0.0
+  },
+  "BZ1": {
+   "bbox": [
+    141.478,
+    134.529,
+    154.07,
+    147.121
+   ],
+   "center": [
+    147.775,
+    140.825
+   ],
+   "footprint": "Buzzer_12x9.5RM7.6",
+   "height": 9.5,
+   "height_basis": "12x9.5 buzzer",
+   "rotation": 0.0
+  },
+  "C1": {
+   "bbox": [
+    16.672,
+    8.929,
+    25.265,
+    17.521
+   ],
+   "center": [
+    20.97,
+    13.225
+   ],
+   "footprint": "CP_Radial_D8.0mm_P3.50mm",
+   "height": 12.5,
+   "height_basis": "8x11.5 + 1 mm",
+   "rotation": 0.0
+  },
+  "C10": {
+   "bbox": [
+    131.109,
+    72.48,
+    136.159,
+    74.87
+   ],
+   "center": [
+    133.634,
+    73.675
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C11": {
+   "bbox": [
+    106.48,
+    84.53,
+    111.53,
+    86.92
+   ],
+   "center": [
+    109.005,
+    85.725
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C12": {
+   "bbox": [
+    112.99,
+    84.53,
+    116.84,
+    86.58
+   ],
+   "center": [
+    114.915,
+    85.555
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C13": {
+   "bbox": [
+    118.3,
+    84.53,
+    122.15,
+    86.58
+   ],
+   "center": [
+    120.225,
+    85.555
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C14": {
+   "bbox": [
+    123.61,
+    84.53,
+    127.46,
+    86.58
+   ],
+   "center": [
+    125.535,
+    85.555
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C15": {
+   "bbox": [
+    128.92,
+    84.53,
+    132.77,
+    86.58
+   ],
+   "center": [
+    130.845,
+    85.555
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C16": {
+   "bbox": [
+    133.615,
+    8.53,
+    137.465,
+    10.58
+   ],
+   "center": [
+    135.54,
+    9.555
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C17": {
+   "bbox": [
+    138.925,
+    8.53,
+    143.975,
+    10.92
+   ],
+   "center": [
+    141.45,
+    9.725
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C18": {
+   "bbox": [
+    85.48,
+    13.71,
+    89.33,
+    15.76
+   ],
+   "center": [
+    87.405,
+    14.735
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C19": {
+   "bbox": [
+    151.618,
+    14.428,
+    158.505,
+    21.322
+   ],
+   "center": [
+    155.06,
+    17.875
+   ],
+   "footprint": "CP_Radial_D6.3mm_P2.50mm",
+   "height": 12.0,
+   "height_basis": "6.3x11 + 1 mm",
+   "rotation": 0.0
+  },
+  "C2": {
+   "bbox": [
+    26.725,
+    8.93,
+    30.575,
+    10.98
+   ],
+   "center": [
+    28.65,
+    9.955
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C20": {
+   "bbox": [
+    170.337,
+    14.429,
+    178.93,
+    23.021
+   ],
+   "center": [
+    174.635,
+    18.725
+   ],
+   "footprint": "CP_Radial_D8.0mm_P3.50mm",
+   "height": 12.5,
+   "height_basis": "8x11.5 + 1 mm",
+   "rotation": 0.0
+  },
+  "C21": {
+   "bbox": [
+    111.73,
+    107.78,
+    115.58,
+    109.83
+   ],
+   "center": [
+    113.655,
+    108.805
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C22": {
+   "bbox": [
+    179.55,
+    86.48,
+    183.4,
+    88.53
+   ],
+   "center": [
+    181.475,
+    87.505
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C23": {
+   "bbox": [
+    141.48,
+    90.33,
+    145.33,
+    92.38
+   ],
+   "center": [
+    143.405,
+    91.355
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C24": {
+   "bbox": [
+    167.73,
+    86.48,
+    172.78,
+    88.87
+   ],
+   "center": [
+    170.255,
+    87.675
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C25": {
+   "bbox": [
+    174.24,
+    86.48,
+    178.09,
+    88.53
+   ],
+   "center": [
+    176.165,
+    87.505
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C26": {
+   "bbox": [
+    119.062,
+    72.482,
+    129.649,
+    83.068
+   ],
+   "center": [
+    124.354,
+    77.775
+   ],
+   "footprint": "CP_Radial_D10.0mm_P5.00mm",
+   "height": 13.5,
+   "height_basis": "1000uF 10x12.5 + 1 mm leads",
+   "rotation": 0.0
+  },
+  "C3": {
+   "bbox": [
+    42.535,
+    8.93,
+    46.385,
+    10.98
+   ],
+   "center": [
+    44.46,
+    9.955
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C4": {
+   "bbox": [
+    26.66,
+    18.98,
+    31.71,
+    21.37
+   ],
+   "center": [
+    29.185,
+    20.175
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C5": {
+   "bbox": [
+    65.68,
+    3.48,
+    70.73,
+    5.87
+   ],
+   "center": [
+    68.205,
+    4.675
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C6": {
+   "bbox": [
+    72.19,
+    3.48,
+    77.24,
+    5.87
+   ],
+   "center": [
+    74.715,
+    4.675
+   ],
+   "footprint": "C_1206_3216Metric_Pad1.33x1.80mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C7": {
+   "bbox": [
+    96.38,
+    3.48,
+    100.23,
+    5.53
+   ],
+   "center": [
+    98.305,
+    4.505
+   ],
+   "footprint": "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "C8": {
+   "bbox": [
+    119.618,
+    8.528,
+    126.505,
+    15.422
+   ],
+   "center": [
+    123.06,
+    11.975
+   ],
+   "footprint": "CP_Radial_D6.3mm_P2.50mm",
+   "height": 12.0,
+   "height_basis": "6.3x11 + 1 mm",
+   "rotation": 0.0
+  },
+  "C9": {
+   "bbox": [
+    106.747,
+    72.482,
+    117.335,
+    83.068
+   ],
+   "center": [
+    112.04,
+    77.775
+   ],
+   "footprint": "CP_Radial_D10.0mm_P5.00mm",
+   "height": 13.5,
+   "height_basis": "1000uF 10x12.5 + 1 mm leads",
+   "rotation": 0.0
+  },
+  "D1": {
+   "bbox": [
+    24.335,
+    3.48,
+    33.425,
+    7.07
+   ],
+   "center": [
+    28.88,
+    5.275
+   ],
+   "footprint": "D_SMA_Handsoldering",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "D2": {
+   "bbox": [
+    34.93,
+    3.48,
+    44.02,
+    7.07
+   ],
+   "center": [
+    39.475,
+    5.275
+   ],
+   "footprint": "D_SMA_Handsoldering",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "D3": {
+   "bbox": [
+    72.83,
+    10.565,
+    77.76,
+    15.075
+   ],
+   "center": [
+    75.295,
+    12.82
+   ],
+   "footprint": "LED_D3.0mm",
+   "height": 5.3,
+   "height_basis": "3 mm LED seated",
+   "rotation": 0.0
+  },
+  "D4": {
+   "bbox": [
+    119.525,
+    3.48,
+    128.615,
+    7.07
+   ],
+   "center": [
+    124.07,
+    5.275
+   ],
+   "footprint": "D_SMA_Handsoldering",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "D5": {
+   "bbox": [
+    155.53,
+    134.53,
+    160.46,
+    139.04
+   ],
+   "center": [
+    157.995,
+    136.785
+   ],
+   "footprint": "LED_D3.0mm",
+   "height": 5.3,
+   "height_basis": "3 mm LED seated",
+   "rotation": 0.0
+  },
+  "D6": {
+   "bbox": [
+    161.92,
+    134.53,
+    166.85,
+    139.04
+   ],
+   "center": [
+    164.385,
+    136.785
+   ],
+   "footprint": "LED_D3.0mm",
+   "height": 5.3,
+   "height_basis": "3 mm LED seated",
+   "rotation": 0.0
+  },
+  "D7": {
+   "bbox": [
+    146.835,
+    90.33,
+    151.625,
+    92.72
+   ],
+   "center": [
+    149.23,
+    91.525
+   ],
+   "footprint": "D_SOD-123",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "F1": {
+   "bbox": [
+    16.48,
+    3.48,
+    22.83,
+    7.47
+   ],
+   "center": [
+    19.655,
+    5.475
+   ],
+   "footprint": "Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "H1": {
+   "bbox": [
+    1.508,
+    1.502,
+    8.495,
+    8.498
+   ],
+   "center": [
+    5.0,
+    5.0
+   ],
+   "footprint": "MountingHole_3.2mm_M3",
+   "height": 0.0,
+   "height_basis": "hole",
+   "rotation": 0.0
+  },
+  "H2": {
+   "bbox": [
+    181.508,
+    1.502,
+    188.495,
+    8.498
+   ],
+   "center": [
+    185.0,
+    5.0
+   ],
+   "footprint": "MountingHole_3.2mm_M3",
+   "height": 0.0,
+   "height_basis": "hole",
+   "rotation": 0.0
+  },
+  "H3": {
+   "bbox": [
+    1.508,
+    143.502,
+    8.495,
+    150.498
+   ],
+   "center": [
+    5.0,
+    147.0
+   ],
+   "footprint": "MountingHole_3.2mm_M3",
+   "height": 0.0,
+   "height_basis": "hole",
+   "rotation": 0.0
+  },
+  "H4": {
+   "bbox": [
+    181.508,
+    143.502,
+    188.495,
+    150.498
+   ],
+   "center": [
+    185.0,
+    147.0
+   ],
+   "footprint": "MountingHole_3.2mm_M3",
+   "height": 0.0,
+   "height_basis": "hole",
+   "rotation": 0.0
+  },
+  "J1": {
+   "bbox": [
+    -5.045,
+    9.205,
+    11.045,
+    20.795
+   ],
+   "center": [
+    6.0,
+    15.567
+   ],
+   "footprint": "BarrelJack_Horizontal",
+   "height": 11.0,
+   "height_basis": "DC jack body ~11 high, plug axis 6.5 above PCB (ASSUMED)",
+   "rotation": 0.0
+  },
+  "J10": {
+   "bbox": [
+    108.185,
+    50.185,
+    111.815,
+    71.595
+   ],
+   "center": [
+    110.0,
+    60.89
+   ],
+   "footprint": "PinHeader_1x08_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J11": {
+   "bbox": [
+    106.48,
+    99.48,
+    119.97,
+    106.32
+   ],
+   "center": [
+    113.225,
+    102.375
+   ],
+   "footprint": "JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "J12": {
+   "bbox": [
+    117.04,
+    107.78,
+    128.03,
+    114.62
+   ],
+   "center": [
+    122.535,
+    110.675
+   ],
+   "footprint": "JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "J13": {
+   "bbox": [
+    141.48,
+    99.48,
+    157.27,
+    117.27
+   ],
+   "center": [
+    147.634,
+    103.802
+   ],
+   "footprint": "microSD_HC_Hirose_DM3AT-SF-PEJM5",
+   "height": 2.0,
+   "height_basis": "Hirose DM3AT 1.9",
+   "rotation": 0.0
+  },
+  "J14": {
+   "bbox": [
+    172.17,
+    99.51,
+    175.8,
+    110.76
+   ],
+   "center": [
+    173.985,
+    105.135
+   ],
+   "footprint": "PinHeader_1x04_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J15": {
+   "bbox": [
+    122.23,
+    116.08,
+    133.22,
+    122.92
+   ],
+   "center": [
+    127.725,
+    118.975
+   ],
+   "footprint": "JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "J2": {
+   "bbox": [
+    140.855,
+    55.155,
+    190.245,
+    58.795
+   ],
+   "center": [
+    165.54,
+    57.0
+   ],
+   "footprint": "PinSocket_1x19_P2.54mm_Vertical",
+   "height": 8.5,
+   "height_basis": "socket 8.5 (the DevKitC above it is modelled separately)",
+   "rotation": -90.0
+  },
+  "J3": {
+   "bbox": [
+    140.855,
+    80.555,
+    190.245,
+    84.195
+   ],
+   "center": [
+    165.54,
+    82.4
+   ],
+   "footprint": "PinSocket_1x19_P2.54mm_Vertical",
+   "height": 8.5,
+   "height_basis": "socket 8.5 (the DevKitC above it is modelled separately)",
+   "rotation": -90.0
+  },
+  "J4": {
+   "bbox": [
+    16.48,
+    18.98,
+    20.11,
+    25.16
+   ],
+   "center": [
+    18.295,
+    22.065
+   ],
+   "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J5": {
+   "bbox": [
+    21.57,
+    18.98,
+    25.2,
+    25.16
+   ],
+   "center": [
+    23.385,
+    22.065
+   ],
+   "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J6": {
+   "bbox": [
+    159.965,
+    14.43,
+    163.595,
+    20.61
+   ],
+   "center": [
+    161.78,
+    17.515
+   ],
+   "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J7": {
+   "bbox": [
+    165.055,
+    14.43,
+    168.685,
+    20.61
+   ],
+   "center": [
+    166.87,
+    17.515
+   ],
+   "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 0.0
+  },
+  "J8": {
+   "bbox": [
+    151.48,
+    24.48,
+    159.97,
+    31.32
+   ],
+   "center": [
+    155.725,
+    27.375
+   ],
+   "footprint": "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "J9": {
+   "bbox": [
+    166.68,
+    24.48,
+    177.67,
+    31.32
+   ],
+   "center": [
+    172.175,
+    27.375
+   ],
+   "footprint": "JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "JP1": {
+   "bbox": [
+    51.48,
+    10.565,
+    56.17,
+    13.155
+   ],
+   "center": [
+    53.825,
+    11.86
+   ],
+   "footprint": "SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "JP2": {
+   "bbox": [
+    180.185,
+    48.185,
+    186.365,
+    51.815
+   ],
+   "center": [
+    183.27,
+    50.0
+   ],
+   "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+   "height": 11.5,
+   "height_basis": "header 8.5 + Dupont housing 3 (cable plugs)",
+   "rotation": 90.0
+  },
+  "JP3": {
+   "bbox": [
+    115.48,
+    49.48,
+    120.17,
+    52.07
+   ],
+   "center": [
+    117.825,
+    50.775
+   ],
+   "footprint": "SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q1": {
+   "bbox": [
+    106.94,
+    3.535,
+    114.73,
+    7.125
+   ],
+   "center": [
+    110.835,
+    5.33
+   ],
+   "footprint": "TSSOP-8_4.4x3mm_P0.65mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q10": {
+   "bbox": [
+    134.74,
+    107.78,
+    138.69,
+    111.27
+   ],
+   "center": [
+    136.403,
+    109.525
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q11": {
+   "bbox": [
+    94.73,
+    8.66,
+    102.52,
+    12.25
+   ],
+   "center": [
+    98.625,
+    10.455
+   ],
+   "footprint": "TSSOP-8_4.4x3mm_P0.65mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q12": {
+   "bbox": [
+    135.485,
+    3.48,
+    139.435,
+    6.97
+   ],
+   "center": [
+    137.148,
+    5.225
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q2": {
+   "bbox": [
+    85.48,
+    8.66,
+    93.27,
+    12.25
+   ],
+   "center": [
+    89.375,
+    10.455
+   ],
+   "footprint": "TSSOP-8_4.4x3mm_P0.65mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q3": {
+   "bbox": [
+    130.075,
+    3.48,
+    134.025,
+    6.97
+   ],
+   "center": [
+    131.738,
+    5.225
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q4": {
+   "bbox": [
+    151.48,
+    9.48,
+    155.43,
+    12.97
+   ],
+   "center": [
+    153.143,
+    11.225
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q5": {
+   "bbox": [
+    162.14,
+    9.48,
+    166.09,
+    12.97
+   ],
+   "center": [
+    163.803,
+    11.225
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q6": {
+   "bbox": [
+    121.63,
+    49.48,
+    125.58,
+    52.97
+   ],
+   "center": [
+    123.293,
+    51.225
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q7": {
+   "bbox": [
+    115.48,
+    54.43,
+    119.43,
+    57.92
+   ],
+   "center": [
+    117.142,
+    56.175
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q8": {
+   "bbox": [
+    115.48,
+    59.38,
+    119.43,
+    62.87
+   ],
+   "center": [
+    117.142,
+    61.125
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "Q9": {
+   "bbox": [
+    153.085,
+    90.33,
+    157.035,
+    93.82
+   ],
+   "center": [
+    154.748,
+    92.075
+   ],
+   "footprint": "SOT-23",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R1": {
+   "bbox": [
+    32.035,
+    8.93,
+    35.825,
+    10.92
+   ],
+   "center": [
+    33.93,
+    9.925
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R10": {
+   "bbox": [
+    109.23,
+    8.605,
+    113.02,
+    10.595
+   ],
+   "center": [
+    111.125,
+    9.6
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R11": {
+   "bbox": [
+    156.89,
+    9.48,
+    160.68,
+    11.47
+   ],
+   "center": [
+    158.785,
+    10.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R12": {
+   "bbox": [
+    167.55,
+    9.48,
+    171.34,
+    11.47
+   ],
+   "center": [
+    169.445,
+    10.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R13": {
+   "bbox": [
+    172.8,
+    9.48,
+    176.59,
+    11.47
+   ],
+   "center": [
+    174.695,
+    10.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R14": {
+   "bbox": [
+    161.43,
+    24.48,
+    165.22,
+    26.47
+   ],
+   "center": [
+    163.325,
+    25.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R15": {
+   "bbox": [
+    127.04,
+    49.48,
+    130.83,
+    51.47
+   ],
+   "center": [
+    128.935,
+    50.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R16": {
+   "bbox": [
+    132.29,
+    49.48,
+    136.08,
+    51.47
+   ],
+   "center": [
+    134.185,
+    50.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R17": {
+   "bbox": [
+    120.89,
+    54.43,
+    124.68,
+    56.42
+   ],
+   "center": [
+    122.785,
+    55.425
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R18": {
+   "bbox": [
+    126.14,
+    54.43,
+    129.93,
+    56.42
+   ],
+   "center": [
+    128.035,
+    55.425
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R19": {
+   "bbox": [
+    131.39,
+    54.43,
+    135.18,
+    56.42
+   ],
+   "center": [
+    133.285,
+    55.425
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R2": {
+   "bbox": [
+    37.285,
+    8.93,
+    41.075,
+    10.92
+   ],
+   "center": [
+    39.18,
+    9.925
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R20": {
+   "bbox": [
+    120.89,
+    59.38,
+    124.68,
+    61.37
+   ],
+   "center": [
+    122.785,
+    60.375
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R21": {
+   "bbox": [
+    126.14,
+    59.38,
+    129.93,
+    61.37
+   ],
+   "center": [
+    128.035,
+    60.375
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R22": {
+   "bbox": [
+    121.43,
+    99.48,
+    125.22,
+    101.47
+   ],
+   "center": [
+    123.325,
+    100.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R23": {
+   "bbox": [
+    126.68,
+    99.48,
+    130.47,
+    101.47
+   ],
+   "center": [
+    128.575,
+    100.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R24": {
+   "bbox": [
+    131.93,
+    99.48,
+    135.72,
+    101.47
+   ],
+   "center": [
+    133.825,
+    100.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R25": {
+   "bbox": [
+    106.48,
+    107.78,
+    110.27,
+    109.77
+   ],
+   "center": [
+    108.375,
+    108.775
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R26": {
+   "bbox": [
+    129.49,
+    107.78,
+    133.28,
+    109.77
+   ],
+   "center": [
+    131.385,
+    108.775
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R27": {
+   "bbox": [
+    141.48,
+    86.48,
+    145.27,
+    88.47
+   ],
+   "center": [
+    143.375,
+    87.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R28": {
+   "bbox": [
+    146.73,
+    86.48,
+    150.52,
+    88.47
+   ],
+   "center": [
+    148.625,
+    87.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R29": {
+   "bbox": [
+    151.98,
+    86.48,
+    155.77,
+    88.47
+   ],
+   "center": [
+    153.875,
+    87.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R3": {
+   "bbox": [
+    60.43,
+    3.48,
+    64.22,
+    5.47
+   ],
+   "center": [
+    62.325,
+    4.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R30": {
+   "bbox": [
+    157.23,
+    86.48,
+    161.02,
+    88.47
+   ],
+   "center": [
+    159.125,
+    87.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R31": {
+   "bbox": [
+    162.48,
+    86.48,
+    166.27,
+    88.47
+   ],
+   "center": [
+    164.375,
+    87.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R32": {
+   "bbox": [
+    168.31,
+    134.53,
+    172.1,
+    136.52
+   ],
+   "center": [
+    170.205,
+    135.525
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R33": {
+   "bbox": [
+    173.56,
+    134.53,
+    177.35,
+    136.52
+   ],
+   "center": [
+    175.455,
+    135.525
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R34": {
+   "bbox": [
+    158.495,
+    90.33,
+    162.285,
+    92.32
+   ],
+   "center": [
+    160.39,
+    91.325
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R35": {
+   "bbox": [
+    163.745,
+    90.33,
+    167.535,
+    92.32
+   ],
+   "center": [
+    165.64,
+    91.325
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R36": {
+   "bbox": [
+    106.48,
+    116.08,
+    110.27,
+    118.07
+   ],
+   "center": [
+    108.375,
+    117.075
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R37": {
+   "bbox": [
+    111.73,
+    116.08,
+    115.52,
+    118.07
+   ],
+   "center": [
+    113.625,
+    117.075
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R38": {
+   "bbox": [
+    116.98,
+    116.08,
+    120.77,
+    118.07
+   ],
+   "center": [
+    118.875,
+    117.075
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R4": {
+   "bbox": [
+    57.63,
+    10.565,
+    61.42,
+    12.555
+   ],
+   "center": [
+    59.525,
+    11.56
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R5": {
+   "bbox": [
+    79.22,
+    10.565,
+    83.01,
+    12.555
+   ],
+   "center": [
+    81.115,
+    11.56
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R6": {
+   "bbox": [
+    91.13,
+    3.48,
+    94.92,
+    5.47
+   ],
+   "center": [
+    93.025,
+    4.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R7": {
+   "bbox": [
+    101.69,
+    3.48,
+    105.48,
+    5.47
+   ],
+   "center": [
+    103.585,
+    4.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R8": {
+   "bbox": [
+    140.895,
+    3.48,
+    144.685,
+    5.47
+   ],
+   "center": [
+    142.79,
+    4.475
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "R9": {
+   "bbox": [
+    103.98,
+    8.605,
+    107.77,
+    10.595
+   ],
+   "center": [
+    105.875,
+    9.6
+   ],
+   "footprint": "R_0805_2012Metric_Pad1.20x1.40mm_HandSolder",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "SW1": {
+   "bbox": [
+    141.48,
+    125.48,
+    151.07,
+    133.07
+   ],
+   "center": [
+    146.275,
+    129.275
+   ],
+   "footprint": "SW_PUSH_6mm_H13mm",
+   "height": 13.0,
+   "height_basis": "6x6x13 tactile switch (actuator top)",
+   "rotation": 0.0
+  },
+  "SW2": {
+   "bbox": [
+    152.53,
+    125.48,
+    162.12,
+    133.07
+   ],
+   "center": [
+    157.325,
+    129.275
+   ],
+   "footprint": "SW_PUSH_6mm_H13mm",
+   "height": 13.0,
+   "height_basis": "6x6x13 tactile switch (actuator top)",
+   "rotation": 0.0
+  },
+  "SW3": {
+   "bbox": [
+    163.58,
+    125.48,
+    173.17,
+    133.07
+   ],
+   "center": [
+    168.375,
+    129.275
+   ],
+   "footprint": "SW_PUSH_6mm_H13mm",
+   "height": 13.0,
+   "height_basis": "6x6x13 tactile switch (actuator top)",
+   "rotation": 0.0
+  },
+  "TH1": {
+   "bbox": [
+    62.88,
+    10.565,
+    71.37,
+    17.405
+   ],
+   "center": [
+    67.125,
+    13.46
+   ],
+   "footprint": "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
+   "height": 7.0,
+   "height_basis": "XH header 7.0 (cable plugs on top, +5)",
+   "rotation": 0.0
+  },
+  "U2": {
+   "bbox": [
+    51.48,
+    3.615,
+    58.97,
+    9.105
+   ],
+   "center": [
+    55.225,
+    6.36
+   ],
+   "footprint": "SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "U3": {
+   "bbox": [
+    85.48,
+    3.655,
+    89.67,
+    7.145
+   ],
+   "center": [
+    87.575,
+    5.4
+   ],
+   "footprint": "SOT-23-6",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "U4": {
+   "bbox": [
+    127.965,
+    8.705,
+    132.155,
+    12.195
+   ],
+   "center": [
+    129.833,
+    10.45
+   ],
+   "footprint": "SOT-23-5",
+   "height": 2.5,
+   "height_basis": "small SMD (<= 2.5 mm)",
+   "rotation": 0.0
+  },
+  "U5": {
+   "bbox": [
+    158.73,
+    99.595,
+    170.68,
+    110.485
+   ],
+   "center": [
+    164.705,
+    105.04
+   ],
+   "footprint": "SOIC-16W_7.5x10.3mm_P1.27mm",
+   "height": 2.65,
+   "height_basis": "SOIC-16W",
+   "rotation": 0.0
+  }
+ }
+}

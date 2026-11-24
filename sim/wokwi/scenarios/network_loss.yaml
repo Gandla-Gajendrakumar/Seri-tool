@@ -14,3 +14,5 @@ steps:
   - set-control: {part-id: modem, control: network, value: 1}
   - wait-serial: "sent,9876543210"
   - delay: 15s
+  # let the printer and modem finish what the last event started
+  - delay: 3s

@@ -52,7 +52,7 @@ simulation cannot prove it, and it goes into the phase 7 bench test plan.
 
 | ID | Requirement | Verified by |
 |---|---|---|
-| F-PROF-01 | All stage profiles live in **one config file** (`firmware/lib/core/profiles` + a human-readable source table). Each entry records its source document. | P1 |
+| F-PROF-01 | All stage profiles live in **one config file** (`firmware/lib/core/src/stage_profiles.inc` + the source table `docs/stage_profile_sources.md`). Each entry records its source document. | P1 |
 | F-PROF-02 | Initial values from the brief. **Confirmed against Central Silk Board / CSRTI documents on 2026-11-21** (`docs/stage_profile_sources.md`). The differences found are shown to the product owner and are not applied. | P1 ✅ |
 
 | Stage | Temp target (°C) | RH target (%) |
@@ -70,7 +70,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 |---|---|---|
 | F-PROF-03 | Default tolerance ±1 °C and ±5 % RH, adjustable per device. **Safe band = [target_min − tol, target_max + tol]**. Example: chawki → 26.0–29.0 °C, 75–95 % RH. [Q-3] | P1 |
 | F-PROF-04 | The farmer selects the current stage on the device (buttons) or by SMS. The selection survives power loss. | P1, P2 |
-| F-PROF-05 | Stage changes are never automatic in V1. [ASSUMED; see Q-9] | — |
+| F-PROF-05 | Stage changes are never automatic in V1. [ASSUMED; see Q-9] | P1 (only the SMS command and the menu set the stage: commands.cpp, ui.cpp; test_commands, test_ui) |
 
 ### 3.3 Events (alarm logic)
 
@@ -81,7 +81,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | F-EVT-03 | Event start → buzzer pattern, one printed line, SD log record, SMS. | P1 (decisions), P2 (effects) |
 | F-EVT-04 | While an event is active: repeat SMS **every 30 minutes**, subject to the daily cap (F-SMS-05). | P1, P3 |
 | F-EVT-05 | Event clear → exactly **one recovery SMS** to every number that was told about the event, plus a printed line and a log record. Sent even if that day's cap was reached, so the farmer is never left thinking the problem continues. | P1 ✅, P3 |
-| F-EVT-06 | System events, each with its own start/clear logic: **mains fail** (after 2 min continuous outage [ASSUMED, to stop flicker floods]), **mains return** (after 2 min stable), **low battery** (≤ 3.40 V under load [ASSUMED; checked against the cell datasheet in phase 4]; clears at ≥ 3.70 V), **sensor fault** (F-MEAS-04), **paper out** (printer status; see R-04), **SD fault**, **clock invalid**. | P1, P2 |
+| F-EVT-06 | System events, each with its own start/clear logic: **mains fail** (after 2 min continuous outage [ASSUMED, to stop flicker floods]), **mains return** (after 2 min stable), **low battery** (≤ 3.70 V on battery; clears at ≥ 3.85 V or mains. Set in phase 4 from the modem's 3.4 V minimum and the SPICE sweep, D-038. The modem does not transmit below 3.60 V on battery.), **sensor fault** (F-MEAS-04), **paper out** (printer status; see R-04), **SD fault**, **clock invalid**. | P1, P2 |
 | F-EVT-07 | Changing stage re-evaluates the band at once. Active events whose condition no longer holds clear **silently** (log + print, no recovery SMS), so a stage change cannot itself trigger texts. [ASSUMED] | P1 |
 | F-EVT-08 | The buzzer can be silenced for the current event with one button press. It sounds again only for a new event. | P2 |
 
@@ -114,7 +114,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | F-UP-01 | Every **5 minutes**, publish all samples since the last upload (10 × 30 s samples) plus device status by **MQTT over TLS**. | P2 |
 | F-UP-02 | Route: Wi-Fi if associated, otherwise cellular data. | P2 (network loss) |
 | F-UP-03 | If both fail, queue on SD and send oldest-first when the link returns. The queue holds at least **30 days** of data. Upload status shows on the OLED. | P2 |
-| F-UP-04 | MQTT broker: [Q-5]. The device stores broker host, port, CA certificate and per-device credentials. | — |
+| F-UP-04 | MQTT broker: [Q-5]. The device stores broker host, port, CA certificate and per-device credentials. | P1 (test_provision, test_monitor: SD import, validation, storage, no upload until set; D-060); BENCH: connect to the chosen broker (provider still open, Q-5) |
 | F-UP-05 | Upload never delays sampling or alerts (runs as a separate task). | P2 |
 
 ### 3.7 Local UI
@@ -125,7 +125,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | F-UI-02 | Every setup step can be done with the 3 buttons in the farmer's language, without English, an app or a smartphone. Text is drawn from pre-rendered Indian-script bitmaps. [Q-4] | P2 (screens), BENCH (usability) |
 | F-UI-03 | Button-set items: language, stage, tolerance, registered phone numbers (digit entry), date/time (if no network), buzzer on/off, print test. | P2 |
 | F-UI-04 | LEDs: green = monitoring OK; red = any active event (blinks if SMS undeliverable). | P2 |
-| F-UI-05 | Wi-Fi credentials: [Q-7]. | — |
+| F-UI-05 | Wi-Fi credentials: [Q-7]. | P1 (SMS code 30, test_commands) |
 
 ### 3.8 Clock
 
@@ -139,7 +139,7 @@ Incubation RH widened to 70–80 % on 2026-11-22 (CSB Belgaum: 75 ± 5 %). No mo
 | ID | Requirement | Verified by |
 |---|---|---|
 | F-OTA-01 | Over-the-air update over Wi-Fi only, using two app partitions with automatic rollback if the new image does not confirm itself healthy within 5 minutes. | P2 (partition/rollback logic), BENCH |
-| F-OTA-02 | Images are signed. Unsigned or tampered images are rejected. [ASSUMED] | P2 |
+| F-OTA-02 | ~~Images are signed.~~ **Deferred beyond version 1 (D-034, product owner).** | DEFERRED (D-034) |
 | F-OTA-03 | No update while running on battery or below 50 % charge. | P1 |
 
 ## 4. Reliability ("must not happen")

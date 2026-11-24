@@ -33,6 +33,11 @@ struct SegmentInfo {
 };
 SegmentInfo smsSegments(const std::string& utf8);
 
+// After a network outage in which alerts had to be given up (F-SMS-06), one text per number:
+// "Shed-1: No signal 07:00-19:00. 2 alerts not sent. Now 27.5C 85%"  (decision D-037)
+std::string formatOfflineSummary(const std::string& device, Language l, int64_t from, int64_t to, int missed,
+                                 const Sample& now);
+
 constexpr int kMaxDeviceName = 10;
 bool deviceNameValid(const std::string& name);
 

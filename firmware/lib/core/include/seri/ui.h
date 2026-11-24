@@ -14,6 +14,11 @@ struct Screen {
   std::vector<std::string> lines;  // 4 lines of 16 px on 128x64
   int highlight = -1;              // menu line drawn inverted
   bool bigFirstLine = false;       // home screen: reading in a large font
+  // Large mode (Hindi/Telugu/Kannada, decision D-033): a small ASCII header (16 px) and ONE item
+  // in 24 px text, word-wrapped onto at most 2 rows. `lines` is unused when large is true.
+  bool large = false;
+  std::string header;
+  std::string body;
 };
 
 struct UiStatus {
@@ -37,6 +42,9 @@ class Ui {
   // device clock, which runs 60x fast in simulation.
   void tick(int64_t now);  // returns to the home screen after 60 s without a press
   Screen render(const UiStatus& st) const;
+  // D-046: always on with mains. On battery the screen sleeps 60 s after the last press (or after
+  // the power cut), and comes on while the alarm buzzes. The press that wakes it does nothing else.
+  bool displayOn(int64_t now) const;
   Language lang() const { return m_.settings().lang[0]; }
 
   enum class Page : uint8_t { Home, Menu, Stage, Language, RangeT, RangeRh, Phones, PhoneSlot, PhoneEdit, Message };
@@ -53,7 +61,9 @@ class Ui {
   int digitPos_ = 0;
   Tolerance editTol_;
   UiText msg_ = kUiSaved;
-  int64_t lastPress_ = 0, msgUntil_ = 0;
+  int64_t lastPress_ = 0, msgUntil_ = 0, uiNow_ = 0, lastWake_ = 0;
+  bool sawBattery_ = false;
+  std::vector<std::string> listItems() const;  // items of the current list page
 };
 
 }  // namespace seri

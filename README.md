@@ -16,7 +16,9 @@ battery backup. Designed and verified in software before any hardware is bought.
 | `hardware/power_budget/` | Battery-life calculator. |
 | `mechanical/cadquery/` | Enclosure and component models. |
 | `bom/` | Bill of materials with Indian suppliers. |
-| `docs/` | Requirements, decisions, questions, datasheet index, hand-off pack. |
+| `docs/` | Requirements, decisions, questions, datasheet facts, evidence; **`docs/handoff/` = the hand-off pack.** |
+| `hardware/fab/` | PCB fabrication files (Gerbers zip, schematic, assembly drawing, STEP). |
+| `firmware/release/` | Flashable firmware binaries with checksums. |
 | `tools/` | Helper scripts (`check_toolchain.sh`). |
 
 ## Quick check
@@ -28,5 +30,13 @@ cd firmware && pio test -e native
 
 ## Status
 
-- Phase 0 (setup): approved 2026-11-21.
-- Phase 1 (logic): approved 2026-11-22. Run `tools/phase1_gate.sh`; latest output in `docs/evidence/phase1-gate.txt`.
+| Phase | State | Evidence |
+|---|---|---|
+| 0 Setup | Approved 2026-11-21 | `tools/check_toolchain.sh`, `docs/requirements.md` |
+| 1 Logic | Approved 2026-11-22 | `tools/phase1_gate.sh` → `docs/evidence/phase1-gate.txt` |
+| 2 Firmware on virtual hardware | Approved 2026-11-22 (all 8 Wokwi scenarios) | `docs/evidence/phase2-gate.md` |
+| 3 Whole-cycle replay | Approved 2026-11-22 | `tools/phase3_gate.sh` → `docs/evidence/phase3-gate.md` |
+| 4 Electronics | Approved 2026-11-22 (re-checked after the Keystone 1043 change) | `tools/phase4_gate.sh` → `docs/evidence/phase4-gate.txt`; `docs/hardware/power-architecture.md` |
+| 5 BOM | FINAL 2026-11-22 (D-062: in-stock boost module and modem board) | `tools/phase5_gate.sh` → `bom/bom.md`, `docs/evidence/phase5-gate.txt` |
+| 6 Enclosure | Approved 2026-11-22 | `tools/phase6_gate.sh` → `docs/evidence/phase6-gate.txt`, renders in `docs/evidence/phase6/` |
+| 7 Hand-off pack | Approved 2026-11-22 | `tools/phase7_gate.sh` → `docs/evidence/phase7-gate.txt`; start at `docs/handoff/README.md` |

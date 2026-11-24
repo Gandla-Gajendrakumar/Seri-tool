@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "seri/ui.h"
 #include "fmt.h"
 #include "seri/sms_text.h"
@@ -55,13 +56,24 @@ void Ui::message(UiText t, int64_t now) {
   page_ = Page::Message;
 }
 
+bool Ui::displayOn(int64_t now) const {
+  if (!m_.onBattery() || m_.buzzing()) return true;
+  return now - std::max(lastPress_, lastWake_) <= kIdleSec;
+}
+
 void Ui::tick(int64_t now) {
+  uiNow_ = now;
+  if (m_.onBattery() && !sawBattery_) lastWake_ = now;  // show the power cut for a minute
+  sawBattery_ = m_.onBattery();
   if (page_ == Page::Message && now >= msgUntil_) go(Page::Home);
   else if (page_ != Page::Home && page_ != Page::Message && now - lastPress_ > kIdleSec) go(Page::Home);
 }
 
 void Ui::press(Button b, int64_t now) {
+  const bool wasOn = displayOn(now);
   lastPress_ = now;
+  if (!wasOn) return;  // the waking press only wakes
+  uiNow_ = now;
   const int step = b == Button::Down ? 1 : (b == Button::Up ? -1 : 0);
   Settings s = m_.settings();
   switch (page_) {
@@ -144,75 +156,97 @@ void Ui::press(Button b, int64_t now) {
   }
 }
 
-Screen Ui::render(const UiStatus& st) const {
+std::vector<std::string> Ui::listItems() const {
   const Language L = lang();
   const Settings& s = m_.settings();
   auto T = [L](UiText t) { return std::string(uiText(t, L)); };
+  std::vector<std::string> items;
   switch (page_) {
-    case Page::Home: {
-      Screen sc;
-      sc.bigFirstLine = true;
-      const Sample& x = m_.lastSample();
-      sc.lines.push_back(x.valid ? fmt::temp(x.t) + " " + fmt::rh(x.rh) : "--.-C --%");
-      const std::string link = st.wifi ? "WiFi" : (st.network ? "4G" : "4G x");
-      sc.lines.push_back(std::string(stageName(s.stage, L)) + " " + link);
-      std::string status = T(kUiAllOk);
-      for (int i = 0; i < kEventTypeCount; ++i)
-        if (m_.active(static_cast<EventType>(i))) { status = shortEventPhrase(static_cast<EventType>(i), false, L); break; }
-      sc.lines.push_back(status);
-      std::string power = m_.onBattery() ? T(kUiBattery) + " " + std::to_string(m_.batteryPct()) + "%" : T(kUiMains);
-      sc.lines.push_back(power + " " + fmt::hhmm(st.now));
-      return sc;
-    }
-    case Page::Message: {
-      Screen sc;
-      sc.lines = {"", T(msg_), "", ""};
-      return sc;
-    }
     case Page::Menu:
-      return listScreen({T(kUiStage), T(kUiLanguage), T(kUiRange), T(kUiPhones),
-                         T(kUiBuzzer) + ": " + T(s.buzzerOn ? kUiOn : kUiOff), T(kUiPrintTest), T(kUiBack)},
-                        cursor_);
-    case Page::Stage: {
-      std::vector<std::string> items;
+      return {T(kUiStage), T(kUiLanguage), T(kUiRange), T(kUiPhones),
+              T(kUiBuzzer) + ": " + T(s.buzzerOn ? kUiOn : kUiOff), T(kUiPrintTest), T(kUiBack)};
+    case Page::Stage:
       for (int i = 0; i < kStageCount; ++i) items.push_back(stageName(static_cast<Stage>(i), L));
-      return listScreen(items, cursor_);
-    }
-    case Page::Language: {
-      std::vector<std::string> items;
+      return items;
+    case Page::Language:
       for (int i = 0; i < kLanguageCount; ++i) items.push_back(languageName(static_cast<Language>(i)));
-      return listScreen(items, cursor_);
-    }
-    case Page::RangeT:
-    case Page::RangeRh: {
-      Screen sc;
-      sc.lines = {T(kUiRange), "+/-" + fmt::signedTenths(editTol_.t, true) + "C", "+/-" + fmt::rh(editTol_.rh), ""};
-      sc.highlight = page_ == Page::RangeT ? 1 : 2;
-      return sc;
-    }
-    case Page::Phones: {
-      std::vector<std::string> items;
+      return items;
+    case Page::Phones:
       for (int i = 0; i < kMaxRecipients; ++i)
         items.push_back(std::to_string(i + 1) + " " + (s.phone[i].empty() ? T(kUiEmpty) : s.phone[i]));
       items.push_back(T(kUiBack));
-      return listScreen(items, cursor_);
-    }
-    case Page::PhoneSlot: {
-      std::vector<std::string> items = {T(kUiChange)};
+      return items;
+    case Page::PhoneSlot:
+      items.push_back(T(kUiChange));
       if (slot_ != 0) items.push_back(T(kUiRemove));
       items.push_back(T(kUiBack));
-      Screen sc = listScreen(items, cursor_);
+      return items;
+    default:
+      return items;
+  }
+}
+
+Screen Ui::render(const UiStatus& st) const {
+  const Language L = lang();
+  const bool large = L != Language::English && page_ != Page::PhoneEdit;  // D-033
+  const Settings& s = m_.settings();
+  auto T = [L](UiText t) { return std::string(uiText(t, L)); };
+  Screen sc;
+  switch (page_) {
+    case Page::Home: {
+      const Sample& x = m_.lastSample();
+      const std::string reading = x.valid ? fmt::temp(x.t) + " " + fmt::rh(x.rh) : "--.-C --%";
+      const std::string link = st.wifi ? "WiFi" : (st.network ? "4G" : "4G x");
+      const std::string stage = std::string(stageName(s.stage, L)) + " " + link;
+      std::string status = T(kUiAllOk);
+      for (int i = 0; i < kEventTypeCount; ++i)
+        if (m_.active(static_cast<EventType>(i))) { status = shortEventPhrase(static_cast<EventType>(i), false, L); break; }
+      const std::string power = m_.onBattery() ? T(kUiBattery) + " " + std::to_string(m_.batteryPct()) + "%" : T(kUiMains);
+      if (large) {  // one item at a time, changing every 3 s
+        sc.large = true;
+        sc.header = reading + " " + fmt::hhmm(st.now);
+        const std::string items[3] = {status, stage, power};
+        sc.body = items[(uiNow_ / 3) % 3];
+        return sc;
+      }
+      sc.bigFirstLine = true;
+      sc.lines = {reading, stage, status, power + " " + fmt::hhmm(st.now)};
+      return sc;
+    }
+    case Page::Message:
+      if (large) { sc.large = true; sc.body = T(msg_); return sc; }
+      sc.lines = {"", T(msg_), "", ""};
+      return sc;
+    case Page::RangeT:
+    case Page::RangeRh: {
+      const std::string tval = "+/-" + fmt::signedTenths(editTol_.t, true) + "C", rval = "+/-" + fmt::rh(editTol_.rh);
+      if (large) {
+        sc.large = true;
+        sc.header = page_ == Page::RangeT ? "1/2" : "2/2";
+        sc.body = page_ == Page::RangeT ? tval : rval;
+        return sc;
+      }
+      sc.lines = {T(kUiRange), tval, rval, ""};
+      sc.highlight = page_ == Page::RangeT ? 1 : 2;
       return sc;
     }
     case Page::PhoneEdit: {
-      Screen sc;
       std::string marker(10, ' ');
       marker[digitPos_] = '^';
       sc.lines = {T(slot_ == 0 ? kUiOwner : kUiNumber), digits_, marker, ""};
       return sc;
     }
+    default: {
+      const std::vector<std::string> items = listItems();
+      if (large) {
+        sc.large = true;
+        sc.header = std::to_string(cursor_ + 1) + "/" + std::to_string(items.size());
+        sc.body = items.empty() ? "" : items[cursor_];
+        return sc;
+      }
+      return listScreen(items, cursor_);
+    }
   }
-  return {};
 }
 
 }  // namespace seri

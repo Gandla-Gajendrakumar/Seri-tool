@@ -1,6 +1,7 @@
 // Application-level tests: the whole device logic running on fake hardware.
 // These mirror the phase-2 Wokwi scenarios so failures show up here first, in milliseconds.
 #include <unity.h>
+#include "seri/provision.h"
 #include "../fakes/fakes.h"
 #include "seri/monitor.h"
 #include "seri/persist.h"
@@ -9,19 +10,27 @@ using namespace seri;
 
 static const int64_t kStart = fromIst(CivilTime{2026, 11, 21, 8, 0, 0});
 
+static const char* kPem = "-----BEGIN CERTIFICATE-----\nMIIBszCCAVmgAwIBAgIUQ0FURVNU\n-----END CERTIFICATE-----\n";
+static MqttConfig testBroker() {
+  MqttConfig c; c.host = "broker.test.in"; c.user = "shed"; c.pass = "pw"; c.clientId = "seri-1"; c.caPem = kPem;
+  return c;
+}
+
 struct Rig {
   fakes::Clock clock; fakes::Sensor sensor; fakes::Power power; fakes::Modem modem; fakes::Wifi wifi;
   fakes::Printer printer; fakes::Storage storage; fakes::Indicators ind; fakes::Persist persist;
   Monitor* m = nullptr;
-  explicit Rig(bool withOwner = true) {
+  explicit Rig(bool withOwner = true, bool withBroker = true) {
     clock.t = kStart;
     modem.clock = &clock;
+    printer.clock = &clock;
     if (withOwner) {
       Settings s;
       s.phone[0] = "9876543210";
       s.stage = Stage::Chawki;  // 26-29 C, 75-95 %
       persist.kv["settings"] = encodeSettings(s);
     }
+    if (withBroker) persist.kv["mqtt"] = encodeMqtt(testBroker());
     boot();
   }
   ~Rig() { delete m; }
@@ -67,6 +76,7 @@ static void test_heat_spike_alerts_prints_logs_buzzes_then_recovers() {
   TEST_ASSERT_TRUE(r.modem.sent[0].text.find("Temp HIGH 31.0C") != std::string::npos);
   TEST_ASSERT_EQUAL(1, r.printer.count("TEMP HIGH 31.0C"));
   TEST_ASSERT_EQUAL(1, r.storage.count("TempHigh,Start"));
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.storage.count(",Start,TempHigh,0"), "policy decision logged: Q,<t>,Start,TempHigh,<slot>");
   TEST_ASSERT_TRUE(r.ind.buzz);
   TEST_ASSERT_TRUE(r.ind.r);
   r.m->silenceBuzzer();
@@ -103,6 +113,53 @@ static void test_power_cut_alerts_after_debounce_and_returns() {
   TEST_ASSERT_EQUAL(1, r.smsContaining("Power back"));
 }
 
+static void test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3750;
+  r.run(5 * 60);
+  TEST_ASSERT_EQUAL(0, r.smsContaining("Battery low"));
+  r.power.mv = 3690;
+  r.run(2 * 60);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("Battery low"), "D-038: alert at <= 3.70 V");
+}
+
+static void test_modem_does_not_transmit_below_3_60_v_on_battery() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3550;  // below the modem cut-off (A7670 needs >= 3.4 V during 2 A bursts)
+  r.sensor.t = 31.0f;
+  int before = r.modem.sendAttempts;
+  r.run(15 * 60);
+  TEST_ASSERT_TRUE(r.m->active(EventType::TempHigh));
+  TEST_ASSERT_EQUAL_MESSAGE(before, r.modem.sendAttempts, "no SMS attempts below cut-off");
+  TEST_ASSERT_EQUAL(0, r.modem.published.size());
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.count("TEMP HIGH") == 1, "printing and logging continue");
+  r.power.mains = true;  // mains back: queued alert goes out
+  r.run(4 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+}
+
+static void test_on_battery_modem_waits_2_s_after_printing() {
+  Rig r;
+  r.power.mains = false;
+  r.power.mv = 3900;
+  r.run(10);
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.lowPower, "printer in low-power mode on battery (D-039)");
+  r.sensor.t = 31.0f;
+  r.run(8 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+  int64_t printed = 0;
+  for (size_t i = 0; i < r.printer.lines.size(); ++i)
+    if (r.printer.lines[i].find("TEMP HIGH") != std::string::npos) printed = r.printer.times[i];
+  int64_t sent = 0;
+  for (auto& s : r.modem.sent) if (s.text.find("Temp HIGH") != std::string::npos) sent = s.at;
+  TEST_ASSERT_TRUE_MESSAGE(sent - printed >= 2, "D-039: no modem burst while the printer heats");
+  r.power.mains = true;
+  r.run(5);
+  TEST_ASSERT_FALSE(r.printer.lowPower);
+}
+
 static void test_on_battery_uploads_every_15_minutes_instead_of_5() {
   Rig r;
   r.run(30 * 60);
@@ -137,6 +194,35 @@ static void test_sms_given_up_after_an_hour_is_printed() {
   r.sensor.t = 31.0f;
   r.run(75 * 60);
   TEST_ASSERT_TRUE(r.printer.count("SMS NOT SENT") >= 1);
+}
+
+static void test_long_outage_sends_one_offline_summary_when_network_returns() {
+  Rig r;
+  r.modem.network = false;
+  r.sensor.t = 31.0f;
+  r.run(30 * 60);
+  r.sensor.t = 27.0f;  // problem over while still offline
+  r.run(2 * 3600);
+  TEST_ASSERT_EQUAL(0, r.modem.sent.size());
+  TEST_ASSERT_TRUE_MESSAGE(r.printer.count("SMS NOT SENT") >= 1, "given up after 1 h, printed");
+  r.modem.network = true;
+  r.run(10 * 60);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("No signal"), "exactly one offline summary");
+  TEST_ASSERT_EQUAL(1, r.m->offlineSummariesSent());
+  TEST_ASSERT_TRUE(r.smsContaining("alerts not sent. Now 27.0C 85%") == 1);
+  r.run(3600);
+  TEST_ASSERT_EQUAL_MESSAGE(1, r.smsContaining("No signal"), "not repeated");
+}
+
+static void test_short_outage_without_give_up_sends_no_offline_summary() {
+  Rig r;
+  r.modem.network = false;
+  r.sensor.t = 31.0f;
+  r.run(20 * 60);
+  r.modem.network = true;
+  r.run(10 * 60);
+  TEST_ASSERT_EQUAL(1, r.smsContaining("Temp HIGH"));
+  TEST_ASSERT_EQUAL(0, r.smsContaining("No signal"));
 }
 
 static void test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram() {
@@ -243,7 +329,7 @@ static void test_upload_record_contains_samples() {
   r.run(5 * 60 + 5);
   TEST_ASSERT_EQUAL(1, r.modem.published.size());
   const std::string& p = r.modem.published[0].second;
-  TEST_ASSERT_EQUAL_STRING("seri/Shed-1/data", r.modem.published[0].first.c_str());
+  TEST_ASSERT_EQUAL_STRING("seri/seri-1/data", r.modem.published[0].first.c_str());  // unique client_id (D-061)
   TEST_ASSERT_TRUE(p.find("\"d\":\"Shed-1\"") != std::string::npos);
   TEST_ASSERT_TRUE(p.find("275,850") != std::string::npos);
 }
@@ -256,15 +342,83 @@ static void test_wifi_preferred_over_cellular_for_upload() {
   TEST_ASSERT_EQUAL(0, r.modem.published.size());
 }
 
+// ---- F-UP-04 / D-060: broker settings provisioned from the microSD card ----
+static void test_provisioning_files_are_imported_saved_and_deleted() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_host=broker.example.in\nmqtt_user=shed-17\nmqtt_pass=TopSecret\nclient_id=seri-0017\n";
+  r.storage.files["ca.pem"] = kPem;
+  r.boot();
+  TEST_ASSERT_TRUE(r.persist.kv.count("mqtt") == 1);
+  TEST_ASSERT_EQUAL(0, r.storage.files.size());                       // secrets do not stay on the card
+  TEST_ASSERT_EQUAL_STRING("broker.example.in", r.modem.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL_STRING("broker.example.in", r.wifi.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt imported host=broker.example.in"));
+  TEST_ASSERT_EQUAL(0, r.storage.count("TopSecret"));                  // never logged
+}
+
+static void test_bad_provisioning_file_is_rejected_and_reported() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_prot=8883\n";
+  r.storage.files["ca.pem"] = kPem;
+  r.boot();
+  TEST_ASSERT_EQUAL(0, r.persist.kv.count("mqtt"));
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt rejected: unknown key: mqtt_prot"));
+}
+
+static void test_missing_ca_certificate_is_rejected() {
+  Rig r(true, false);
+  r.storage.files["seri.cfg"] = "mqtt_host=broker.example.in\n";
+  r.boot();
+  TEST_ASSERT_EQUAL(0, r.persist.kv.count("mqtt"));
+  TEST_ASSERT_EQUAL(1, r.storage.count("CFG mqtt rejected: ca.pem missing or not a PEM certificate"));
+}
+
+static void test_no_broker_means_records_queue_but_nothing_is_published() {
+  Rig r(true, false);
+  r.run(20 * 60);
+  TEST_ASSERT_EQUAL(0, r.modem.published.size());
+  TEST_ASSERT_TRUE(r.storage.queue.size() >= 3);                       // kept for when the broker is set
+}
+
+static void test_saved_broker_is_applied_at_boot() {
+  Rig r;
+  TEST_ASSERT_EQUAL_STRING("broker.test.in", r.modem.mqtt.host.c_str());
+  TEST_ASSERT_EQUAL(8883, r.wifi.mqtt.port);
+}
+
+// D-061: topics use the unique client_id from provisioning, so units that keep the default
+// device name ("Shed-1") on different farms never publish to the same topic.
+static void test_topic_falls_back_to_device_name_without_client_id() {
+  Rig r(true, false);
+  MqttConfig b = testBroker();
+  b.clientId.clear();
+  r.persist.kv["mqtt"] = encodeMqtt(b);
+  r.boot();
+  r.run(6 * 60);
+  TEST_ASSERT_TRUE(r.modem.published.size() >= 1);
+  TEST_ASSERT_EQUAL_STRING("seri/Shed-1/data", r.modem.published[0].first.c_str());
+}
+
 int main() {
   UNITY_BEGIN();
+  RUN_TEST(test_provisioning_files_are_imported_saved_and_deleted);
+  RUN_TEST(test_bad_provisioning_file_is_rejected_and_reported);
+  RUN_TEST(test_missing_ca_certificate_is_rejected);
+  RUN_TEST(test_no_broker_means_records_queue_but_nothing_is_published);
+  RUN_TEST(test_saved_broker_is_applied_at_boot);
+  RUN_TEST(test_topic_falls_back_to_device_name_without_client_id);
   RUN_TEST(test_normal_day_sends_no_sms_and_samples_every_30s);
   RUN_TEST(test_heat_spike_alerts_prints_logs_buzzes_then_recovers);
   RUN_TEST(test_cold_night_low_temperature_alert);
   RUN_TEST(test_power_cut_alerts_after_debounce_and_returns);
   RUN_TEST(test_on_battery_uploads_every_15_minutes_instead_of_5);
+  RUN_TEST(test_low_battery_alert_at_3_70_v_so_the_modem_can_still_send_it);
+  RUN_TEST(test_modem_does_not_transmit_below_3_60_v_on_battery);
+  RUN_TEST(test_on_battery_modem_waits_2_s_after_printing);
   RUN_TEST(test_network_loss_retries_sms_and_queues_uploads_without_stopping_monitoring);
   RUN_TEST(test_sms_given_up_after_an_hour_is_printed);
+  RUN_TEST(test_long_outage_sends_one_offline_summary_when_network_returns);
+  RUN_TEST(test_short_outage_without_give_up_sends_no_offline_summary);
   RUN_TEST(test_sd_removed_keeps_monitoring_alerts_and_keeps_data_in_ram);
   RUN_TEST(test_sensor_unplugged_alerts_and_recovers);
   RUN_TEST(test_paper_out_queues_lines_and_prints_them_later);

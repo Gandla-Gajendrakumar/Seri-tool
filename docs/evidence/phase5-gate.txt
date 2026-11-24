@@ -1,0 +1,13 @@
+Phase 5 gate run: 2026-11-22T23:04:42Z  commit 49abbf4
+== 1. Unit tests
+  PASS bom/test_bom.py (Ran 10 tests)
+== 2-3. BOM
+  **Status: FINAL (every line priced and in stock at research time)**
+  | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
+  Subtotal: **₹1,781.79 per unit**, ₹21,322.86 for 10 units (whole packs)
+  | Item | Value | Qty | Refs | MPN | Supplier | Unit | Per unit | Batch of 10 |
+  Subtotal: **₹10,873.36 per unit**, ₹109,838.60 for 10 units (whole packs)
+  * Per unit (parts only): **₹12,655.15**
+  * Pilot batch of 10 (whole packs, so leftover stock): **₹131,161.46** (₹13,116.15 per unit)
+
+GATE: PASSED

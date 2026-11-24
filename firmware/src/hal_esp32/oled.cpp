@@ -9,6 +9,19 @@ void Oled::begin() {
 
 void Oled::show(const seri::Screen& s) {
   u8g2_.clearBuffer();
+  if (s.large) {  // D-033: ASCII header + one item in 24 px text, wrapped onto <= 2 rows
+    u8g2_.setFont(u8g2_font_helvB10_tr);
+    u8g2_.drawStr(0, 12, s.header.c_str());
+    int y = seri::kOledCell;
+    for (const std::string& row : seri::wrapText(s.body, seri::kPrintCell, seri::kOledWidth)) {
+      if (y + seri::kPrintCell > 64) break;
+      seri::Bitmap b = seri::renderText(row, seri::kPrintCell);
+      u8g2_.drawBitmap(0, y, static_cast<u8g2_uint_t>(b.widthBytes()), static_cast<u8g2_uint_t>(b.height), b.bits.data());
+      y += seri::kPrintCell;
+    }
+    u8g2_.sendBuffer();
+    return;
+  }
   for (size_t i = 0; i < s.lines.size() && i < 4; ++i) {
     const int y = static_cast<int>(i) * seri::kOledCell;
     if (i == 0 && s.bigFirstLine) {  // the reading: always ASCII, bold font

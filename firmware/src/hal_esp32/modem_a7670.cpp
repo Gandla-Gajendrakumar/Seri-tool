@@ -1,6 +1,5 @@
 #include "modem_a7670.h"
 #include "board.h"
-#include "ca_cert.h"
 #include "seri/time_util.h"
 
 namespace {
@@ -38,12 +37,15 @@ String ucs2Hex(const std::string& s) {
 void A7670Modem::begin(const std::string& clientId) {
   client_ = clientId;
   s_.begin(115200, SERIAL_8N1, rx_, tx_);
+  // PWRKEY is pulled up inside the module; pressing = pulling it low for >= 50 ms (HD V1.03 p29; 1 s used).
+  // On the carrier an NPN pulls it low, so the GPIO is active-high there; Wokwi wires it directly.
+  const int press = board::kPwrKeyActiveHigh ? HIGH : LOW, release = board::kPwrKeyActiveHigh ? LOW : HIGH;
   pinMode(pwr_, OUTPUT);
-  digitalWrite(pwr_, HIGH);
-  if (!alive()) {  // power-on pulse on PWRKEY (low for >= 50 ms per hardware design guide; 1 s used)
-    digitalWrite(pwr_, LOW);
+  digitalWrite(pwr_, release);
+  if (!alive()) {
+    digitalWrite(pwr_, press);
     delay(1000);
-    digitalWrite(pwr_, HIGH);
+    digitalWrite(pwr_, release);
     for (int i = 0; i < 20 && !alive(); ++i) delay(500);
   }
   cmd("ATE0", 1000);
@@ -209,8 +211,15 @@ bool A7670Modem::networkTime(int64_t& utc) {
   return true;
 }
 
+void A7670Modem::configureMqtt(const seri::MqttConfig& c) {
+  mqtt_ = c;
+  mqttUp_ = false;
+  certLoaded_ = false;
+}
+
 bool A7670Modem::ensureMqtt() {
   if (mqttUp_) return true;
+  if (!mqtt_.valid()) return false;   // no broker provisioned yet
   if (mqttTryMs_ != 0 && millis() - mqttTryMs_ < mqttRetryMs()) return false;
   mqttTryMs_ = millis();
   if (!started_) {
@@ -219,22 +228,30 @@ bool A7670Modem::ensureMqtt() {
     started_ = waitFor("+CMQTTSTART: 0", "+CMQTTSTART:", 5000);
     if (!started_) return false;
   }
-  String certs;
-  cmd("AT+CCERTLIST", 2000, &certs);
-  if (certs.indexOf("ca.pem") < 0) {
+  if (!certLoaded_) {   // the broker's CA from the provisioning import (replaces any older ca.pem)
+    cmd("AT+CCERTDELE=\"ca.pem\"", 2000);
     drain();
-    s_.printf("AT+CCERTDOWN=\"ca.pem\",%u\r", static_cast<unsigned>(strlen(kMqttCaPem)));
+    s_.printf("AT+CCERTDOWN=\"ca.pem\",%u\r", static_cast<unsigned>(mqtt_.caPem.size()));
     if (!waitPrompt(2000)) return false;
-    s_.print(kMqttCaPem);
+    s_.print(mqtt_.caPem.c_str());
     if (!waitFor("OK", nullptr, 5000)) return false;
+    certLoaded_ = true;
   }
   cmd("AT+CSSLCFG=\"sslversion\",0,4", 1000);  // TLS 1.2
   cmd("AT+CSSLCFG=\"authmode\",0,1", 1000);    // verify the server certificate
   cmd("AT+CSSLCFG=\"cacert\",0,\"ca.pem\"", 1000);
-  cmd(String("AT+CMQTTACCQ=0,\"") + client_.c_str() + "\",1", 2000);
+  // HiveMQ Cloud (and most shared brokers) select the tenant by TLS SNI: without it the handshake fails
+  // (D-061). Syntax from SIMCom A76xx community usage; confirm on the bench (B-28).
+  cmd("AT+CSSLCFG=\"enableSNI\",0,1", 1000);
+  const std::string& id = mqtt_.clientId.empty() ? client_ : mqtt_.clientId;
+  cmd(String("AT+CMQTTACCQ=0,\"") + id.c_str() + "\",1", 2000);
   cmd("AT+CMQTTSSLCFG=0,0", 1000);
   drain();
-  s_.printf("AT+CMQTTCONNECT=0,\"tcp://%s:%d\",60,1\r", cfg::kMqttHost, cfg::kMqttPort);
+  if (mqtt_.user.empty())
+    s_.printf("AT+CMQTTCONNECT=0,\"tcp://%s:%d\",60,1\r", mqtt_.host.c_str(), mqtt_.port);
+  else
+    s_.printf("AT+CMQTTCONNECT=0,\"tcp://%s:%d\",60,1,\"%s\",\"%s\"\r", mqtt_.host.c_str(), mqtt_.port,
+              mqtt_.user.c_str(), mqtt_.pass.c_str());
   mqttUp_ = waitFor("+CMQTTCONNECT: 0,0", "+CMQTTCONNECT:", cfg::kSim ? 5000 : 30000);
   return mqttUp_;
 }

@@ -3,7 +3,7 @@
 //   MAINS_OK   digital, HIGH while the 12 V adapter is present (opto/divider output on the PCB)
 //   BATT_SENSE analog, battery voltage through the 1:2 divider (100k/100k) to an ADC pin
 //   SD_CD      card-detect switch: closed to GND when a card is inserted, pulled up when removed
-// Controls: mains (0/1), battery_mv (2800-4300), sd_present (0/1).
+// Controls: mains (0/1), batteryMv (2800-4300), sdPresent (0/1).
 #include "wokwi-api.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,8 +27,8 @@ void chip_init(void) {
   c->batt = pin_init("BATT_SENSE", ANALOG);
   c->cd = pin_init("SD_CD", OUTPUT);
   c->a_mains = attr_init("mains", 1);
-  c->a_mv = attr_init_float("battery_mv", 4100);
-  c->a_sd = attr_init("sd_present", 1);
+  c->a_mv = attr_init_float("batteryMv", 4100);
+  c->a_sd = attr_init("sdPresent", 1);
   const timer_config_t t = {.user_data = c, .callback = update};
   c->timer = timer_init(&t);
   update(c);

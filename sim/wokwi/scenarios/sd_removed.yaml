@@ -7,11 +7,13 @@ steps:
   # register the owner phone by SMS, exactly as a farmer would: "10 <PIN>"
   - set-control: {part-id: modem, control: deliver, value: 1}
   - wait-serial: "sent,9876543210"
-  - set-control: {part-id: carrier, control: sd_present, value: 0}
+  - set-control: {part-id: carrier, control: sdPresent, value: 0}
   - wait-serial: "SdFault,Start"
   - wait-serial: "sent,9876543210"
   - set-control: {part-id: sht, control: temperature, value: 31}
   - wait-serial: "TempHigh,Start"
   - wait-serial: "sent,9876543210"
-  - set-control: {part-id: carrier, control: sd_present, value: 1}
+  - set-control: {part-id: carrier, control: sdPresent, value: 1}
   - wait-serial: "SdFault,Clear"
+  # let the printer and modem finish what the last event started
+  - delay: 3s

@@ -1,0 +1,21 @@
+Phase 6 gate run: 2026-11-22T23:04:28Z  commit 49abbf4
+== 1. Board features
+  120 parts -> mechanical/cadquery/board_features.json
+== 2. Build + export
+  exported: base, lid, plunger_SW1, plunger_SW2, plunger_SW3
+== 3. Checks
+  | Check | Result | Detail |
+  | No interference (printed parts vs contents, contents vs contents) | PASS | 5 printed parts, 125 reference bodies |
+  | Lid inside face to tallest part >= 2 mm | PASS | 5.0 mm (tallest: part:BT1) |
+  | Floor modules to PCB underside (minus 2 mm leads) >= 2 mm | PASS | 12.4 mm |
+  | Printer body to PCB top edge >= 2 mm | PASS | 12.5 mm |
+  | Printer panel thickness within the printer's 1-6 mm range | PASS | 3.0 mm (CSN-A2 manual s3) |
+  | Openings line up with LEDs, buzzer, OLED, buttons, DC jack | PASS | all open/coaxial |
+  | OLED window covers the assumed active area (29.4 x 14.7) with margin | PASS | window 31.0 x 17.0 mm |
+  | Every printed part fits a 256 mm bed | PASS | base 210 x 247 x 61 mm |
+  | Walls, floor, lid >= 2.0 mm | PASS | 2.5/3.0/3.0 mm |
+  **ALL PASS**
+== 4. Renders
+  rendered: front.png, open_box.png, lid_inside.png
+
+GATE: PASSED

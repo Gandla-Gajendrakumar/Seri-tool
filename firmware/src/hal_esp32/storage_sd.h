@@ -15,6 +15,8 @@ class SdStorage : public seri::hal::Storage {
   bool queueFront(std::string& record) override;
   bool queuePop() override;
   size_t queueSize() override;
+  bool readFile(const std::string& name, std::string& out) override;
+  bool removeFile(const std::string& name) override;
  private:
   bool mount();
   void unmount();

@@ -251,6 +251,7 @@ static void handle_line(chip_t* c, char* s) {
     }
     return;
   }
+  if (starts(s, "AT+CCERTDELE=")) { reply(c, "OK"); return; }  // delete a stored certificate (D-060)
   if (starts(s, "AT+CMQTTDISC") || starts(s, "AT+CMQTTREL") || starts(s, "AT+CMQTTSTOP")) {
     c->mqtt_connected = false;
     if (starts(s, "AT+CMQTTSTOP")) c->mqtt_started = false;

@@ -92,6 +92,30 @@ static void test_every_printed_line_exists_and_fits_384_dots() {
   }
 }
 
+static void check_large_body(const std::string& s) {
+  std::vector<std::string> rows = wrapText(s, kPrintCell, kOledWidth);
+  if (rows.empty() || rows.size() > 2) TEST_FAIL_MESSAGE(("needs " + std::to_string(rows.size()) + " rows: " + s).c_str());
+  for (auto& r : rows) check_line(r, kPrintCell, kOledWidth);
+}
+
+static void test_wrap_splits_at_spaces() {
+  std::vector<std::string> rows = wrapText("ಮೆಮೊರಿ ಕಾರ್ಡ್ ದೋಷ", kPrintCell, kOledWidth);
+  TEST_ASSERT_EQUAL(2, rows.size());
+  TEST_ASSERT_EQUAL(1, wrapText("27.5C", kPrintCell, kOledWidth).size());
+}
+
+static void test_every_large_mode_text_fits_two_rows_of_128px() {
+  for (int l = 1; l < kLanguageCount; ++l) {
+    const Language L = static_cast<Language>(l);
+    for (int t = 0; t < kUiTextCount; ++t) check_large_body(uiText(static_cast<UiText>(t), L));
+    for (int s = 0; s < kStageCount; ++s) check_large_body(std::string(stageName(static_cast<Stage>(s), L)) + " WiFi");
+    check_large_body(languageName(L));
+    for (int e = 0; e < kEventTypeCount; ++e) check_large_body(shortEventPhrase(static_cast<EventType>(e), false, L));
+    check_large_body(std::string(uiText(kUiBattery, L)) + " 100%");
+    check_large_body(std::string(uiText(kUiBuzzer, L)) + ": " + uiText(kUiOff, L));
+  }
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_ascii_renders_at_both_sizes);
@@ -99,5 +123,7 @@ int main() {
   RUN_TEST(test_padding_for_printer);
   RUN_TEST(test_every_oled_text_exists_and_fits_128px);
   RUN_TEST(test_every_printed_line_exists_and_fits_384_dots);
+  RUN_TEST(test_wrap_splits_at_spaces);
+  RUN_TEST(test_every_large_mode_text_fits_two_rows_of_128px);
   return UNITY_END();
 }

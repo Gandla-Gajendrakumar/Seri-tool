@@ -3,6 +3,7 @@
 // The firmware calls tick() every ~100 ms; all timing comes from the Clock, so tests (and the
 // accelerated Wokwi build) can run days of behaviour in seconds.
 #include <deque>
+#include <map>
 #include <string>
 #include <vector>
 #include "seri/alerts.h"
@@ -38,6 +39,8 @@ struct MonitorConfig {
   size_t ramLogLines = 400;
   size_t printBacklogMax = 200;    // F-PRN-05
   int summaryHourIst = 6;
+  int32_t modemCutoffMv = 3600;    // D-038: below this a 2 A modem burst pulls VBAT under 3.4 V (SPICE sweep)
+  int64_t printModemGapSec = 2;    // D-039: on battery, no modem activity within 2 s of printing
 };
 
 struct OutgoingSms {
@@ -68,6 +71,8 @@ class Monitor {
   size_t printBacklog() const { return backlog_.size(); }
   size_t ramRecords() const { return ramQueue_.size(); }
   int64_t lastUploadOk() const { return lastUploadOk_; }
+  bool brokerConfigured() const { return mqtt_.valid(); }
+  int offlineSummariesSent() const { return offlineSummaries_; }
 
  private:
   void sampleStep(int64_t now);
@@ -79,6 +84,7 @@ class Monitor {
   void logLine(const std::string& line);
   void sdStep(int64_t now);
   void uploadStep(int64_t now);
+  void loadBroker();   // saved config, or import seri.cfg + ca.pem from the card (D-060)
   void flushQueue();
   void commandStep(int64_t now);
   void clockSync(int64_t now);
@@ -97,15 +103,22 @@ class Monitor {
   SummaryScheduler scheduler_;
   Sample last_{false, 0, 0};
   std::vector<RawReading> raw_;
+  MqttConfig mqtt_;
   std::vector<std::pair<int64_t, Sample>> pendingSamples_;  // for the next upload record
   std::deque<OutgoingSms> outbox_;
   std::deque<std::pair<std::string, Language>> backlog_;
   std::deque<std::string> ramQueue_, ramLog_;
   bool onBattery_ = false, buzzerOn_ = false, sdWasOk_ = true;
   int batteryPct_ = 100;
+  int32_t batteryMv_ = 4200;
+  int64_t lastPrintAt_ = -1000;
+  bool modemAllowed(int64_t now) const;
   int64_t nextRaw_ = 0, nextPower_ = 0, nextPaper_ = 0, nextSd_ = 0, nextPoll_ = 0, nextAlertTick_ = 0;
   int64_t nextUpload_ = 0, nextClockSync_ = 0, lastUploadOk_ = 0, lastDay_ = -1;
   bool begun_ = false;
+  // Alerts given up during an outage, per number: count and when the first one was raised (D-037).
+  std::map<std::string, std::pair<int, int64_t>> missed_;
+  int offlineSummaries_ = 0;
 };
 
 }  // namespace seri

@@ -14,8 +14,10 @@ class WifiNet : public seri::hal::Wifi {
   bool connected() override;
   bool ntpTime(int64_t& utc) override;
   bool mqttPublish(const std::string& topic, const std::string& payload) override;
+  void configureMqtt(const seri::MqttConfig& c) override;
  private:
   std::string ssid_, pass_, client_;
+  seri::MqttConfig cfg_;   // kept alive: PubSubClient and the TLS client hold pointers into it
   WiFiClientSecure tls_;
   PubSubClient mqtt_{tls_};
   uint32_t lastTry_ = 0;

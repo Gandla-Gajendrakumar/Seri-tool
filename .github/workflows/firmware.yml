@@ -5,6 +5,11 @@ on:
     paths: ["firmware/**", "sim/**", "tools/**", ".github/workflows/**"]
 
   workflow_dispatch:
+    inputs:
+      scenarios:
+        description: "Scenario names to run, space-separated (empty = all)"
+        required: false
+        default: ""
 
 env:
   WOKWI_CLI_VERSION: v0.29.1
@@ -33,12 +38,17 @@ jobs:
         run: tools/phase1_gate.sh
       - name: Scenario checker tests
         run: python3 -m unittest tools/test_check_scenario.py
+      - name: Phase 3 whole-cycle replay (38 days vs independent oracle)
+        run: tools/phase3_gate.sh
       - name: Custom chip tests (host) and WebAssembly build
         run: tools/test_chips.sh
 
   wokwi:
     name: Wokwi scenarios
     needs: native
+    # Manual only (D-036, product owner 2026-11-22): the Wokwi free plan's monthly CI minutes ran out.
+    # Run from the Actions tab ("Run workflow") at each phase gate, optionally naming scenarios.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +80,7 @@ jobs:
           for c in sht31 ds3231 a7670c printer carrier; do wokwi-cli chip compile $c.chip.c -o $c.chip.wasm; done
       - name: Run scenarios
         env: { WOKWI_CLI_TOKEN: "${{ secrets.WOKWI_CLI_TOKEN }}" }
-        run: tools/run_scenarios.sh
+        run: tools/run_scenarios.sh ${{ github.event.inputs.scenarios }}
       - name: Summary
         if: always()
         run: |

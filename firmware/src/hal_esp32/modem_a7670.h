@@ -14,6 +14,7 @@ class A7670Modem : public seri::hal::Modem {
  public:
   A7670Modem(HardwareSerial& s, int rx, int tx, int pwrKey) : s_(s), rx_(rx), tx_(tx), pwr_(pwrKey) {}
   void begin(const std::string& clientId);
+  bool registered() override;
   bool sendSms(const std::string& number10, const std::string& utf8) override;
   bool pollSms(std::string& from, std::string& body) override;
   bool networkTime(int64_t& utc) override;
@@ -21,6 +22,7 @@ class A7670Modem : public seri::hal::Modem {
   bool mqttPublish(const std::string& topic, const std::string& payload) override;
   bool lastKnownRegistered() const { return reg_; }  // for the screen; no AT traffic
 
+  void configureMqtt(const seri::MqttConfig& c) override;
  private:
   bool readLine(String& line, uint32_t deadline);
   bool cmd(const String& c, uint32_t timeoutMs, String* resp = nullptr);
@@ -29,13 +31,14 @@ class A7670Modem : public seri::hal::Modem {
   bool waitPrompt(uint32_t timeoutMs);
   bool isUrc(const String& line);
   void drain();
-  bool registered();
   bool ensureMqtt();
   bool alive();
 
   HardwareSerial& s_;
   int rx_, tx_, pwr_;
   std::string client_;
+  seri::MqttConfig mqtt_;   // from the Monitor (D-060)
+  bool certLoaded_ = false;
   bool reg_ = false, mqttUp_ = false, started_ = false;
   uint32_t regMs_ = 0, mqttTryMs_ = 0;
   std::deque<std::pair<std::string, std::string>> inbox_;

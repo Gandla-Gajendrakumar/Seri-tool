@@ -1,10 +1,10 @@
 # Power cut: switch to battery, alert after 2 min debounce, low battery, power back
 present: seri-tool 0\.\d+\.\d+ \(SIM x60\) booting
-in-order: SMS to 9876543210: Shed-1: OK\s*$
+in-order: SMS to \+919876543210: Shed-1: OK\s*$
 in-order: PRINTER\| .* POWER CUT
-in-order: SMS to 9876543210: Shed-1: Power cut, on battery \d+% 
-in-order: PRINTER\| .* BATTERY LOW 3\.[23]\dV
-in-order: SMS to 9876543210: Shed-1: Battery low \d+% 
+in-order: SMS to \+919876543210: Shed-1: Power cut, on battery \d+% 
+in-order: PRINTER\| .* BATTERY LOW 3\.6\dV
+in-order: SMS to \+919876543210: Shed-1: Battery low \d+% 
 in-order: PRINTER\| .* POWER BACK
-in-order: SMS to 9876543210: Shed-1: Power back
+in-order: SMS to \+919876543210: Shed-1: Power back
 count == 1: SMS to .*Power cut

@@ -12,6 +12,7 @@
 #include "hal_esp32/persist_nvs.h"
 #include "hal_esp32/power_sense.h"
 #include "hal_esp32/printer_escpos.h"
+#include "hal_esp32/sim_broker.h"
 #include "hal_esp32/sensor_sht31.h"
 #include "hal_esp32/storage_sd.h"
 #include "hal_esp32/trace_serial.h"
@@ -26,7 +27,7 @@ Sht31Sensor sht(Wire);
 PowerSense power(board::kMainsOk, board::kBattSense, board::kBattDivider);
 A7670Modem modem(Serial2, board::kModemRx, board::kModemTx, board::kModemPwrKey);
 WifiNet wifi;
-EscPosPrinter printer(Serial1, board::kPrinterRx, board::kPrinterTx);
+EscPosPrinter printer(Serial1, board::kPrinterRx, board::kPrinterTx, board::kPrinterPowerEn);
 SdStorage sd(board::kSdCs, board::kSdCardDetect);
 GpioIndicators indicators(board::kBuzzer, board::kLedGreen, board::kLedRed);
 NvsPersist persist;
@@ -92,6 +93,10 @@ void setup() {
 
   static seri::Hardware hw{rtc, sht, power, modem, wifi, printer, sd, indicators, persist, &trace};
   monitor = new seri::Monitor(hw);
+  if (cfg::kSim) {   // Wokwi: stand-in broker so the upload scenarios run (real units: SD import, D-060)
+    std::string blob;
+    if (!persist.load("mqtt", blob)) persist.save("mqtt", seri::encodeMqtt(simBroker()));
+  }
   monitor->begin();
   ui = new seri::Ui(*monitor);
   wifi.configure(monitor->settings().wifiSsid, monitor->settings().wifiPass, monitor->settings().deviceName);
@@ -103,9 +108,11 @@ void loop() {
   monitor->tick();
   esp_task_wdt_reset();
 
+  printer.poll();
   pollButtons();
   ui->tick(millis() / 1000);
-  if (dirty || millis() - lastDraw > 1000) {  // full frame over 100 kHz I2C takes ~90 ms
+  oled.setPower(ui->displayOn(millis() / 1000));  // D-046: sleeps on battery after 60 s idle
+  if (dirty || millis() - lastDraw > 1000) {  // full frame over 50 kHz I2C takes ~180 ms
     oled.show(ui->render(seri::UiStatus{modem.lastKnownRegistered(), wifi.connected(), rtc.nowUtc()}));
     lastDraw = millis();
     dirty = false;
@@ -115,8 +122,19 @@ void loop() {
 
   // Confirm a new firmware image after 5 minutes of normal running (F-OTA-01).
   if (!appConfirmed && millis() - bootMs > 5UL * 60UL * 1000UL / (cfg::kSim ? 60 : 1)) {
-    esp_ota_mark_app_valid_cancel_rollback();
+    esp_ota_img_states_t state;
+    if (esp_ota_get_state_partition(esp_ota_get_running_partition(), &state) == ESP_OK &&
+        state == ESP_OTA_IMG_PENDING_VERIFY) {
+      esp_ota_mark_app_valid_cancel_rollback();  // only a freshly updated image needs confirming
+    }
     appConfirmed = true;
+  }
+  if (cfg::kSim) {  // simulation diagnostics: what the power sense lines read
+    static uint32_t lastPwr = 0;
+    if (millis() - lastPwr > 3000) {
+      lastPwr = millis();
+      Serial.printf("PWR mains=%d batt=%ldmV\n", power.mainsPresent() ? 1 : 0, static_cast<long>(power.batteryMv()));
+    }
   }
   delay(cfg::kSim ? 5 : 20);
 }

@@ -112,3 +112,16 @@ bool SdStorage::queuePop() {
 }
 
 size_t SdStorage::queueSize() { return mounted_ ? qcount_ : 0; }
+
+// Provisioning files in the card's root (D-060). Small files only (seri.cfg, ca.pem <= 4 KB).
+bool SdStorage::readFile(const std::string& name, std::string& out) {
+  if (!ok()) return false;
+  File f = SD.open(("/" + name).c_str(), FILE_READ);
+  if (!f) return false;
+  out.clear();
+  while (f.available() && out.size() < 8192) out += static_cast<char>(f.read());
+  f.close();
+  return true;
+}
+
+bool SdStorage::removeFile(const std::string& name) { return ok() && SD.remove(("/" + name).c_str()); }

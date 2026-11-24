@@ -17,3 +17,5 @@ steps:
   - wait-serial: "RhHigh,Clear"
   - wait-serial: "sent,9876543210"
   - wait-serial: "sent,9876543210"
+  # let the printer and modem finish what the last event started
+  - delay: 3s
